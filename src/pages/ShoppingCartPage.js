@@ -12,7 +12,6 @@ const ShoppingCartPage = () => {
     handleSelectItem,
     handleDeleteProduct,
     handleSelectAll,
-    // addToCart,
   } = useContext(CartContext);
 
   // Move the useRef hooks outside of any conditionals

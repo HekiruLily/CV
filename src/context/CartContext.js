@@ -65,11 +65,14 @@ export const CartProvider = ({ children }) => {
         item.id === id ? { ...item, selected: !item.selected } : item
       )
     );
+ 
   };
 
   const handleDeleteProduct = (id) => {
     setMenuItems((prevItems) => prevItems.filter((item) => item.id !== id));
+   
   };
+
 
   const contextValue = {
     menuItems,
@@ -79,7 +82,7 @@ export const CartProvider = ({ children }) => {
     handleQuantityChange,
     handleSelectItem,
   };
-
+  console.log(menuItems)
   return (
     <CartContext.Provider value={contextValue}>
       {children}

@@ -3,7 +3,7 @@ export const ProductsMenu = [
     {
       id: 18,
       title: "Trà chanh",
-      priceRange: 15.000,
+      priceRange: 15,
       image: "trachanh.jpg",
       category: "ĐỒ UỐNG",
     },
