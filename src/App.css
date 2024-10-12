@@ -1,0 +1,307 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* App.css */
+.App {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Để làm cho vùng chứa lấp đầy toàn bộ chiều cao của khung nhìn */
+}
+
+/* Container cho header */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #ffffff;
+  position: relative;
+  text-align: center;
+}
+
+/* Logo và phần văn bản */
+.header-logo {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo img {
+  max-height: 80px;
+  margin-right: 20px;
+  transition: transform 0.3s ease;
+}
+
+/* Hiệu ứng hover cho logo */
+.header-logo img:hover {
+  transform: scale(1.05); /* Phóng to logo nhẹ khi hover */
+}
+
+/* Nội dung văn bản */
+.header-text {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.header-text h1 {
+  font-size: 20px;
+  color: #ff0000; /* Màu đỏ cho Học viện */
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.header-text h2 {
+  font-size: 24px;
+  color: #0c3b97; /* Màu xanh đậm cho Viện */
+  margin-bottom: 5px;
+}
+
+.navbar {
+  background-color: #2262ab;
+  color: #fff;
+  width: 100%;
+  padding: 20px;
+  position: relative; /* Default position */
+  transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+/* them de co dinh navbar hahaong */
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.container_Nav{
+  display: flex;
+  width: 80%;
+  margin: auto;
+  justify-content: space-between;
+}
+/* Navbar menu */
+.navbar-menu{
+  flex:1;
+}
+
+.navbar-menu ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+
+}
+
+.navbar-menu a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.navbar-menu a:hover {
+  color: #ffcc00;
+}
+
+.navbar-icons {
+  display: flex;
+  justify-content: space-evenly;
+  flex:1;
+}
+
+.navbar-icons img {
+  height: 25px;
+  margin: 0 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.navbar-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* Thanh tìm kiếm */
+.search-bar {
+  display: flex;
+  flex: 2;
+  position: relative;
+  background-color: #fff;
+  margin-right: 20px;
+  border-radius: 2px;
+}
+.navbar-icons h3, .icon_nav{
+  flex:1;
+}
+.icon_nav{
+  display: flex;
+}
+.search-bar input {
+  position: absolute;
+  font-size: 16px;
+  width: 85%;
+  color: #000;
+  outline: none;
+  align-items: center;
+  border-right: 1px solid;
+  margin-left: 10px;
+
+}
+.search-bar input :focus {
+  outline: none;
+  border-color: #3b82f6;
+  align-items: center;
+  
+}
+
+.search-icon {
+  align-items: center;
+  position: absolute; /* Position icon absolute for better placement */
+  right: 10px; /* Adjust position */
+  font-size: 20px; /* Icon size */
+  color: #ec0202; /* Icon color */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: color 0.3s ease; /* Smooth transition for color change */
+}
+.container_iconGH {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.container_iconGH img {
+  flex: 2;
+  margin: 0;
+}
+
+.count_carts {
+  flex: 1;
+  background-color: #ff0101;
+  color: #ffffff;
+  padding: 3px;
+  width: 20px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 15px;
+  border-radius: 30%;
+  font-size: 12px;
+}
+
+
+/* Style cho bodyWeb */
+.bodyWeb {
+  position: relative;
+  flex: 1; /* Chiếm toàn bộ không gian còn lại của trang */
+  padding: 20px; /* Khoảng đệm để không bị dính vào lề */
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá kích thước khung */
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Style cho footer */
+footer {
+  background-color: #2661a4;
+  color: #fff;
+  padding: 30px 20px;
+  bottom: 0;
+  right:0;
+  transition: background-color 0.3s ease;
+  margin: 0;
+  width: 100%;
+}
+
+
+.footer-sections {
+  display: flex;
+  justify-content: space-around;
+  text-align: left;
+}
+
+.footer-sections div {
+  width: 30%;
+}
+
+
+.footer-about h3, .footer-contact h3, .footer-social h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.footer-about h3:hover, .footer-contact h3:hover, .footer-social h3:hover {
+  color: #ffcc00;
+}
+
+.footer-about p, .footer-contact p, .footer-social a {
+
+  margin-bottom: 8px;
+  color: #ddd;
+}
+
+.footer-contact a, .footer-social a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-contact a:hover, .footer-social a:hover {
+  color: #ffcc00;
+  transform: scale(1.1);
+}
+
+.social-link {
+  display: inline-block;
+  margin-right: 10px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+.footer-social .social-link i {
+  margin-right: 8px; /* Khoảng cách giữa icon và chữ */
+  font-size: 24px; /* Kích thước của icon */
+  vertical-align: middle; /* Đảm bảo icon và text cùng hàng */
+}
+
+
+.social-link:hover {
+  color: #ffcc00;
+  border-bottom: 2px solid #ffcc00;
+  transform: translateY(-3px);
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #fff;
+}
+
+
+/* hoahoang */
+.cart_content_add {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 40%;
+  top: 50%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8); 
+  color:#fff;
+  padding: 50px 20px;
+  
+}
+.cart_content_add img{
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+}
+

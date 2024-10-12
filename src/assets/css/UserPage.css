@@ -1,0 +1,95 @@
+section {
+  width: 80vw;
+  padding: 20px;
+  margin: auto;
+  text-align: center;
+}
+
+.profile-card {
+  background-color: #e6f2f7;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.profile-icon {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.change-icon-button {
+  position: absolute;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.profile-id {
+  color: #4a4aaa;
+  margin-bottom: 20px;
+}
+
+.profile-details {
+  margin: 20px 0;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  margin: 5px 0;
+}
+
+.icon {
+  margin-right: 10px;
+}
+
+.edit-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #004d40;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button:hover {
+  background-color: #00695c;
+}
+/* css đơn hàng */
+
+.order-section {
+  margin-top: 10px;
+  padding: 15px;
+  width: 80vw;
+}
+
+.order-status {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.status-box {
+  text-align: center;
+  font-size: 1em;
+}
+
+.notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 5px;
+  font-size: 0.8em;
+  margin-left: 5px;
+}
