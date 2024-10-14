@@ -1,7 +1,7 @@
 .background {
   width: 100%; /* Độ rộng của phần tử */
   height: 100vh; /* Chiều cao toàn màn hình */
-  background-image: url("../../../assets/img/banhmitrung.jpg"); /* Đường dẫn tới ảnh */
+  /* background-image: url("../../../assets/img/login.png");  */
   background-size: cover; /* Để ảnh phủ đầy phần tử */
   background-position: center; /* Ảnh nằm giữa phần tử */
   background-repeat: no-repeat; /* Không lặp lại ảnh */

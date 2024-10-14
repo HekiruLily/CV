@@ -8,60 +8,42 @@ const LoginMail = () => {
   return (
     <div className="background">
       <div className="container">
-        <div className="body">
-          <div className="login">
-            <h2 style={{ color: "white" }}>Login</h2>
-            <Input
-              placeholder="email hoặc mã sinh viên của bạn"
-              prefix={<UserOutlined />}
-              style={{ width: "300px", borderRadius: "15px" }}
-            />
-            <Input.Password
-              placeholder="mật khẩu của bạn"
-              style={{ width: "300px", borderRadius: "15px" }}
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "300px",
-              }}
-            >
-              <div style={{ display: "flex", color: "white" }}>
-                <Radio />
-                <p>lưu mật khẩu</p>
-              </div>
-              <div>
-                <Link to="/forgotpassword" style={{ color: "white" }}>
-                  Quên mật khẩu
-                </Link>
-              </div>
+        <div className="login">
+          <h1 className="login-title">Đăng nhập</h1>
+
+          <Input
+            placeholder="Email hoặc mã sinh viên"
+            prefix={<UserOutlined />}
+            className="login-input"
+          />
+
+          <Input.Password
+            placeholder="Mật khẩu của bạn"
+            className="login-input"
+          />
+
+          <div className="login-options">
+            <div className="remember-me">
+              <Radio />
+              <span>Lưu mật khẩu</span>
             </div>
-            <Button
-              style={{
-                backgroundColor: "#3E4798",
-                borderRadius: "15px",
-                color: "white",
-              }}
-            >
-              Đăng nhập
-            </Button>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                width: "200px",
-              }}
-            >
-              <p style={{ color: "white" }}>chưa có tài khoản</p>
-              <Link to="/signin" style={{ color: "white" }}>
-                đăng ký
-              </Link>
-            </div>
+            <Link to="/forgotpassword" className="forgot-password">
+              Quên mật khẩu?
+            </Link>
+          </div>
+
+          <Button className="login-btn">Đăng nhập</Button>
+
+          <div className="register-link">
+            <span>Chưa có tài khoản?</span>
+            <Link to="/signin" className="signup-link">
+              Đăng ký
+            </Link>
           </div>
         </div>
       </div>
     </div>
   );
 };
+
 export default LoginMail;
