@@ -13,10 +13,12 @@ import Login from "./pages/login/login/Login";
 import LoginPhoneNumber from "./pages/login/loginphonenumber/LoginPhoneNumber";
 import LoginMail from "./pages/login/loginmail/LoginMail";
 import SignIn from "./pages/login/login/Login";
-import PayMent from "./pages/PayMent";
+import ReviewOrder from "./pages/ReviewOrder";
 import Forgotpassword from "./pages/login/forgotpassword/Fogotpassword";
 import "./App.css";
 import { CartProvider } from "./context/CartContext";
+import Payment from "./pages/Payment/Payment";
+import TransferQRCode from "./pages/Payment/TransferQRCode";
 
 function App() {
   return (
@@ -33,10 +35,12 @@ function App() {
           <Route path="/shoppingCart" element={<ShoppingCartPage />} />
           <Route path="/product/:productId" element={<ProductsPage />} />
           <Route path="login" element={<Login />} />
-          <Route path="/payment" element={<PayMent />} />
+          <Route path="/revieworder" element={<ReviewOrder />} />
           <Route path="loginphonenumber" element={<LoginPhoneNumber />} />
           <Route path="loginemail" element={<LoginMail />} />
           <Route path="forgotpassword" element={<Forgotpassword />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/transferQRcode" element={<TransferQRCode />} />
         </Routes>
 
       

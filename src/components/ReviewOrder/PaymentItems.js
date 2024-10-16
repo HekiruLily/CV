@@ -1,4 +1,5 @@
 import React from 'react';
+import './PaymentItems.css'
 
 const PaymentItems = ({ item}) => {
   return (
@@ -13,8 +14,9 @@ const PaymentItems = ({ item}) => {
       <div className='product_item'>
         <h2>{item.name}</h2>
         <div className='product_price'>
-            <h4>Số lượng {item.quantity}</h4>
-            <h4>{item.price} VNĐ</h4>
+            <h4>Số lượng: {item.quantity}</h4>
+            <h4>Giá mỗi sản phẩm: {item.price} VNĐ</h4>
+            <h4>Tổng: {item.price * item.quantity} VNĐ</h4>
           
         </div>
       </div>

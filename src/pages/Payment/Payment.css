@@ -1,0 +1,131 @@
+body {
+  background-color: white;
+  color: black;
+}
+.payment-box {
+  background-color: #f0f0f0;
+  border: 1px solid blue;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+.payment-box img{
+  margin-right: 10px;
+}
+.payment-box span {
+  vertical-align: middle;
+}
+.order-information-box {
+  background-color: #f0f0f0;
+  border: 1px solid blue;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+h2 {
+  text-align: center;
+  margin: 10px;
+}
+.order-information-box h3 {
+  margin-left: 70px;
+}
+.order-information-box .order-information {
+  display: flex;
+  justify-content: space-between;
+}
+.order-information-box .order-information input {
+  margin-right: 70px;
+}
+.order-information-box .order-information select {
+  margin-right: 70px;
+}
+
+.payment-method-box {
+  background-color: #f0f0f0;
+  border: 1px solid blue;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.payment-method-box p, h4 {
+  text-align: center;
+}
+.order-information-box .order-information input{
+  border-radius: 5px;
+  background-color: white;
+}
+select {
+  width: 165px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.payment-method-pick {
+  margin-left: 70px;
+  margin-bottom: 10px; 
+}
+.payment-method-pick .abc {
+  display: flex;
+  align-items: center;
+}
+.payment-method-pick label {
+  display: flex;
+  align-self: center;
+}
+.payment-method-pick input[type="radio"] {
+  display: none;
+}
+.payment-method-pick input[type="radio"] + label {
+  position: relative;
+  padding-left: 40px;
+  cursor: pointer;
+}
+.payment-method-pick input[type="radio"] + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+  border: 2px solid blue;
+  border-radius: 50%;
+  background: #fff;
+}
+.payment-method-pick input[type="radio"]:checked + label:before {
+  background: blue;
+}
+.payment-method-box span {
+  vertical-align: middle;
+}
+.payment-method-box img {
+  margin-left: 10px;
+}
+.action-box {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.action-box button {
+  font-size: 16px;
+  text-align: center;
+  padding: 8px 16px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+.action-box button:hover {
+  background-color: blue;
+}
+

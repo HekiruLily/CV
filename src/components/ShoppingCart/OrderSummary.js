@@ -8,7 +8,7 @@ const OrderSummary = ({ items, onSelectAll, onDeleteProduct }) => {
   const allSelected = items.length > 0 && items.every(item => item.selected);
   const navigate = useNavigate();
   const handlePayment = () => {
-  navigate('/payment');
+  navigate('/revieworder');
 };
   
   return (
