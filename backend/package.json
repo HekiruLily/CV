@@ -1,0 +1,27 @@
+{
+  "name": "runner_club",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thanhanmuop1/runner_club.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thanhanmuop1/runner_club/issues"
+  },
+  "homepage": "https://github.com/thanhanmuop1/runner_club#readme",
+  "description": "",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "expressjs": "^1.0.1",
+    "mysql2": "^3.12.0",
+    "nodemon": "^3.1.9"
+  }
+}
