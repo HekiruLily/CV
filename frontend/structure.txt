@@ -1,0 +1,54 @@
+src/
+├── assets/                 # Static files (images, fonts, etc.)
+│   ├── images/
+│   ├── fonts/
+│   └── styles/
+│
+├── components/            # Shared/Common components
+│   ├── Button/
+│   │   ├── Button.tsx
+│   │   ├── Button.test.tsx
+│   │   └── Button.styles.ts
+│   └── Layout/
+│       ├── Header/
+│       ├── Footer/
+│       └── Sidebar/
+│
+├── features/             # Feature-based modules
+│   ├── Auth/
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── hooks/
+│   │   └── types/
+│   └── Users/
+│       ├── components/
+│       ├── services/
+│       ├── hooks/
+│       └── types/
+│
+├── hooks/               # Custom hooks
+│   ├── useAuth.ts
+│   └── useTheme.ts
+│
+├── services/           # API services
+│   ├── api.ts
+│   ├── auth.service.ts
+│   └── user.service.ts
+│
+├── store/             # State management (Redux/Context)
+│   ├── slices/
+│   └── store.ts
+│
+├── utils/            # Helper functions
+│   ├── format.ts
+│   └── validation.ts
+│
+├── types/           # TypeScript type definitions
+│   ├── user.types.ts
+│   └── auth.types.ts
+│
+├── config/         # Configuration files
+│   ├── constants.ts
+│   └── routes.ts
+│
+└── App.tsx
