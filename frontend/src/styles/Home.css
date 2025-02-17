@@ -44,16 +44,15 @@
   }
   
   .feature-icon {
-    width: 60px;
-    height: 60px;
     margin: 0 auto 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  
-  .feature-icon i {
-    font-size: 32px;
+    width: 64px;
+    height: 64px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   
   .feature-card h3 {

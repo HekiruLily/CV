@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Home.css';
+import { UsergroupAddOutlined, AimOutlined, TrophyOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const Home = () => {
   return (
@@ -11,7 +12,7 @@ const Home = () => {
         <div className="features-container">
           <div className="feature-card">
             <div className="feature-icon">
-              <i className="fas fa-users" style={{color: '#4285f4'}}></i>
+              <UsergroupAddOutlined style={{ fontSize: '32px', color: '#4285f4' }} />
             </div>
             <h3>Cộng đồng năng động</h3>
             <p>Gặp gỡ và kết nối với những người có cùng đam mê chạy bộ</p>
@@ -19,7 +20,7 @@ const Home = () => {
 
           <div className="feature-card">
             <div className="feature-icon">
-              <i className="fas fa-bullseye" style={{color: '#34a853'}}></i>
+              <AimOutlined style={{ fontSize: '32px', color: '#34a853' }} />
             </div>
             <h3>Lịch tập chuyên nghiệp</h3>
             <p>Được huấn luyện viên lên lịch tập phù hợp với mục tiêu</p>
@@ -27,7 +28,7 @@ const Home = () => {
 
           <div className="feature-card">
             <div className="feature-icon">
-              <i className="fas fa-medal" style={{color: '#fbbc05'}}></i>
+              <TrophyOutlined style={{ fontSize: '32px', color: '#fbbc05' }} />
             </div>
             <h3>Sự kiện độc quyền</h3>
             <p>Tham gia các sự kiện đặc biệt dành riêng cho thành viên</p>
@@ -36,7 +37,7 @@ const Home = () => {
 
         <button className="register-button">
           Đăng ký ngay
-          <i className="fas fa-arrow-right"></i>
+          <ArrowRightOutlined />
         </button>
       </section>
     </div>
