@@ -1,5 +1,13 @@
 import React from 'react';
 import '../styles/Footer.css';
+import { 
+  MailOutlined, 
+  PhoneOutlined, 
+  EnvironmentOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  TwitterOutlined
+} from '@ant-design/icons';
 
 const Footer = () => {
   return (
@@ -11,13 +19,13 @@ const Footer = () => {
           <p>Điểm đến hàng đầu cho các sự kiện và giải đấu chạy bộ. Tham gia cộng đồng những người đam mê chạy bộ và đạt được mục tiêu của bạn.</p>
           <div className="social-links">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-facebook-f"></i>
+              <FacebookOutlined />
             </a>
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-instagram"></i>
+              <InstagramOutlined />
             </a>
             <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
-              <i className="fab fa-twitter"></i>
+              <TwitterOutlined />
             </a>
           </div>
         </div>
@@ -38,8 +46,20 @@ const Footer = () => {
         {/* Phần thông tin liên hệ */}
         <div className="footer-section">
           <h3>Thông Tin Liên Hệ</h3>
-          <p>info@runningevents.com +1 (555) 123-4567</p>
-          <p>123 Đường Chạy Bộ, Thành phố Thể Thao, SP 12345</p>
+          <ul className="contact-info">
+            <li className="contact-item">
+              <MailOutlined />
+              <span>info@runningevents.com</span>
+            </li>
+            <li className="contact-item">
+              <PhoneOutlined />
+              <span>+1 (555) 123-4567</span>
+            </li>
+            <li className="contact-item">
+              <EnvironmentOutlined />
+              <span>123 Đường Chạy Bộ, Thành phố Thể Thao, SP 12345</span>
+            </li>
+          </ul>
         </div>
 
         {/* Phần đăng ký nhận tin */}
