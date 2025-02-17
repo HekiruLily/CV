@@ -1,42 +1,85 @@
 import React from 'react';
 import './navbar.css';  
 import Logo from '../../assets/img/Logo.png'; 
+import { useNavigate } from 'react-router-dom';
+import { Button, message, Avatar, Dropdown, Menu } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import authService from '../../services/auth.service';
 
 const Nav = () => {
-  const handleLoginClick = () => {
-    window.location.href = '#'; // Điều hướng đến trang đăng nhập
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+      localStorage.removeItem('user');
+      message.success('Đăng xuất thành công!');
+      navigate('/login');
+    } catch (error) {
+      message.error('Đăng xuất thất bại!');
+    }
   };
 
-  const handleRegisterClick = () => {
-    window.location.href = '#'; // Điều hướng đến trang đăng ký
-  };
-
-  const handleEventClick = () => {
-    window.location.href = '#'; // Điều hướng đến trang sự kiện
-  };
-
-  const handleRankingClick = () => {
-    window.location.href = '#'; // Điều hướng đến trang bảng xếp hạng
-  };
+  const userMenu = (
+    <Menu>
+      <Menu.Item key="profile" icon={<UserOutlined />}>
+        Thông tin cá nhân
+      </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item key="logout" onClick={handleLogout}>
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <nav className="navbar">
-      <div className="logo">
-        <img src={Logo} alt="Logo" />  
-        <span className="brand">RunningClub</span>
+      <div className="nav-left">
+        <div className="logo-container">
+          <img src={Logo} alt="RunnersPro Logo" className="logo-image" />
+          <span className="brand-name">RunnersPro</span>
+        </div>
       </div>
 
       <div className="nav-center">
-        <button onClick={handleEventClick}>Home</button>
-        <button onClick={handleRankingClick}>Events</button>
-        <button onClick={handleRankingClick}>Leaderboard</button>
-        <i className="bi bi-card-list icons"></i>
+        <Button type="text" onClick={() => navigate('/events')} className="nav-link">
+          Events
+        </Button>
+        <Button type="text" onClick={() => navigate('/leaderboard')} className="nav-link">
+          Leaderboard
+        </Button>
+        <Button type="text" onClick={() => navigate('/community')} className="nav-link">
+          Community
+        </Button>
       </div>
 
-      <div className="auth-buttons">
-        <button onClick={handleLoginClick} className="login">Login</button>
-        <button onClick={handleRegisterClick} className="register">Register</button>
-        <i className="bi bi-person icons" onClick={() => window.location.href = '#'}></i>
+      <div className="nav-right">
+        {user ? (
+          <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
+            <div className="user-profile">
+              <Avatar size="small" icon={<UserOutlined />} className="user-avatar" />
+              <span className="username">{user.email}</span>
+            </div>
+          </Dropdown>
+        ) : (
+          <div className="auth-buttons">
+            <Button 
+              type="text" 
+              onClick={() => navigate('/login')}
+              className="login-button"
+            >
+              Login
+            </Button>
+            <Button 
+              type="primary" 
+              onClick={() => navigate('/register')}
+              className="join-button"
+            >
+              Join Now
+            </Button>
+          </div>
+        )}
       </div>
     </nav>
   );

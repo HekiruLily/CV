@@ -1,8 +1,15 @@
 import React from 'react';
-import '../styles/Home.css';
+import './Home.css';
+import { useNavigate } from 'react-router-dom';
 import { UsergroupAddOutlined, AimOutlined, TrophyOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleRegisterClick = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="home-container">
       <section className="join-club-section">
@@ -35,7 +42,7 @@ const Home = () => {
           </div>
         </div>
 
-        <button className="register-button">
+        <button className="register-button" onClick={handleRegisterClick}>
           Đăng ký ngay
           <ArrowRightOutlined />
         </button>

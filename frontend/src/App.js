@@ -1,13 +1,20 @@
-import logo from './logo.svg';
 import './App.css';
-import Navbar from '../src/components/navbar/navbar';
-import Hero from '../src/pages/landing_pages/HeroSection/HeroSection';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/landing_pages/landing_pages';
+import RegisterPage from './pages/auth/RegisterPage';
+import LoginPage from './pages/auth/LoginPage';
+
 function App() {
   return (
-    <div className="App">
-        <Navbar />
-        <Hero />
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
