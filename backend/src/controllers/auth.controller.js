@@ -10,7 +10,8 @@ exports.signup = async (req, res) => {
 
         const {
             mail_or_phone,
-            password
+            password,
+            full_name
         } = req.body;
         if (validateEmail(mail_or_phone)) {
             email = mail_or_phone;
@@ -53,6 +54,14 @@ exports.signup = async (req, res) => {
             }
         }
 
+        // Kiểm tra full_name
+        if (!full_name || full_name.trim() === '') {
+            return res.status(400).json({
+                success: false,
+                message: 'Họ tên là bắt buộc'
+            });
+        }
+
         // Hash password
         const salt = await bcrypt.genSalt(10);
         const password_hash = await bcrypt.hash(password, salt);
@@ -64,8 +73,13 @@ exports.signup = async (req, res) => {
             password_hash
         };
 
+        // Tạo user profile data
+        const userProfile = {
+            full_name: full_name.trim()
+        };
+
         // Lưu vào database
-        const userId = await UserModel.createUser(userData);
+        const userId = await UserModel.createUser(userData, userProfile);
 
         res.status(201).json({
             success: true,

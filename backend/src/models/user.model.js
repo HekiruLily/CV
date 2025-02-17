@@ -28,9 +28,17 @@ class UserModel {
                 'INSERT INTO users (email, phone, password_hash) VALUES (?, ?, ?)',
                 [userData.email, userData.phone, userData.password_hash]
             );
+            
+            const userId = userResult.insertId;
+
+            // Insert user profile data
+            await conn.query(
+                'INSERT INTO user_profiles (user_id, full_name) VALUES (?, ?)',
+                [userId, userProfile.full_name]
+            );
 
             await conn.commit();
-            return userResult.insertId;
+            return userId;
         } catch (error) {
             await conn.rollback();
             throw error;
