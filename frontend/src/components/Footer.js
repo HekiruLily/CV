@@ -5,10 +5,10 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
-        {/* Company Info Section */}
+        {/* Phần thông tin công ty */}
         <div className="footer-section">
           <h3>RunningEvents.com</h3>
-          <p>Your premier destination for running events and competitions. Join our community of passionate runners and achieve your goals.</p>
+          <p>Điểm đến hàng đầu cho các sự kiện và giải đấu chạy bộ. Tham gia cộng đồng những người đam mê chạy bộ và đạt được mục tiêu của bạn.</p>
           <div className="social-links">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
               <i className="fab fa-facebook-f"></i>
@@ -22,49 +22,37 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Quick Links Section */}
+        {/* Phần liên kết nhanh */}
         <div className="footer-section">
-          <h3>Quick Links</h3>
+          <h3>Liên Kết Nhanh</h3>
           <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/events">Events</a></li>
-            <li><a href="/leaderboard">Leaderboard</a></li>
-            <li><a href="/about">About Us</a></li>
-            <li><a href="/contact">Contact</a></li>
-            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/">Trang Chủ</a></li>
+            <li><a href="/events">Sự Kiện</a></li>
+            <li><a href="/leaderboard">Bảng Xếp Hạng</a></li>
+            <li><a href="/about">Về Chúng Tôi</a></li>
+            <li><a href="/contact">Liên Hệ</a></li>
+            <li><a href="/faq">Hỏi Đáp</a></li>
           </ul>
         </div>
 
-        {/* Contact Info Section */}
+        {/* Phần thông tin liên hệ */}
         <div className="footer-section">
-          <h3>Contact Info</h3>
-          <ul className="contact-info">
-            <li>
-              <i className="far fa-envelope"></i>
-              <a href="mailto:info@runningevents.com">info@runningevents.com</a>
-            </li>
-            <li>
-              <i className="fas fa-phone"></i>
-              <a href="tel:+15551234567">+1 (555) 123-4567</a>
-            </li>
-            <li>
-              <i className="fas fa-map-marker-alt"></i>
-              <span>123 Runner's Lane, Athletic City, SP 12345</span>
-            </li>
-          </ul>
+          <h3>Thông Tin Liên Hệ</h3>
+          <p>info@runningevents.com +1 (555) 123-4567</p>
+          <p>123 Đường Chạy Bộ, Thành phố Thể Thao, SP 12345</p>
         </div>
 
-        {/* Newsletter Section */}
+        {/* Phần đăng ký nhận tin */}
         <div className="footer-section">
-          <h3>Newsletter</h3>
-          <p>Subscribe to get updates about upcoming events and special offers.</p>
+          <h3>Đăng Ký Nhận Tin</h3>
+          <p>Đăng ký để nhận thông tin cập nhật về các sự kiện sắp tới và ưu đãi đặc biệt.</p>
           <div className="newsletter-form">
             <input 
               type="email" 
-              placeholder="Enter your email"
-              aria-label="Email for newsletter"
+              placeholder="Nhập email của bạn"
+              aria-label="Email đăng ký nhận tin"
             />
-            <button type="submit">Subscribe</button>
+            <button type="submit">Đăng Ký</button>
           </div>
         </div>
       </div>
