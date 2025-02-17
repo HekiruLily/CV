@@ -1,5 +1,8 @@
 .App {
   text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .App-logo {
@@ -22,6 +25,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  flex: 1;
 }
 
 .App-link {
@@ -35,4 +39,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Footer sẽ luôn ở dưới cùng */
+.footer {
+  margin-top: auto;
 }
