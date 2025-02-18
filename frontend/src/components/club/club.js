@@ -159,92 +159,7 @@ const CreateClubForm = () => {
           </Form.Item>
         </Form>
       </div>
-
-      <PendingClubsList />
     </>
-  );
-};
-
-const Sidebar = ({ onCreateClick }) => {
-  return (
-    <Sider className="club-sidebar" width={300}>
-      <div className="sidebar-content">
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          className="create-club-btn"
-          block
-          onClick={onCreateClick}
-        >
-          Tạo câu lạc bộ
-        </Button>
-        <Button 
-          type="primary" 
-          icon={<UserAddOutlined />} 
-          className="join-club-btn"
-          block
-        >
-          Tham gia câu lạc bộ
-        </Button>
-
-        <h2 className="club-heading">Câu lạc bộ của bạn</h2>
-        <List
-          itemLayout="horizontal"
-          dataSource={[
-            {
-              id: 1,
-              name: 'Hà Nội Running',
-              members: 156,
-              avatar: 'H'
-            },
-            {
-              id: 2,
-              name: 'VN Marathon',
-              members: 89,
-              avatar: 'V'
-            },
-            {
-              id: 3,
-              name: 'Trail Running',
-              members: 45,
-              avatar: 'T'
-            }
-          ]}
-          renderItem={club => (
-            <List.Item className="club-item">
-              <List.Item.Meta
-                avatar={
-                  <Avatar className="club-avatar">
-                    {club.avatar}
-                  </Avatar>
-                }
-                title={club.name}
-                description={`${club.members} thành viên`}
-              />
-            </List.Item>
-          )}
-        />
-      </div>
-    </Sider>
-  );
-};
-
-const ClubList = () => {
-  const [showCreateForm, setShowCreateForm] = useState(false);
-
-  return (
-    <Layout className="club-layout">
-      <Sidebar onCreateClick={() => setShowCreateForm(true)} />
-      <Content className="club-content">
-        {showCreateForm ? (
-          <CreateClubForm />
-        ) : (
-          <>
-            <CreateClubForm />
-          </>
-        )}
-      </Content>
-    </Layout>
   );
 };
 
@@ -321,6 +236,98 @@ const PendingClubsList = () => {
         className="pending-clubs-table"
       />
     </div>
+  );
+};
+
+const WelcomeContent = () => {
+  return (
+    <div className="welcome-message">
+      Chọn một câu lạc bộ hoặc tạo câu lạc bộ mới
+    </div>
+  );
+};
+
+const ClubList = () => {
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  const Sidebar = () => {
+    return (
+      <Sider className="club-sidebar" width={300}>
+        <div className="sidebar-content">
+          <Button 
+            type="primary" 
+            icon={<PlusOutlined />} 
+            className="create-club-btn"
+            block
+            onClick={() => setShowCreateForm(true)}
+          >
+            Tạo câu lạc bộ
+          </Button>
+          <Button 
+            type="primary" 
+            icon={<UserAddOutlined />} 
+            className="join-club-btn"
+            block
+          >
+            Tham gia câu lạc bộ
+          </Button>
+
+          <h2 className="club-heading">Câu lạc bộ của bạn</h2>
+          <List
+            itemLayout="horizontal"
+            dataSource={[
+              {
+                id: 1,
+                name: 'Hà Nội Running',
+                members: 156,
+                avatar: 'H'
+              },
+              {
+                id: 2,
+                name: 'VN Marathon',
+                members: 89,
+                avatar: 'V'
+              },
+              {
+                id: 3,
+                name: 'Trail Running',
+                members: 45,
+                avatar: 'T'
+              }
+            ]}
+            renderItem={club => (
+              <List.Item className="club-item">
+                <List.Item.Meta
+                  avatar={
+                    <Avatar className="club-avatar">
+                      {club.avatar}
+                    </Avatar>
+                  }
+                  title={club.name}
+                  description={`${club.members} thành viên`}
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      </Sider>
+    );
+  };
+
+  return (
+    <Layout className="club-layout">
+      <Sidebar />
+      <Content className="club-content">
+        {showCreateForm ? (
+          <>
+            <CreateClubForm />
+            <PendingClubsList />
+          </>
+        ) : (
+          <WelcomeContent />
+        )}
+      </Content>
+    </Layout>
   );
 };
 
