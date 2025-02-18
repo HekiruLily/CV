@@ -13,6 +13,7 @@ CREATE TABLE user_profiles (
     gender ENUM('male', 'female', 'other'),        -- Giới tính
     address TEXT,                            -- Địa chỉ
     achievement TEXT,                        -- Thành tích
+    avatar VARCHAR(255),                    -- Ảnh đại diện
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
@@ -34,6 +35,7 @@ CREATE TABLE club_requests (
     description TEXT,                           -- Mô tả về CLB
     location VARCHAR(255),                      -- Địa điểm CLB hoạt động
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',  -- Trạng thái duyệt
+    avatar VARCHAR(255),                    -- Ảnh đại diện
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (requested_by) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -44,6 +46,7 @@ CREATE TABLE clubs (
     name VARCHAR(255) UNIQUE NOT NULL,       -- Tên CLB
     description TEXT,                        -- Mô tả về CLB
     location VARCHAR(255),                   -- Địa điểm
+    avatar VARCHAR(255),                    -- Ảnh đại diện
     created_by INT NOT NULL,                 -- Người tạo CLB (admin mặc định)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE

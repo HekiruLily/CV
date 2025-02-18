@@ -52,6 +52,9 @@ const Nav = () => {
         <Button type="text" onClick={() => navigate('/community')} className="nav-link">
           Cộng đồng
         </Button>
+        <Button type="text" onClick={() => navigate('/clubs')} className="nav-link">
+          Câu lạc bộ
+        </Button>
       </div>
 
       <div className="nav-right">
