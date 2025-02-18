@@ -55,7 +55,7 @@
   font-size: 1.2rem;
   text-decoration: none;
   color: white;
-  background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+  background: linear-gradient(45deg, #b0ca80, #35deea);
   border-radius: 50px;
   transition: all 0.3s ease;
   text-transform: uppercase;
@@ -69,7 +69,7 @@
 .register-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
-  background: linear-gradient(45deg, #ff5252, #ff7676);
+  background: linear-gradient(45deg, #b0ca80, #1dedfc);
 }
 
 /* Animations */

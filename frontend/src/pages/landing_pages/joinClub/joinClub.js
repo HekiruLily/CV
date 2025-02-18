@@ -1,14 +1,8 @@
 import React from 'react';
 import './joinClub.css';
-import { useNavigate } from 'react-router-dom';
-import { UsergroupAddOutlined, AimOutlined, TrophyOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { UsergroupAddOutlined, AimOutlined, TrophyOutlined } from '@ant-design/icons';
 
 const JoinClub = () => {
-  const navigate = useNavigate();
-
-  const handleRegisterClick = () => {
-    navigate('/register');
-  };
 
   return (
     <div className="home-container">
