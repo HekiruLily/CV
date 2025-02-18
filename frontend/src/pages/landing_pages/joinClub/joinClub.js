@@ -42,10 +42,10 @@ const JoinClub = () => {
           </div>
         </div>
 
-        <button className="register-button" onClick={handleRegisterClick}>
+        {/* <button className="register-button" onClick={handleRegisterClick}>
           Đăng ký ngay
           <ArrowRightOutlined />
-        </button>
+        </button> */}
       </section>
     </div>
   );
