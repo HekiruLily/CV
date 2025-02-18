@@ -23,6 +23,3 @@ yarn-debug.log*
 yarn-error.log*
 
 # Thêm các file cần ignore
-package-lock.json
-package.json
-src/App.js

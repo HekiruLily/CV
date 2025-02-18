@@ -14,6 +14,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/clubs" element={<Sidebar />} />
         </Routes>
       </div>
     </Router>
