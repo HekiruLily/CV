@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/landing_pages/landing_pages';
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
+import ClubList from './components/club/club';
 import Sidebar from './components/sidebar/sidebar';
 
 function App() {
