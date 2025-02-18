@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from '../../components/navbar/navbar';
 import Hero from './HeroSection/HeroSection';
-import Home from './home/Home';
+import JoinClub from './joinClub/joinClub';
 import Footer from '../../components/footer/Footer';
 
 const LandingPage = () => {
@@ -9,7 +9,7 @@ const LandingPage = () => {
     <div className="landing-page">
       <Nav />
       <Hero />
-      <Home />
+      <JoinClub />
       <Footer />
     </div>
   );

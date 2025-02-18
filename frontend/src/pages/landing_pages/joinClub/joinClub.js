@@ -1,9 +1,9 @@
 import React from 'react';
-import './Home.css';
+import './joinClub.css';
 import { useNavigate } from 'react-router-dom';
 import { UsergroupAddOutlined, AimOutlined, TrophyOutlined, ArrowRightOutlined } from '@ant-design/icons';
 
-const Home = () => {
+const JoinClub = () => {
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -51,4 +51,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default JoinClub;
