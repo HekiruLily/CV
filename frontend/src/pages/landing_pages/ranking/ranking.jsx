@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import DistanceButtons from './components/DistanceButtons';
 import RunnersList from './components/RunnersList';
 import './ranking.css';
-import { FaUsers, FaCalendarAlt, FaStar } from 'react-icons/fa'; // Import icons from react-icons
 
 
 // Dynamically import all images
