@@ -178,8 +178,13 @@ const PendingClubsList = () => {
     },
     {
       title: 'ĐỊA ĐIỂM',
-      dataIndex: 'location',
       key: 'location',
+      render: (_, record) => (
+        <div>
+          <div>{record.district}</div>
+          <div className="location-province">{record.province}</div>
+        </div>
+      ),
     },
     {
       title: 'NGÀY TẠO',
@@ -210,7 +215,8 @@ const PendingClubsList = () => {
       key: '1',
       name: 'Câu lạc bộ 1',
       code: 'CLB001',
-      location: 'Hà Nội',
+      district: 'Cầu Giấy',
+      province: 'Hà Nội',
       createdDate: '2024-03-20',
       status: 'Chờ duyệt',
     },
@@ -218,7 +224,8 @@ const PendingClubsList = () => {
       key: '2',
       name: 'Câu lạc bộ 2',
       code: 'CLB002',
-      location: 'TP. HCM',
+      district: 'Quận 1',
+      province: 'TP. HCM',
       createdDate: '2024-03-21',
       status: 'Chờ duyệt',
     },
@@ -280,19 +287,22 @@ const ClubList = () => {
                 id: 1,
                 name: 'Hà Nội Running',
                 members: 156,
-                avatar: 'H'
+                avatar: 'H',
+                location: 'Cầu Giấy, Hà Nội'
               },
               {
                 id: 2,
                 name: 'VN Marathon',
                 members: 89,
-                avatar: 'V'
+                avatar: 'V',
+                location: 'Quận 1, TP. HCM'
               },
               {
                 id: 3,
                 name: 'Trail Running',
                 members: 45,
-                avatar: 'T'
+                avatar: 'T',
+                location: 'Ba Vì, Hà Nội'
               }
             ]}
             renderItem={club => (
@@ -304,7 +314,12 @@ const ClubList = () => {
                     </Avatar>
                   }
                   title={club.name}
-                  description={`${club.members} thành viên`}
+                  description={
+                    <>
+                      <div>{club.members} thành viên</div>
+                      <div className="club-location">{club.location}</div>
+                    </>
+                  }
                 />
               </List.Item>
             )}

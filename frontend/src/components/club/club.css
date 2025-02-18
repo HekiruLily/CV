@@ -22,18 +22,35 @@
   margin-bottom: 24px;
 }
 
+/* Nút tạo câu lạc bộ - màu dương */
 .create-club-btn {
-  background-color: #1f2937 !important;
+  background-color: #2563EB !important; /* màu xanh dương */
   margin-bottom: 12px;
   height: 45px;
   font-size: 16px;
+  border: none;
 }
 
+.create-club-btn:hover {
+  background-color: #1D4ED8 !important; /* màu xanh dương đậm hơn khi hover */
+}
+
+/* Nút tham gia câu lạc bộ - màu xanh lá */
 .join-club-btn {
-  background-color: #22C55E !important;
+  background-color: #10B981 !important; /* màu xanh lá */
+  margin-bottom: 24px;
   height: 45px;
   font-size: 16px;
-  margin-bottom: 24px;
+  border: none;
+}
+
+.join-club-btn:hover {
+  background-color: #9CA3AF !important;
+}
+
+/* Bỏ background màu xanh mặc định của Ant Design cho các nút */
+.ant-btn-primary {
+  background-color: inherit;
 }
 
 .club-heading {
@@ -205,11 +222,8 @@
   font-size: 14px;
 }
 
-/* Thay đổi màu của các nút và link khác nếu cần */
-.ant-btn-primary {
-  background-color: #1f2937 !important;
-}
-
-.ant-btn-primary:hover {
-  background-color: #374151 !important;
+.location-province {
+  color: #6B7280;
+  font-size: 12px;
+  margin-top: 4px;
 }
