@@ -44,13 +44,16 @@ const Nav = () => {
 
       <div className="nav-center">
         <Button type="text" onClick={() => navigate('/events')} className="nav-link">
-          Events
+          Sự kiện
         </Button>
         <Button type="text" onClick={() => navigate('/leaderboard')} className="nav-link">
-          Leaderboard
+          Bảng xếp hạng
         </Button>
         <Button type="text" onClick={() => navigate('/community')} className="nav-link">
-          Community
+          Cộng đồng
+        </Button>
+        <Button type="text" onClick={() => navigate('/clubs')} className="nav-link">
+          Câu lạc bộ
         </Button>
       </div>
 
@@ -69,14 +72,14 @@ const Nav = () => {
               onClick={() => navigate('/login')}
               className="login-button"
             >
-              Login
+              Đăng nhập
             </Button>
             <Button 
               type="primary" 
               onClick={() => navigate('/register')}
               className="join-button"
             >
-              Join Now
+              Đăng ký
             </Button>
           </div>
         )}

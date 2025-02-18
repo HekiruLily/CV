@@ -21,6 +21,8 @@ const authService = {
       const response = await axios.post(`${API_URL}/login`, {
         mail_or_phone: credentials.email,
         password: credentials.password
+      }, {
+        withCredentials: true
       });
       return response.data;
     } catch (error) {
