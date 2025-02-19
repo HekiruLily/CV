@@ -49,6 +49,7 @@ const CreateClubForm = () => {
     try {
       setLoading(true);
       // Tìm tên tỉnh/thành và quận/huyện từ ID
+      console.log(values.province);
       const provinceName = provinces.find(p => p.value === values.province)?.label;
       const districtName = districts.find(d => d.value === values.district)?.label;
 
@@ -103,7 +104,7 @@ const CreateClubForm = () => {
                 name="clubCode"
                 label="Mã câu lạc bộ"
                 rules={[{ required: true, message: 'Vui lòng nhập mã câu lạc bộ!' },
-                  { pattern: /^\s*$/, message: 'Mã câu lạc bộ không được chứa khoảng trắng' }
+                  { pattern: /^\S*$/, message: 'Mã câu lạc bộ không được chứa khoảng trắng' }
                 ]}
               >
                 <Input placeholder="Nhập mã câu lạc bộ" />
