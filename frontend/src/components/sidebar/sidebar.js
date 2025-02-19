@@ -46,52 +46,49 @@ const Sidebar = () => {
   };
 
   return (
-    <Sider className="app-sidebar" width={300}>
-      <div className="sidebar-buttons">
-        <Button 
-          type="primary" 
-          icon={<PlusOutlined />} 
-          block 
-          size="large"
-          onClick={handleCreateClub}
-        >
-          Tạo câu lạc bộ
-        </Button>
-        <Button 
-          type="primary" 
-          className="join-button"
-          icon={<UsergroupAddOutlined />} 
-          block 
-          size="large"
-          onClick={handleJoinClub}
-        >
-          Tham gia câu lạc bộ
-        </Button>
-      </div>
-
-      <div className="clubs-section">
-        <div className="section-title">
+    <Sider className="sb-container" width={300}>
+      <div className="sb-header">
+        <div className="sb-title">
           <TeamOutlined /> Câu lạc bộ của bạn
         </div>
-        <Menu mode="inline" className="clubs-menu">
-          {clubs.map(club => (
-            <Menu.Item key={club.id} className="club-item">
-              <div className="club-content">
-                <Avatar 
-                  className="club-avatar"
-                  src={club.avatar}
-                >
-                  {!club.avatar && club.initial}
-                </Avatar>
-                <div className="club-info">
-                  <div className="club-name">{club.name}</div>
-                  <div className="club-members">{club.members} thành viên</div>
-                </div>
-              </div>
-            </Menu.Item>
-          ))}
-        </Menu>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
+          className="sb-create-btn"
+          onClick={handleCreateClub}
+          title="Tạo câu lạc bộ mới"
+        />
       </div>
+
+      <Button 
+        type="primary"
+        className="sb-join-btn"
+        icon={<UsergroupAddOutlined />}
+        block
+        size="large"
+        onClick={handleJoinClub}
+      >
+        Tham gia câu lạc bộ
+      </Button>
+
+      <Menu mode="inline" className="sb-clubs-list">
+        {clubs.map(club => (
+          <Menu.Item key={club.id} className="sb-club-item">
+            <div className="sb-club-content">
+              <Avatar 
+                className="sb-club-avatar"
+                src={club.avatar}
+              >
+                {!club.avatar && club.initial}
+              </Avatar>
+              <div className="sb-club-info">
+                <div className="sb-club-name">{club.name}</div>
+                <div className="sb-club-members">{club.members} thành viên</div>
+              </div>
+            </div>
+          </Menu.Item>
+        ))}
+      </Menu>
     </Sider>
   );
 };

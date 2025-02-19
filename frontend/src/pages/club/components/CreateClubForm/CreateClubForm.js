@@ -1,22 +1,71 @@
-import React from 'react';
-import { Button, Form, Input, Upload, Select, Row, Col, Table, Tag } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Button, Form, Input, Upload, Select, Row, Col, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import './club.css';
-
-const CreateClub = () => {
-  return (
-    <>
-      <CreateClubForm />
-      <PendingClubsList />
-    </>
-  );
-};
+import { useNavigate } from 'react-router-dom';
+import clubService from '../../../../services/club.service';
+import addressService from '../../../../services/address.service';
+import './CreateClub.css';
 
 const CreateClubForm = () => {
+  const [messageApi, messageContextHolder] = message.useMessage();
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [loadingProvinces, setLoadingProvinces] = useState(false);
+  const [loadingDistricts, setLoadingDistricts] = useState(false);
+  const navigate = useNavigate();
 
-  const onFinish = (values) => {
-    console.log('Form values:', values);
+  useEffect(() => {
+    fetchProvinces();
+  }, []);
+
+  const fetchProvinces = async () => {
+    try {
+      setLoadingProvinces(true);
+      const data = await addressService.getProvinces();
+      setProvinces(data);
+    } catch (error) {
+      messageApi.error(error.message);
+    } finally {
+      setLoadingProvinces(false);
+    }
+  };
+
+  const handleProvinceChange = async (provinceId) => {
+    try {
+      form.setFieldValue('district', undefined); // Reset quận/huyện khi đổi tỉnh
+      setLoadingDistricts(true);
+      const data = await addressService.getDistricts(provinceId);
+      setDistricts(data);
+    } catch (error) {
+      messageApi.error(error.message);
+    } finally {
+      setLoadingDistricts(false);
+    }
+  };
+
+  const onFinish = async (values) => {
+    try {
+      setLoading(true);
+      // Tìm tên tỉnh/thành và quận/huyện từ ID
+      const provinceName = provinces.find(p => p.value === values.province)?.label;
+      const districtName = districts.find(d => d.value === values.district)?.label;
+
+      const requestData = {
+        ...values,
+        province: provinceName,
+        district: districtName
+      };
+
+      const response = await clubService.createClubRequest(requestData);
+      messageApi.success('Gửi yêu cầu tạo CLB thành công!');
+      navigate('/clubs/pending');
+    } catch (error) {
+      messageApi.error(error.message || 'Đã xảy ra lỗi khi gửi yêu cầu');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const normFile = (e) => {
@@ -28,6 +77,7 @@ const CreateClubForm = () => {
 
   return (
     <>
+      {messageContextHolder}
       <div className="create-club-form-container">
         <h2>Đăng ký Câu lạc bộ</h2>
         <p className="form-description">Điền thông tin để đăng ký câu lạc bộ mới</p>
@@ -39,7 +89,7 @@ const CreateClubForm = () => {
           autoComplete="off"
         >
           <Row gutter={16}>
-            <Col span={12}>
+            <Col span={24}>
               <Form.Item
                 name="clubName"
                 label="Tên câu lạc bộ"
@@ -52,7 +102,9 @@ const CreateClubForm = () => {
               <Form.Item
                 name="clubCode"
                 label="Mã câu lạc bộ"
-                rules={[{ required: true, message: 'Vui lòng nhập mã câu lạc bộ!' }]}
+                rules={[{ required: true, message: 'Vui lòng nhập mã câu lạc bộ!' },
+                  { pattern: /^\s*$/, message: 'Mã câu lạc bộ không được chứa khoảng trắng' }
+                ]}
               >
                 <Input placeholder="Nhập mã câu lạc bộ" />
               </Form.Item>
@@ -68,11 +120,9 @@ const CreateClubForm = () => {
               >
                 <Select
                   placeholder="Chọn tỉnh/thành phố"
-                  options={[
-                    { value: 'hanoi', label: 'Hà Nội' },
-                    { value: 'hcm', label: 'TP. Hồ Chí Minh' },
-                    // Thêm các tỉnh thành khác
-                  ]}
+                  options={provinces}
+                  loading={loadingProvinces}
+                  onChange={handleProvinceChange}
                 />
               </Form.Item>
             </Col>
@@ -84,9 +134,9 @@ const CreateClubForm = () => {
               >
                 <Select
                   placeholder="Chọn quận/huyện"
-                  options={[
-                    // Các quận huyện sẽ được cập nhật dựa theo tỉnh/thành phố
-                  ]}
+                  options={districts}
+                  loading={loadingDistricts}
+                  disabled={!form.getFieldValue('province')}
                 />
               </Form.Item>
             </Col>
@@ -94,9 +144,10 @@ const CreateClubForm = () => {
 
           <Form.Item
             name="ward"
-            label="Phường/Xã/Thôn"
+            label="Địa điểm cụ thể"
+            rules={[{ required: true, message: 'Vui lòng nhập địa điểm cụ thể!' }]}
           >
-            <Input placeholder="Nhập phường/xã/thôn (không bắt buộc)" />
+            <Input placeholder="Nhập địa điểm sinh hoạt của câu lạc bộ" />
           </Form.Item>
 
           <Form.Item
@@ -107,7 +158,6 @@ const CreateClubForm = () => {
           >
             <Upload.Dragger
               name="files"
-              action="/upload.do"
               listType="picture"
               maxCount={1}
               beforeUpload={() => false}
@@ -123,13 +173,6 @@ const CreateClubForm = () => {
           </Form.Item>
 
           <Form.Item
-            name="website"
-            label="Website"
-          >
-            <Input placeholder="https://" />
-          </Form.Item>
-
-          <Form.Item
             name="description"
             label="Mô tả ngắn"
           >
@@ -141,18 +184,6 @@ const CreateClubForm = () => {
             />
           </Form.Item>
 
-          <Form.Item
-            name="rules"
-            label="Nguyên tắc"
-          >
-            <Input.TextArea 
-              placeholder="Các nguyên tắc của câu lạc bộ..."
-              rows={4}
-              showCount
-              maxLength={1000}
-            />
-          </Form.Item>
-
           <Form.Item>
             <Button 
               type="primary" 
@@ -160,8 +191,9 @@ const CreateClubForm = () => {
               block 
               size="large"
               className="submit-button"
+              loading={loading}
             >
-              Đăng ký câu lạc bộ
+              Gửi yêu cầu
             </Button>
           </Form.Item>
         </Form>
@@ -170,87 +202,4 @@ const CreateClubForm = () => {
   );
 };
 
-const PendingClubsList = () => {
-  const columns = [
-    {
-      title: 'TÊN CLB',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => (
-        <div>
-          <div className="club-name">{text}</div>
-          <div className="club-code">Mã: {record.code}</div>
-        </div>
-      ),
-    },
-    {
-      title: 'ĐỊA ĐIỂM',
-      key: 'location',
-      render: (_, record) => (
-        <div>
-          <div>{record.district}</div>
-          <div className="location-province">{record.province}</div>
-        </div>
-      ),
-    },
-    {
-      title: 'NGÀY TẠO',
-      dataIndex: 'createdDate',
-      key: 'createdDate',
-    },
-    {
-      title: 'TRẠNG THÁI',
-      key: 'status',
-      dataIndex: 'status',
-      render: (status) => (
-        <Tag color="warning">
-          {status}
-        </Tag>
-      ),
-    },
-    {
-      title: '',
-      key: 'action',
-      render: (_, record) => (
-        <Button type="link">Chi tiết</Button>
-      ),
-    },
-  ];
-
-  const data = [
-    {
-      key: '1',
-      name: 'Câu lạc bộ 1',
-      code: 'CLB001',
-      district: 'Cầu Giấy',
-      province: 'Hà Nội',
-      createdDate: '2024-03-20',
-      status: 'Chờ duyệt',
-    },
-    {
-      key: '2',
-      name: 'Câu lạc bộ 2',
-      code: 'CLB002',
-      district: 'Quận 1',
-      province: 'TP. HCM',
-      createdDate: '2024-03-21',
-      status: 'Chờ duyệt',
-    },
-  ];
-
-  return (
-    <div className="pending-clubs-container">
-      <h2 className="section-title">Danh sách chờ duyệt</h2>
-      <p className="section-description">Các câu lạc bộ đang trong quá trình xét duyệt</p>
-      
-      <Table 
-        columns={columns} 
-        dataSource={data}
-        pagination={false}
-        className="pending-clubs-table"
-      />
-    </div>
-  );
-};
-
-export default CreateClub;
+export default CreateClubForm;
