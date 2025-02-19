@@ -49,7 +49,6 @@ const CreateClubForm = () => {
     try {
       setLoading(true);
       // Tìm tên tỉnh/thành và quận/huyện từ ID
-      console.log(values.province);
       const provinceName = provinces.find(p => p.value === values.province)?.label;
       const districtName = districts.find(d => d.value === values.district)?.label;
 
