@@ -1,0 +1,137 @@
+.introduction-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.club-name {
+    font-size: 2rem;
+    color: #333333;
+    margin: 0;
+}
+
+.edit-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Khoảng cách giữa icon và text */
+}
+.edit-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Hiệu ứng phóng to nhẹ khi hover */
+    transition: background-color 0.3s, transform 0.3s; /* Thêm hiệu ứng chuyển đổi mượt mà */
+}
+
+.content-section {
+    display: flex;
+    gap: 30px;
+}
+
+.club-image {
+    width: 400px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.text-section {
+    flex: 1;
+}
+
+.club-description {
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #333333;
+}
+
+.info-value {
+    color: #666666;
+}
+
+.club-description-container,
+.club-rules-container {
+    max-width: 1200px;
+    margin: 30px auto 0;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.club-description-container h3,
+.club-rules-container h3 {
+    color: #333333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.club-description-container p {
+    color: #666666;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.club-rules-container ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin: 0;
+}
+
+.club-rules-container li {
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.club-rules-container li:last-child {
+    margin-bottom: 0;
+}
+
+.club-rules-container p {
+    color: #666666;
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+}
