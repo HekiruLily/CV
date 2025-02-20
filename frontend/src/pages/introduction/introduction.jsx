@@ -54,16 +54,6 @@ const Introduction = () => {
                     Câu lạc bộ Âm nhạc Harmony là ngôi nhà chung của những tâm hồn đam mê âm nhạc, nơi mọi người từ những người mới bắt đầu đến những nhạc sĩ dày dặn kinh nghiệm đều có thể chia sẻ, học hỏi và phát triển tài năng của mình. Tại đây, bạn sẽ có cơ hội tham gia vào các buổi biểu diễn, workshop chuyên sâu và những buổi jam session đầy cảm hứng, qua đó khám phá âm nhạc dưới nhiều hình thức khác nhau. Với môi trường sáng tạo, thân thiện và năng động, CLB không chỉ là nơi trau dồi kỹ năng mà còn là cầu nối gắn kết cộng đồng, mang đến những trải nghiệm âm nhạc phong phú và đa dạng cho tất cả thành viên.
                     </p>
             </div>
-
-            <div className="club-rules-container">
-                <h3>Các quy tắc của câu lạc bộ</h3>
-                <p>Để duy trì một môi trường hòa nhã, chuyên nghiệp và sáng tạo, CLB yêu cầu mọi thành viên tuân thủ các quy tắc cơ bản:</p>
-                <p>- Tôn trọng lẫn nhau: Mỗi ý kiến, phong cách và sự đóng góp của từng thành viên đều được trân trọng.</p>
-                <p>- Chấp hành nội quy: Hãy tuân thủ lịch trình và các quy định do ban tổ chức đưa ra, đảm bảo sự trật tự trong các hoạt động của CLB.</p>
-                <p>- Gìn giữ thiết bị và không gian: Mọi thành viên cần giữ gìn và sử dụng các thiết bị, dụng cụ âm nhạc một cách cẩn thận, đồng thời duy trì vệ sinh chung tại địa điểm tổ chức.</p>
-                <p>- Sự tham gia tích cực: Hãy chia sẻ kinh nghiệm, hợp tác và luôn mở lòng đón nhận những ý tưởng mới, góp phần làm phong phú thêm đời sống âm nhạc của cộng đồng.</p>
-                <p>- Những quy tắc này không chỉ giúp bảo vệ quyền lợi của mỗi cá nhân mà còn tạo điều kiện cho CLB phát triển bền vững, trở thành nơi nuôi dưỡng đam mê và tài năng âm nhạc của mọi người.</p>
-            </div>
         </div>
     );
 }
