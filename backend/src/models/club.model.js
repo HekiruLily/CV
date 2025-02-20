@@ -24,6 +24,25 @@ class ClubModel {
         );
         return rows;
     }
+
+    static async createClubRequest(requestData) {
+        const [result] = await db.promise().query(
+            `INSERT INTO club_requests 
+            (requested_by, club_code, club_name, description, province, district, location, avatar) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            [
+                requestData.requested_by,
+                requestData.club_code,
+                requestData.club_name,
+                requestData.description,
+                requestData.province,
+                requestData.district, 
+                requestData.location,
+                requestData.avatar
+            ]
+        );
+        return result.insertId;
+    }
 }
 
 module.exports = ClubModel; 

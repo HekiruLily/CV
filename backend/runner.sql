@@ -30,11 +30,15 @@ CREATE TABLE running_records (
 
 CREATE TABLE club_requests (
     request_id INT AUTO_INCREMENT PRIMARY KEY,  -- Mã đơn xin tự động tăng
+    club_code VARCHAR(255) UNIQUE NOT NULL,   -- Mã CLB tự tạo (ví dụ: thanhanmuop)
     requested_by INT NOT NULL,                  -- Người gửi yêu cầu (user_id)
     club_name VARCHAR(255) UNIQUE NOT NULL,     -- Tên CLB được đề xuất
     description TEXT,                           -- Mô tả về CLB
+    province VARCHAR(20),                      -- Tỉnh thành
+    district VARCHAR(20),                      -- Quận huyện
     location VARCHAR(255),                      -- Địa điểm CLB hoạt động
     status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',  -- Trạng thái duyệt
+    reject_reason TEXT,
     avatar VARCHAR(255),                    -- Ảnh đại diện
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (requested_by) REFERENCES users(user_id) ON DELETE CASCADE
@@ -42,9 +46,11 @@ CREATE TABLE club_requests (
 
 CREATE TABLE clubs (
     club_id INT AUTO_INCREMENT PRIMARY KEY,  -- Mã CLB tự sinh
-    club_code VARCHAR(10) UNIQUE NOT NULL,   -- Mã CLB tự tạo (ví dụ: FC123)
+    club_code VARCHAR(255) UNIQUE NOT NULL,   -- Mã CLB tự tạo (ví dụ: thanhanmuop)
     name VARCHAR(255) UNIQUE NOT NULL,       -- Tên CLB
     description TEXT,                        -- Mô tả về CLB
+    province VARCHAR(20),                      -- Tỉnh thành
+    district VARCHAR(20),                      -- Quận huyện
     location VARCHAR(255),                   -- Địa điểm
     avatar VARCHAR(255),                    -- Ảnh đại diện
     created_by INT NOT NULL,                 -- Người tạo CLB (admin mặc định)
