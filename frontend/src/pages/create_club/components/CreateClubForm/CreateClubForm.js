@@ -3,7 +3,7 @@ import { Button, Form, Input, Upload, Select, Row, Col, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import clubService from '../../../../services/club.service';
-import addressService from '../../../../services/address.service';
+import addressService from '../../../../config/address.config';
 import './CreateClub.css';
 
 const CreateClubForm = () => {

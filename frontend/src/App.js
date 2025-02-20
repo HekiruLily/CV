@@ -5,8 +5,6 @@ import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
 import ClubPage from './pages/club/club_page';
 
-import Introduction from './pages/introduction/introduction';
-
 function App() {
   return (
     <Router>
@@ -16,8 +14,6 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/clubs" element={<ClubPage />} />
-
-          <Route path="/introduction" element={<Introduction />} />
 
 
         </Routes>

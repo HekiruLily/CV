@@ -58,4 +58,32 @@ exports.createClubRequest = async (req, res) => {
             message: 'Đã xảy ra lỗi khi gửi yêu cầu tạo CLB'
         });
     }
+};
+
+exports.getClubInfo = async (req, res) => {
+    try {
+        const { clubCode } = req.params;
+        
+        // Lấy thông tin cơ bản của club
+        const clubInfo = await ClubModel.getClubByCode(clubCode);
+        
+        if (!clubInfo) {
+            return res.status(404).json({
+                success: false,
+                message: 'Không tìm thấy câu lạc bộ'
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: 'Lấy thông tin CLB thành công',
+            data: clubInfo
+        });
+    } catch (error) {
+        console.error('Get club info error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Đã xảy ra lỗi khi lấy thông tin CLB'
+        });
+    }
 }; 
