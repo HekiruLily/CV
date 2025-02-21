@@ -60,6 +60,7 @@ exports.createClubRequest = async (req, res) => {
     }
 };
 
+
 exports.getClubInfo = async (req, res) => {
     try {
         const { clubCode } = req.params;
@@ -86,4 +87,83 @@ exports.getClubInfo = async (req, res) => {
             message: 'Đã xảy ra lỗi khi lấy thông tin CLB'
         });
     }
-}; 
+};
+
+// Lấy danh sách đơn xin CLB theo trạng thái
+exports.getClubRequestsByStatus = async (req, res) => {
+    try {
+        const { status } = req.query;
+        if (!status || !['Pending', 'Approved'].includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: "Trạng thái không hợp lệ (chỉ hỗ trợ 'Pending' hoặc 'Approved')"
+            });
+        }
+
+        const requests = await ClubModel.getClubRequestsByStatus(status);
+        res.status(200).json({
+            success: true,
+            message: `Lấy danh sách đơn xin CLB (${status}) thành công`,
+            data: requests
+        });
+    } catch (error) {
+        console.error('Lỗi khi lấy danh sách đơn xin CLB:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Đã xảy ra lỗi khi lấy danh sách đơn xin CLB'
+        });
+    }
+};
+
+// Chấp thuận đơn xin CLB
+exports.approveClubRequest = async (req, res) => {
+    try {
+        const { request_id } = req.body;
+        if (!request_id) {
+            return res.status(400).json({
+                success: false,
+                message: "Thiếu request_id"
+            });
+        }
+
+        // Kiểm tra xem request có tồn tại không
+        const existingRequest = await ClubModel.getClubRequestById(request_id);
+        if (!existingRequest) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy yêu cầu tạo CLB"
+            });
+        }
+
+        if (existingRequest.status !== 'Pending') {
+            return res.status(400).json({
+                success: false,
+                message: `Đơn xin CLB đã được xử lý (${existingRequest.status})`
+            });
+        }
+
+        // Chấp thuận đơn xin & tạo CLB
+        const clubId = await ClubModel.approveClubRequest(request_id);
+        if (!clubId) {
+            return res.status(500).json({
+                success: false,
+                message: "Lỗi khi tạo CLB"
+            });
+        }
+
+        // Lấy thông tin CLB vừa tạo
+        const newClub = await ClubModel.getClubById(clubId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Chấp thuận đơn xin CLB thành công',
+            data: newClub
+        });
+    } catch (error) {
+        console.error('Lỗi khi chấp thuận đơn xin CLB:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Đã xảy ra lỗi khi chấp thuận đơn xin CLB'
+        });
+    }
+};
