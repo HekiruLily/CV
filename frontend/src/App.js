@@ -7,6 +7,7 @@ import ClubPage from './pages/club/club_page';
 import CreateClub from './pages/create_club/createClub';
 import { GlobalProvider } from './contexts/GlobalContext';
 
+
 function App() {
   return (
     <GlobalProvider>
