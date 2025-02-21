@@ -3,8 +3,6 @@ import React, { createContext, useContext, useState } from 'react';
 const GlobalContext = createContext();
 
 export const GlobalProvider = ({ children }) => {
-  // Modal states
-  const [isCreateClubModalOpen, setIsCreateClubModalOpen] = useState(false);
   const [isJoinClubModalOpen, setIsJoinClubModalOpen] = useState(false);
   const [isEditClubModalOpen, setIsEditClubModalOpen] = useState(false);
 
