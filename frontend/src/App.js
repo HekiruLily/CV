@@ -4,7 +4,7 @@ import LandingPage from './pages/landing_pages/landing_pages';
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
 import ClubPage from './pages/club/club_page';
-
+import Profile from './pages/profiles/Profile';
 function App() {
   return (
     <Router>
@@ -14,6 +14,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/clubs" element={<ClubPage />} />
+          <Route path="/profile" element={<Profile />} />
 
 
         </Routes>
