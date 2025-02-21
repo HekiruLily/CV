@@ -162,26 +162,26 @@ const MemberList = () => {
             itemLayout="horizontal"
             dataSource={approvedMembers}
             renderItem={member => (
-              <List.Item actions={renderMemberActions(member)}>
-                <List.Item.Meta
-                  avatar={
-                    <Avatar src={member.avatar}>
-                      {member.name[0]}
-                    </Avatar>
-                  }
-                  title={
+              <List.Item className="member-item">
+                <div className="member-content">
+                  <Avatar className="member-avatar">
+                    {member.name[0]}
+                  </Avatar>
+                  <div className="member-info-container">
                     <div className="member-title">
                       <span className="member-name">{member.name}</span>
-                      <Tag className="club-id">{member.clubId}</Tag>
+                      <span className="club-id">{member.clubId}</span>
                     </div>
-                  }
-                  description={
                     <div className="member-rank">
                       <TrophyOutlined className="trophy-icon" />
                       <span>Xếp hạng: {member.rank}</span>
                     </div>
-                  }
-                />
+                  </div>
+                </div>
+                <div className="member-actions">
+                  <Button className="edit-button" icon={<EditOutlined />} />
+                  <Button className="delete-button" icon={<DeleteOutlined />} />
+                </div>
               </List.Item>
             )}
           />
