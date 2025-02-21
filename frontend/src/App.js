@@ -4,6 +4,7 @@ import LandingPage from './pages/landing_pages/landing_pages';
 import RegisterPage from './pages/auth/RegisterPage';
 import LoginPage from './pages/auth/LoginPage';
 import ClubPage from './pages/club/club_page';
+import MemberList from './components/memberlist/memberlist';
 
 function App() {
   return (
@@ -14,11 +15,11 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/clubs" element={<ClubPage />} />
+          <Route path="/clubs/members" element={<MemberList />} />
         </Routes>
       </div>
     </Router>
   );
 }
-
 
 export default App;
