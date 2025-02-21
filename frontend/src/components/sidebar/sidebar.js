@@ -3,12 +3,19 @@ import { Layout, Menu, Button, Avatar, message } from 'antd';
 import { PlusOutlined, UsergroupAddOutlined, TeamOutlined } from '@ant-design/icons';
 import clubService from '../../services/club.service';
 import './sidebar.css';
+import { useNavigate } from 'react-router-dom';
+import { useGlobal } from '../../contexts/GlobalContext';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
+  const { 
+    showLoading, 
+    hideLoading,
+    setIsJoinClubModalOpen 
+  } = useGlobal();
   const [clubs, setClubs] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchUserClubs();
@@ -16,11 +23,12 @@ const Sidebar = () => {
 
   const fetchUserClubs = async () => {
     try {
-      setLoading(true);
+      showLoading('Đang tải danh sách câu lạc bộ...');
       const response = await clubService.getUserClubs();
       if (response.success) {
         const formattedClubs = response.data.map(club => ({
           id: club.club_id,
+          club_code: club.club_code,
           name: club.name,
           members: club.member_count,
           initial: club.name.charAt(0),
@@ -31,18 +39,17 @@ const Sidebar = () => {
     } catch (error) {
       message.error(error.message || 'Không thể tải danh sách câu lạc bộ');
     } finally {
-      setLoading(false);
+      hideLoading();
     }
   };
 
   const handleCreateClub = () => {
     // Điều hướng đến trang tạo club
-    // navigate('/clubs/create');
+    navigate('/create-club');
   };
 
   const handleJoinClub = () => {
-    // Điều hướng đến trang tham gia club
-    // navigate('/clubs/join');
+    setIsJoinClubModalOpen(true);
   };
 
   return (
@@ -73,7 +80,11 @@ const Sidebar = () => {
 
       <Menu mode="inline" className="sb-clubs-list">
         {clubs.map(club => (
-          <Menu.Item key={club.id} className="sb-club-item">
+          <Menu.Item 
+            key={club.id} 
+            className="sb-club-item"
+            onClick={() => navigate(`/clubs/${club.club_code}`)}
+          >
             <div className="sb-club-content">
               <Avatar 
                 className="sb-club-avatar"
