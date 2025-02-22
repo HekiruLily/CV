@@ -5,7 +5,6 @@ exports.getUserClubs = async (req, res) => {
         const userId = req.user.userId; // Lấy từ token đã decode trong auth middleware
         const clubs = await ClubModel.getUserClubs(userId);
 
-        console.log(clubs);
         res.status(200).json({
             success: true,
             message: 'Lấy danh sách CLB thành công',
