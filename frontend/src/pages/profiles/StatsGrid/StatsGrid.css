@@ -1,0 +1,55 @@
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (min-width: 640px) {
+    .stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  .stat-card {
+    padding: 0.2rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: white; 
+    padding: 0.5rem;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .stat-card.green {
+    background-color: #51ce7f;
+  }
+  
+  .stat-card.red {
+    background-color: #db6969;
+  }
+  
+  .stat-card.yellow {
+    background-color: #e6e351;
+  }
+  
+  .stat-label {
+    color: #374151;
+  }
+  
+  .stat-value {
+    font-size: 1.9rem !important;
+    font-weight: 800 !important;
+    color: #000000 !important;
+    margin: 0.5rem 0;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.1);
+  }
+  
+  .stat-change {
+    color: #059669;
+  }

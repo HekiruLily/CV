@@ -7,7 +7,7 @@ import ClubPage from './pages/club/club_page';
 import CreateClub from './pages/create_club/createClub';
 import { GlobalProvider } from './contexts/GlobalContext';
 
-
+import Profile from './pages/profiles/Profile';
 function App() {
   return (
     <GlobalProvider>
@@ -19,6 +19,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/clubs/:clubCode/*" element={<ClubPage />} />
             <Route path="/create-club" element={<CreateClub />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </Router>
