@@ -65,7 +65,6 @@ exports.deleteRecord = async (req, res) => {
     try {
         const userId = req.user.userId;
         const { recordId } = req.params;
-        console.log('recordId', recordId);
 
         const record = await RunningRecordModel.getById(recordId, userId);
         if (!record) {
