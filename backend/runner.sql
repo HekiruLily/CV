@@ -20,10 +20,13 @@ CREATE TABLE user_profiles (
 CREATE TABLE running_records (
     record_id INT AUTO_INCREMENT PRIMARY KEY,  -- Mã thành tích chạy tự động tăng
     user_id INT NOT NULL,                      -- Người dùng thực hiện chạy
+    race_name VARCHAR(255) NOT NULL,         -- Tên cuộc đua
+    race_year INT NOT NULL,                 -- Năm cuộc đua
     distance DECIMAL(5,2) NOT NULL,         -- Quãng đường chạy (km)
     duration INT NOT NULL,                 -- Thời gian chạy (giây)
     surface_type ENUM('road', 'trail', 'track', 'treadmill') DEFAULT 'Road',  -- Loại bề mặt chạy
     run_date DATE NOT NULL,                    -- Ngày chạy
+    proof_image VARCHAR(255),                 -- Ảnh chứng minh
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
@@ -71,6 +74,22 @@ CREATE TABLE club_members (
     FOREIGN KEY (club_id) REFERENCES clubs(club_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
+
+CREATE TABLE tournaments (
+    tournament_id INT AUTO_INCREMENT PRIMARY KEY,
+    tournament_code VARCHAR(255) UNIQUE NOT NULL,
+    tournament_name VARCHAR(255) NOT NULL,
+    tournament_description TEXT,
+    tournament_start_date DATE,
+    tournament_end_date DATE,
+    tournament_location VARCHAR(255),
+    tournament_type JSON,
+    tournament_status ENUM('Pending', 'Ongoing', 'Completed') DEFAULT 'Pending',
+    tournament_prize_pool DECIMAL(10,2),
+    tournament_registration_deadline DATE,
+    tournament_rules TEXT
+);
+
 
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_phone ON users(phone);

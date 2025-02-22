@@ -4,6 +4,8 @@ const port = 5000;
 const cors = require('cors');
 const authRoutes = require('./src/routes/auth.routes');
 const clubRoutes = require('./src/routes/club.routes');
+const profileRoutes = require('./src/routes/profile.routes');
+const tournamentRoutes = require('./src/routes/tournament.routes');
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
@@ -21,7 +23,8 @@ app.get('/', (req, res) => {
 
 app.use('/auth', authRoutes);
 app.use('/clubs', clubRoutes);
-
+app.use('/profile', profileRoutes);
+app.use('/tournaments', tournamentRoutes);
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
