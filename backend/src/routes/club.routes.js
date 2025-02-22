@@ -16,3 +16,5 @@ router.patch('/members/:memberId/status', authMiddleware, clubMemberController.u
 
 
 module.exports = router; 
+
+

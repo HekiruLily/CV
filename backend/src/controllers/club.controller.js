@@ -226,4 +226,4 @@ exports.updateClubInfo = async (req, res) => {
             });
         }
     };
-    
+
