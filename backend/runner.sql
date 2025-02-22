@@ -61,6 +61,7 @@ CREATE TABLE clubs (
 -- lần thêm thứ 2
 CREATE TABLE club_members (
     club_member_id INT AUTO_INCREMENT PRIMARY KEY,
+    member_code VARCHAR(255) UNIQUE NOT NULL, -- Mã thành viên tự sinh
     club_id INT NOT NULL,                          
     user_id INT NOT NULL,                          
     role ENUM('Member', 'Manager', 'Finance', 'Admin') DEFAULT 'Member',  
@@ -84,5 +85,6 @@ CREATE INDEX idx_clubs_created_by ON clubs(created_by);
 CREATE INDEX idx_clubs_club_code ON clubs(club_code);
 
 CREATE INDEX idx_club_members_user_id ON club_members(user_id);
+CREATE INDEX idx_club_members_member_code ON club_members(member_code);
 CREATE INDEX idx_club_members_club_id ON club_members(club_id);
 CREATE INDEX idx_club_members_is_active ON club_members(is_active);
