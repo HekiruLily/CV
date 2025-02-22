@@ -18,8 +18,8 @@ function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/clubs/:clubCode/*" element={<ClubPage />} />
-          <Route path="/profile" element={<Profile />} />
             <Route path="/create-club" element={<CreateClub />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </div>
       </Router>
