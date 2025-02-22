@@ -180,6 +180,31 @@ static async approveClubRequest(requestId) {
     }
 }
 
+// Chỉnh sửa thông tin clb
+static async updateClubInfo(clubId, updateData) {
+    try {
+        const [result] = await db.promise().query(
+            `UPDATE clubs 
+            SET name = ?, description = ?, province = ?, district = ?, location = ?, avatar = ? 
+            WHERE club_id = ?`,
+            [
+                updateData.club_name,
+                updateData.description,
+                updateData.province,
+                updateData.district,
+                updateData.location,
+                updateData.avatar,
+                clubId
+            ]
+        );
+
+        return result.affectedRows > 0;
+    } catch (error) {
+        console.error('Database error (updateClubInfo):', error);
+        return false;
+    }
+}
+
 }
 
 module.exports = ClubModel; 

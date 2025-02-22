@@ -166,3 +166,64 @@ exports.approveClubRequest = async (req, res) => {
         });
     }
 };
+//Chỉnh sửa thông tin CLB
+exports.updateClubInfo = async (req, res) => {
+        try {
+            const { club_id } = req.params; // Lấy ID CLB từ URL
+            const userId = req.user.userId; // Lấy user_id từ token
+    
+            const updateData = {
+                club_name: req.body.club_name,
+                description: req.body.description,
+                province: req.body.province,
+                district: req.body.district,
+                location: req.body.location,
+                avatar: req.body.avatar
+            };
+    
+            // Kiểm tra dữ liệu hợp lệ
+            if (!club_id || !updateData.club_name || !updateData.location || !updateData.province) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Vui lòng điền đầy đủ thông tin bắt buộc'
+                });
+            }
+    
+            // Kiểm tra quyền sửa CLB (chỉ admin mới được sửa)
+            const club = await ClubModel.getClubById(club_id);
+            if (!club) {
+                return res.status(404).json({
+                    success: false,
+                    message: 'Không tìm thấy CLB'
+                });
+            }
+    
+            if (club.created_by !== userId) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'Bạn không có quyền chỉnh sửa CLB này'
+                });
+            }
+    
+            // Cập nhật thông tin CLB
+            const success = await ClubModel.updateClubInfo(club_id, updateData);
+            if (!success) {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Cập nhật CLB thất bại'
+                });
+            }
+    
+            res.status(200).json({
+                success: true,
+                message: 'Cập nhật thông tin CLB thành công'
+            });
+        } catch (error) {
+            console.error('Update club info error:', error);
+            res.status(500).json({
+                success: false,
+                message: 'Đã xảy ra lỗi khi cập nhật thông tin CLB'
+            });
+        }
+    };
+    
