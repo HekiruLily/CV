@@ -128,7 +128,23 @@ const clubService = {
     } catch (error) {
       throw error;
     }
-  }
+  },
+  updateClub: async (clubId, clubData) => {
+    try {
+        const response = await axios.patch(`${API_URL}/update/${clubId}`, clubData, {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error.response?.data || { message: 'Lỗi kết nối đến server' };
+    }
+}
+
+
 };
 
 export default clubService; 

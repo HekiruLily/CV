@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Input, DatePicker, Select, message, Modal, Button } from 'antd';
-import moment from 'moment';
+// import moment from 'moment';
 import ProfileService from '../../../../services/profile.service';
 import './EditProfileModal.css';
 
@@ -42,7 +42,7 @@ const EditProfileModal = ({ visible, onClose, initialData, onSave }) => {
                 layout="vertical"
                 initialValues={{
                     ...initialData,
-                    birth_date: initialData.birth_date ? moment(initialData.birth_date) : null
+                    // birth_date: initialData.birth_date ? moment(initialData.birth_date) : null
                 }}
                 onFinish={handleSubmit}
             >

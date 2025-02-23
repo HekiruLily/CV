@@ -180,7 +180,8 @@ exports.updateClubInfo = async (req, res) => {
                 location: req.body.location,
                 avatar: req.body.avatar
             };
-    
+            console.log("Body nhận được:", req.body);
+            
             // Kiểm tra dữ liệu hợp lệ
             if (!club_id || !updateData.club_name || !updateData.location || !updateData.province) {
                 return res.status(400).json({

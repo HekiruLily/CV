@@ -9,7 +9,7 @@ router.post('/request', authMiddleware, clubController.createClubRequest);
 router.get('/:clubCode/introduction', authMiddleware, clubController.getClubInfo);
 router.get('/requests', authMiddleware, clubController.getClubRequestsByStatus);
 router.post('/requests/approve', authMiddleware, clubController.approveClubRequest);
-router.put('/update/:club_id', authMiddleware, clubController.updateClubInfo);
+router.patch('/update/:club_id', authMiddleware, clubController.updateClubInfo);
 // Routes cho quản lý thành viên
 router.get('/:clubCode/members', authMiddleware, clubMemberController.getMembers);
 router.patch('/members/:memberId/status', authMiddleware, clubMemberController.updateMemberStatus);
