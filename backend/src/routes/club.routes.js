@@ -3,9 +3,10 @@ const router = express.Router();
 const clubController = require('../controllers/club.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 const clubMemberController = require('../controllers/clubMember.controller');
+const upload = require('../middlewares/upload');
 
 router.get('/user-clubs', authMiddleware, clubController.getUserClubs);
-router.post('/request', authMiddleware, clubController.createClubRequest);
+router.post('/request', authMiddleware, upload.single('avatar'), clubController.createClubRequest);
 router.get('/:clubCode/introduction', authMiddleware, clubController.getClubInfo);
 
 // Routes cho quản lý thành viên

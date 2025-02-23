@@ -7,7 +7,7 @@ exports.getUserProfile = async (req, res) => {
         const userId = req.user.userId;
 
         const profile = await ProfileModel.getUserProfile(userId);
-        
+
         if (!profile) {
             return res.status(404).json({
                 success: false,
@@ -100,27 +100,28 @@ exports.updateProfile = async (req, res) => {
 exports.updateAvatar = async (req, res) => {
     try {
         const userId = req.user.userId;
-        const avatarUrl = req.body.avatar_url;
 
-        if (!avatarUrl) {
+        if (!req.file) {
             return res.status(400).json({
                 success: false,
-                message: 'URL ảnh đại diện không được để trống'
+                message: 'Vui lòng tải lên một file ảnh'
             });
         }
+
+        const avatarUrl = `/uploads/${req.file.filename}`; // Đường dẫn tới file ảnh
 
         await ProfileModel.updateAvatar(userId, avatarUrl);
 
         res.json({
             success: true,
-            message: 'Cập nhật ảnh đại diện thành công'
+            message: 'Cập nhật ảnh đại diện thành công',
+            avatarUrl: avatarUrl
         });
-
     } catch (error) {
-        console.error('Update avatar error:', error);
+        console.error('Lỗi khi cập nhật ảnh đại diện:', error);
         res.status(500).json({
             success: false,
             message: 'Đã xảy ra lỗi khi cập nhật ảnh đại diện'
         });
     }
-}; 
+};

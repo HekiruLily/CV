@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { 
+import {
     EnvironmentOutlined,
-    MailOutlined, 
+    MailOutlined,
     PhoneOutlined,
     TeamOutlined,
     EditOutlined
@@ -18,25 +18,25 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate }) => {
     const latestClub = clubs?.[0];
 
     const profileInfo = [
-        { 
-            icon: <EnvironmentOutlined />, 
-            color: '#ef4444', 
-            text: basicInfo.address || 'Chưa cập nhật địa chỉ' 
+        {
+            icon: <EnvironmentOutlined />,
+            color: '#ef4444',
+            text: basicInfo.address || 'Chưa cập nhật địa chỉ'
         },
-        { 
-            icon: <MailOutlined />, 
-            color: '#3b82f6', 
-            text: basicInfo.email 
+        {
+            icon: <MailOutlined />,
+            color: '#3b82f6',
+            text: basicInfo.email
         },
-        { 
-            icon: <PhoneOutlined />, 
-            color: '#10b981', 
-            text: basicInfo.phone || 'Chưa cập nhật số điện thoại' 
+        {
+            icon: <PhoneOutlined />,
+            color: '#10b981',
+            text: basicInfo.phone || 'Chưa cập nhật số điện thoại'
         },
-        { 
-            icon: <TeamOutlined />, 
-            color: '#f59e0b', 
-            text: latestClub ? `${latestClub.name} (${latestClub.role})` : 'Chưa tham gia CLB' 
+        {
+            icon: <TeamOutlined />,
+            color: '#f59e0b',
+            text: latestClub ? `${latestClub.name} (${latestClub.role})` : 'Chưa tham gia CLB'
         }
     ];
 
@@ -64,9 +64,9 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate }) => {
         <div className="profile-card">
             <div className="profile-header">
                 <div className="avatar-wrapper">
-                    <img 
-                        src={basicInfo.avatar || defaultAvatar} 
-                        alt="avatar" 
+                    <img
+                        src={basicInfo.avatar || defaultAvatar}
+                        alt="avatar"
                         className="avatar"
                     />
                 </div>
@@ -81,8 +81,8 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate }) => {
             <div className="info-grid">
                 {profileInfo.map((info, index) => (
                     <div key={index} className="info-item">
-                        <span 
-                            className="info-icon" 
+                        <span
+                            className="info-icon"
                             style={{ color: info.color }}
                         >
                             {info.icon}
