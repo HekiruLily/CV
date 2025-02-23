@@ -1,0 +1,68 @@
+/* Avatar và nút camera */
+.avatar-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.camera-btn {
+    border: none;
+    background-color: #f0f0f0;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.camera-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.camera-btn svg {
+    font-size: 22px;
+    color: #555;
+}
+
+/* Thông tin dọc */
+.info-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.info-item-vertical {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 16px;
+}
+
+.info-icon {
+    font-size: 20px;
+}
+
+.profile-header {
+    text-align: center;
+}
+
+.edit-button {
+    margin-top: 12px;
+    background-color: #1677ff;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.edit-button:hover {
+    background-color: #4096ff;
+}

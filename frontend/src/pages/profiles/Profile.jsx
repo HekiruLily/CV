@@ -39,17 +39,17 @@ const Profile = () => {
             <div className="layout">
                 <div className="main-content">
                     <div className="content-wrapper">
-                        <ProfileCard 
+                        <ProfileCard
                             basicInfo={profileData.basic_info}
                             clubs={profileData.clubs}
                             onProfileUpdate={fetchProfileData}
                         />
                         <div className="container">
-                            <StatsGrid 
+                            <StatsGrid
                                 achievements={profileData.achievements_stats}
                                 recentRuns={profileData.achievements}
                             />
-                            <Achievements 
+                            <Achievements
                                 achievements={profileData.achievements_stats}
                                 recentRuns={profileData.achievements}
                             />
