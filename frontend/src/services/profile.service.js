@@ -8,7 +8,7 @@ class ProfileService {
             const response = await axios.get(`${API_URL}/me`, {
                 withCredentials: true
             });
-            
+
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Lỗi kết nối đến server' };

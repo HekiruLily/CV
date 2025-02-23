@@ -6,6 +6,7 @@ import clubService from '../../../../services/club.service';
 import addressService from '../../../../config/address.config';
 import './CreateClub.css';
 
+
 const CreateClubForm = () => {
   const [messageApi, messageContextHolder] = message.useMessage();
   const [form] = Form.useForm();
@@ -48,17 +49,20 @@ const CreateClubForm = () => {
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      // Tìm tên tỉnh/thành và quận/huyện từ ID
       const provinceName = provinces.find(p => p.value === values.province)?.label;
       const districtName = districts.find(d => d.value === values.district)?.label;
 
-      const requestData = {
-        ...values,
+      const clubData = {
+        clubName: values.clubName,
+        clubCode: values.clubCode,
         province: provinceName,
-        district: districtName
+        district: districtName,
+        ward: values.ward,
+        description: values.description || '',
+        clubImage: values.clubImage
       };
 
-      const response = await clubService.createClubRequest(requestData);
+      await clubService.createClubRequest(clubData);
       messageApi.success('Gửi yêu cầu tạo CLB thành công!');
       navigate('/clubs/pending');
     } catch (error) {
@@ -67,6 +71,8 @@ const CreateClubForm = () => {
       setLoading(false);
     }
   };
+
+
 
   const normFile = (e) => {
     if (Array.isArray(e)) {
@@ -81,7 +87,7 @@ const CreateClubForm = () => {
       <div className="create-club-form-container">
         <h2>Đăng ký Câu lạc bộ</h2>
         <p className="form-description">Điền thông tin để đăng ký câu lạc bộ mới</p>
-        
+
         <Form
           form={form}
           layout="vertical"
@@ -103,7 +109,7 @@ const CreateClubForm = () => {
                 name="clubCode"
                 label="Mã câu lạc bộ"
                 rules={[{ required: true, message: 'Vui lòng nhập mã câu lạc bộ!' },
-                  { pattern: /^\S*$/, message: 'Mã câu lạc bộ không được chứa khoảng trắng' }
+                { pattern: /^\S*$/, message: 'Mã câu lạc bộ không được chứa khoảng trắng' }
                 ]}
               >
                 <Input placeholder="Nhập mã câu lạc bộ" />
@@ -157,26 +163,25 @@ const CreateClubForm = () => {
             getValueFromEvent={normFile}
           >
             <Upload.Dragger
-              name="files"
+              name="avatar"
               listType="picture"
               maxCount={1}
-              beforeUpload={() => false}
+              beforeUpload={() => false} // Không tải file lên ngay lập tức
             >
               <p className="ant-upload-drag-icon">
                 <UploadOutlined />
               </p>
               <p className="ant-upload-text">Tải lên ảnh đại diện cho câu lạc bộ</p>
-              <p className="ant-upload-hint">
-                Kéo thả hoặc click để chọn ảnh
-              </p>
+              <p className="ant-upload-hint">Kéo thả hoặc click để chọn ảnh</p>
             </Upload.Dragger>
           </Form.Item>
+
 
           <Form.Item
             name="description"
             label="Mô tả ngắn"
           >
-            <Input.TextArea 
+            <Input.TextArea
               placeholder="Mô tả về câu lạc bộ..."
               rows={4}
               showCount
@@ -185,10 +190,10 @@ const CreateClubForm = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              block 
+            <Button
+              type="primary"
+              htmlType="submit"
+              block
               size="large"
               className="submit-button"
               loading={loading}
