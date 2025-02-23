@@ -4,7 +4,7 @@ const path = require('path');
 // Cấu hình nơi lưu trữ và tên file
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/club_avatars/');
+        cb(null, 'uploads');
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);

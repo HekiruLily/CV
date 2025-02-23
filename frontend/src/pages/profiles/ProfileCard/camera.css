@@ -1,68 +1,38 @@
-/* Avatar và nút camera */
-.avatar-container {
-    display: flex;
-    align-items: center;
-    gap: 16px;
+.avatar-wrapper {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
 }
 
 .avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid white;
 }
 
-.camera-btn {
-    border: none;
-    background-color: #f0f0f0;
-    padding: 8px;
+.camera-overlay {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.camera-btn:hover {
-    background-color: #e0e0e0;
+.camera-overlay:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
-.camera-btn svg {
-    font-size: 22px;
-    color: #555;
-}
-
-/* Thông tin dọc */
-.info-vertical {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    margin-top: 20px;
-}
-
-.info-item-vertical {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 16px;
-}
-
-.info-icon {
-    font-size: 20px;
-}
-
-.profile-header {
-    text-align: center;
-}
-
-.edit-button {
-    margin-top: 12px;
-    background-color: #1677ff;
+.camera-icon {
     color: white;
-    border: none;
-    padding: 6px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.edit-button:hover {
-    background-color: #4096ff;
+    font-size: 20px;
 }

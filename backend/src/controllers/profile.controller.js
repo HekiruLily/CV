@@ -2,6 +2,7 @@ const ProfileModel = require('../models/profile.model');
 const { validatePhone } = require('../utils/validation');
 const { format } = require('date-fns');
 
+
 exports.getUserProfile = async (req, res) => {
     try {
         const userId = req.user.userId;
