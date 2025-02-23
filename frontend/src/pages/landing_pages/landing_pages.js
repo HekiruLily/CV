@@ -4,6 +4,7 @@ import Hero from './HeroSection/HeroSection';
 import JoinClub from './joinClub/joinClub';
 import Ranking from './ranking/ranking';
 import Footer from '../../components/footer/Footer';
+import UpcomingEvents from './upcomingEvents/upcomingEvents';
 
 const LandingPage = () => {
   return (
@@ -12,6 +13,7 @@ const LandingPage = () => {
       <Hero />
       <JoinClub />
       <Ranking />
+      <UpcomingEvents />
       <Footer />
     </div>
   );
