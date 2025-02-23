@@ -21,16 +21,12 @@ const RunnerCard = ({ runner, position }) => {
     }
   };
 
+
   return (
     <div className="runner-card">
-      <div className="runner-image-container">
-        <img src={runner.image} alt={runner.name} className="runner-image" />
-        <div className="medal-container">
-          {renderMedalIcon()}
-        </div>
-      </div>
       <div className="runner-info">
-        <h3>{runner.name} </h3>
+        <img src={runner.image} alt={runner.name} className="runner-image" />
+        <h3>{runner.name} {renderMedalIcon()}</h3>
       </div>
       <p>Tích lũy: {accumulated} <StarOutlined style={{ color: 'gold' }} /></p> {/* Replace km with star icon */}
       <p>Trong tháng: {monthly} <StarOutlined style={{ color: 'gold' }} /></p> {/* Replace km with star icon */}

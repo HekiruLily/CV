@@ -73,6 +73,11 @@
   right: -20px;
 }
 
+.medal-icon {
+  width: 20px; 
+  height: 20px; 
+}
+
 .runner-details h3 {
   margin: 0 0 5px 0;
 }
