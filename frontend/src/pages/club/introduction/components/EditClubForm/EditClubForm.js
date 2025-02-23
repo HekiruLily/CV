@@ -44,47 +44,54 @@ const EditClubForm = ({ visible, onClose, clubInfo, onUpdate }) => {
         }
     };
 
+    const convertImageToBase64 = (file) => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = (error) => reject(error);
+        });
+    };
+    
     const handleFinish = async (values) => {
-        console.log("handleFinish được gọi với giá trị:", values); // Debug
         showLoading("Đang cập nhật...");
     
         try {
-            const formData = new FormData();
-            formData.append("name", values.name);
-            formData.append("description", values.description);
-            formData.append("province", values.province);
-            formData.append("district", values.district);
-            formData.append("location", values.location);
-
-// Trích xuất file từ mảng clubImage
-if (values.clubImage && values.clubImage.length > 0) {
-    formData.append("avatar", values.clubImage[0].originFileObj);
-}
-
-console.log("Dữ liệu gửi đi:", Object.fromEntries(formData.entries())); // Kiểm tra dữ liệu
-
+            let avatarBase64 = "";
+            if (values.clubImage && values.clubImage.length > 0) {
+                avatarBase64 = await convertImageToBase64(values.clubImage[0].originFileObj);
+            }
     
-            console.log("Gửi request updateClubInfo với:", formData); // Debug
-            
-            // Gọi API update
-            const response = await clubService.updateClub(clubInfo.code, formData);
+            // Tìm tên tỉnh/thành và quận/huyện từ ID
+            const provinceName = provinces.find(p => String(p.value) === String(values.province))?.label || "";
+            const districtName = districts.find(d => String(d.value) === String(values.district))?.label || "";
     
-            console.log("📩 Phản hồi từ API:", response); // Debug
+            const updateData = {
+                club_name: values.name,
+                description: values.description,
+                province: provinceName,  
+                district: districtName,  
+                location: values.location,
+                avatar: avatarBase64 
+            };
+    
+            const response = await clubService.updateClub(clubInfo.club_id, updateData);
     
             if (response.success) {
                 message.success("Cập nhật thành công!");
-                onUpdate();  // Load lại thông tin mới từ API
-                onClose();   // Đóng modal sau khi cập nhật xong
+                onUpdate(); // Load lại thông tin mới từ API
+                onClose(); // Đóng modal sau khi cập nhật xong
             } else {
                 message.error(response.message || "Cập nhật thất bại");
             }
         } catch (error) {
-            console.error("Lỗi khi gửi request:", error);
             message.error(error.message || "Lỗi khi cập nhật");
         } finally {
             hideLoading();
         }
     };
+    
+    
     
 
     const normFile = (e) => {

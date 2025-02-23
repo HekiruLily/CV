@@ -1,3 +1,6 @@
+const fs = require("fs");
+const path = require("path");
+
 const ClubModel = require('../models/club.model');
 
 exports.getUserClubs = async (req, res) => {
@@ -166,65 +169,78 @@ exports.approveClubRequest = async (req, res) => {
         });
     }
 };
-//Chỉnh sửa thông tin CLB
+// Chỉnh sửa thông tin CLB
 exports.updateClubInfo = async (req, res) => {
-        try {
-            const { club_id } = req.params; // Lấy ID CLB từ URL
-            const userId = req.user.userId; // Lấy user_id từ token
-    
-            const updateData = {
-                club_name: req.body.club_name,
-                description: req.body.description,
-                province: req.body.province,
-                district: req.body.district,
-                location: req.body.location,
-                avatar: req.body.avatar
-            };
-            console.log("Body nhận được:", req.body);
-            
-            // Kiểm tra dữ liệu hợp lệ
-            if (!club_id || !updateData.club_name || !updateData.location || !updateData.province) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Vui lòng điền đầy đủ thông tin bắt buộc'
-                });
-            }
-    
-            // Kiểm tra quyền sửa CLB (chỉ admin mới được sửa)
-            const club = await ClubModel.getClubById(club_id);
-            if (!club) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Không tìm thấy CLB'
-                });
-            }
-    
-            if (club.created_by !== userId) {
-                return res.status(403).json({
-                    success: false,
-                    message: 'Bạn không có quyền chỉnh sửa CLB này'
-                });
-            }
-    
-            // Cập nhật thông tin CLB
-            const success = await ClubModel.updateClubInfo(club_id, updateData);
-            if (!success) {
-                return res.status(500).json({
-                    success: false,
-                    message: 'Cập nhật CLB thất bại'
-                });
-            }
-    
-            res.status(200).json({
-                success: true,
-                message: 'Cập nhật thông tin CLB thành công'
-            });
-        } catch (error) {
-            console.error('Update club info error:', error);
-            res.status(500).json({
+    try {
+        const { club_id } = req.params;
+        const userId = req.user.userId; // Lấy user_id từ token
+
+        let updateData = {
+            club_name: req.body.club_name,
+            description: req.body.description,
+            province: req.body.province,
+            district: req.body.district,
+            location: req.body.location
+        };
+
+        // Kiểm tra dữ liệu hợp lệ
+        if (!club_id || !updateData.club_name || !updateData.location || !updateData.province) {
+            return res.status(400).json({
                 success: false,
-                message: 'Đã xảy ra lỗi khi cập nhật thông tin CLB'
+                message: "Vui lòng điền đầy đủ thông tin bắt buộc"
             });
         }
-    };
+
+        // Kiểm tra quyền sửa CLB (chỉ admin mới được sửa)
+        const club = await ClubModel.getClubById(club_id);
+        if (!club) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy CLB"
+            });
+        }
+
+        if (club.created_by !== userId) {
+            return res.status(403).json({
+                success: false,
+                message: "Bạn không có quyền chỉnh sửa CLB này"
+            });
+        }
+
+        // Xử lý ảnh (nếu có)
+        if (req.body.avatar && req.body.avatar.startsWith("data:image")) {
+            const base64Data = req.body.avatar.replace(/^data:image\/\w+;base64,/, ""); // Loại bỏ tiền tố base64
+            const buffer = Buffer.from(base64Data, "base64");
+
+            const uploadPath = path.join(__dirname, "../uploads"); // Thư mục lưu ảnh
+            if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+
+            const fileName = `club_${club_id}_${Date.now()}.png`;
+            const filePath = path.join(uploadPath, fileName);
+
+            fs.writeFileSync(filePath, buffer); // Lưu ảnh vào thư mục
+            updateData.avatar = `/uploads/${fileName}`; // Cập nhật đường dẫn ảnh vào DB
+        }
+
+        // Cập nhật thông tin CLB
+        const success = await ClubModel.updateClubInfo(club_id, updateData);
+        if (!success) {
+            return res.status(500).json({
+                success: false,
+                message: "Cập nhật CLB thất bại"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Cập nhật thông tin CLB thành công"
+        });
+    } catch (error) {
+        console.error("Update club info error:", error);
+        res.status(500).json({
+            success: false,
+            message: "Đã xảy ra lỗi khi cập nhật thông tin CLB"
+        });
+    }
+};
 

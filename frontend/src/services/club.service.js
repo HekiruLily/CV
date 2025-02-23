@@ -140,6 +140,7 @@ const clubService = {
 
         return response.data;
     } catch (error) {
+
         throw error.response?.data || { message: 'Lỗi kết nối đến server' };
     }
 }
