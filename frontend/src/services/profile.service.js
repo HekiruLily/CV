@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/profile';
+const API_URL = 'http://localhost:5000/profile';
 
 class ProfileService {
     static async getProfile() {
