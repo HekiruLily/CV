@@ -1,124 +1,102 @@
 import React, { useState } from 'react';
+import { Form, Input, DatePicker, Select, message, Modal, Button } from 'antd';
+import moment from 'moment';
+import ProfileService from '../../../../services/profile.service';
 import './EditProfileModal.css';
 
-const EditProfileModal = ({ isOpen, onClose, profileData, onSave }) => {
-  const [formData, setFormData] = useState({
-    name: profileData.name || '',
-    email: profileData.email || '',
-    phone: profileData.phone || '',
-    location: profileData.location || '',
-    club: profileData.club || ''
-  });
+const { Option } = Select;
 
-  const handleChange = (e) => {
-    setFormData(prevState => ({
-      ...prevState,
-      [e.target.name]: e.target.value
-    }));
-  };
+const EditProfileModal = ({ visible, onClose, initialData, onSave }) => {
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onSave(formData);
-    onClose();
-  };
+    const handleSubmit = async (values) => {
+        try {
+            setLoading(true);
+            const formattedData = {
+                ...values,
+                birth_date: values.birth_date?.format('YYYY-MM-DD')
+            };
 
-  if (!isOpen) return null;
+            const response = await ProfileService.updateProfile(formattedData);
+            if (response.success) {
+                message.success('Cập nhật thông tin thành công');
+                onSave(formattedData);
+            }
+        } catch (error) {
+            message.error(error.message || 'Không thể cập nhật thông tin');
+        } finally {
+            setLoading(false);
+        }
+    };
 
-  return (
-    <div className="modal-overlay">
-      <div className="modal-content-small">
-        <div className="modal-header-sports">
-          <i className="fas fa-running header-icon"></i>
-          <h2>Chỉnh Sửa Hồ Sơ Runner</h2>
-          <button className="close-button" onClick={onClose}>
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
+    return (
+        <Modal
+            title="Chỉnh sửa thông tin"
+            visible={visible}
+            onCancel={onClose}
+            footer={null}
+        >
+            <Form
+                form={form}
+                layout="vertical"
+                initialValues={{
+                    ...initialData,
+                    birth_date: initialData.birth_date ? moment(initialData.birth_date) : null
+                }}
+                onFinish={handleSubmit}
+            >
+                <Form.Item
+                    name="full_name"
+                    label="Họ và tên"
+                    rules={[{ required: true, message: 'Vui lòng nhập họ tên' }]}
+                >
+                    <Input />
+                </Form.Item>
 
-        <form onSubmit={handleSubmit} className="edit-form-small">
-          <div className="form-group-small">
-            <div className="input-icon-wrapper">
-              <i className="fas fa-user input-icon" style={{color: '#3b82f6'}}></i>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Họ và tên"
-                className="input-with-icon"
-              />
-            </div>
-          </div>
+                <Form.Item
+                    name="phone"
+                    label="Số điện thoại"
+                    rules={[
+                        { pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/, message: 'Số điện thoại không hợp lệ' }
+                    ]}
+                >
+                    <Input />
+                </Form.Item>
 
-          <div className="form-group-small">
-            <div className="input-icon-wrapper">
-              <i className="fas fa-envelope input-icon" style={{color: '#10b981'}}></i>
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Email"
-                className="input-with-icon"
-              />
-            </div>
-          </div>
+                <Form.Item
+                    name="birth_date"
+                    label="Ngày sinh"
+                >
+                    <DatePicker format="DD/MM/YYYY" />
+                </Form.Item>
 
-          <div className="form-group-small">
-            <div className="input-icon-wrapper">
-              <i className="fas fa-phone input-icon" style={{color: '#f59e0b'}}></i>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Số điện thoại"
-                className="input-with-icon"
-              />
-            </div>
-          </div>
+                <Form.Item
+                    name="gender"
+                    label="Giới tính"
+                >
+                    <Select>
+                        <Option value="male">Nam</Option>
+                        <Option value="female">Nữ</Option>
+                        <Option value="other">Khác</Option>
+                    </Select>
+                </Form.Item>
 
-          <div className="form-group-small">
-            <div className="input-icon-wrapper">
-              <i className="fas fa-map-marker-alt input-icon" style={{color: '#ef4444'}}></i>
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleChange}
-                placeholder="Địa chỉ"
-                className="input-with-icon"
-              />
-            </div>
-          </div>
+                <Form.Item
+                    name="address"
+                    label="Địa chỉ"
+                >
+                    <Input />
+                </Form.Item>
 
-          <div className="form-group-small">
-            <div className="input-icon-wrapper">
-              <i className="fas fa-running input-icon" style={{color: '#8b5cf6'}}></i>
-              <input
-                type="text"
-                name="club"
-                value={formData.club}
-                onChange={handleChange}
-                placeholder="Câu lạc bộ"
-                className="input-with-icon"
-              />
-            </div>
-          </div>
-
-          <div className="form-actions-small">
-            <button type="button" onClick={onClose} className="cancel-button-small">
-              <i className="fas fa-times"></i> Hủy
-            </button>
-            <button type="submit" className="save-button-small">
-              <i className="fas fa-medal"></i> Cập nhật
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+                <Form.Item>
+                    <Button type="primary" htmlType="submit" loading={loading}>
+                        Lưu thay đổi
+                    </Button>
+                </Form.Item>
+            </Form>
+        </Modal>
+    );
 };
 
 export default EditProfileModal;

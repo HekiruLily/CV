@@ -1,37 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddAchievementModal from '../Edit/Add/AddAchievementModal';
 import AchievementCard from './AchievementsCard';
 import Filters from './Filters';
 import './Achievements.css';
-import certification1 from '../certification1.jpg';
+import profileService from '../../../services/profile.service';
+import { message } from 'antd';
+import runningRecordService from '../../../services/runningRecord.service';
 
 const Achievements = () => {
-    const [achievements, setAchievements] = useState([
-        {
-            id: 1,
-            title: 'Marathon Long Biên',
-            type: 'Full Marathon',
-            date: '2024-03-15',
-            time: '4:30:00',
-            pace: '6:23 min/km',
-            distance: '42 km',
-            imageId: 'image1',
-            imageSrc: certification1
-        },
-        {
-            id: 2,
-            title: 'VM Hanoi Midnight',
-            type: 'Half Marathon',
-            date: '2024-02-20',
-            time: '4:30:00',
-            pace: '6:23 min/km',
-            distance: '42 km',
-            imageId: 'image2',
-            imageSrc: certification1
-        } 
-    ]);
-
+    const [achievements, setAchievements] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        loadAchievements();
+    }, []);
+
+    const loadAchievements = async () => {
+        try {
+            setLoading(true);
+            const response = await profileService.getProfile();
+
+            if (response.success) {
+                // Giả sử response.data.achievements chứa danh sách thành tích
+                const formattedAchievements = response.data.achievements.map(achievement => ({
+                    id: achievement.record_id,
+                    title: achievement.race_name,
+                    type: achievement.surface_type,
+                    date: achievement.run_date,
+                    time: formatTime(achievement.duration),
+                    pace: calculatePace(achievement.duration, achievement.distance),
+                    distance: `${achievement.distance} km`,
+                    imageId: achievement.image_id,
+                    imageSrc: achievement.image_url
+                }));
+                console.log(formattedAchievements);
+                setAchievements(formattedAchievements);
+            }
+        } catch (error) {
+            message.error('Không thể tải thành tích');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    // Hàm chuyển đổi seconds thành format HH:mm:ss
+    const formatTime = (seconds) => {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    };
+
+    // Hàm tính pace (phút/km)
+    const calculatePace = (duration, distance) => {
+        const paceInSeconds = duration / distance;
+        const paceMinutes = Math.floor(paceInSeconds / 60);
+        const paceSeconds = Math.round(paceInSeconds % 60);
+        return `${paceMinutes}:${String(paceSeconds).padStart(2, '0')} min/km`;
+    };
 
     const handleOpenModal = () => {
         setIsModalOpen(true);
@@ -39,6 +66,10 @@ const Achievements = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleAddSuccess = async (newAchievement) => {
+        await loadAchievements(); // Tải lại danh sách thành tích sau khi thêm mới
     };
 
     const handleSearch = (sortType, distance) => {
@@ -60,9 +91,16 @@ const Achievements = () => {
         setAchievements(filteredAchievements);
     };
 
-    const handleDeleteAchievement = (id) => {
-        const updatedAchievements = achievements.filter(achievement => achievement.id !== id);
-        setAchievements(updatedAchievements);
+    const handleDeleteAchievement = async (id) => {
+        try {
+            const response = await runningRecordService.deleteRecord(id);
+            if (response.success) {
+                await loadAchievements(); // Tải lại danh sách sau khi xóa
+                message.success('Xóa thành tích thành công');
+            }
+        } catch (error) {
+            message.error('Không thể xóa thành tích');
+        }
     };
 
     return (
@@ -79,9 +117,9 @@ const Achievements = () => {
                 <AddAchievementModal 
                     isOpen={isModalOpen}
                     onClose={handleCloseModal}
+                    onSuccess={handleAddSuccess}
                 />
             </div>
-
 
             <div className="achievement-list">
                 {achievements.map(achievement => (
