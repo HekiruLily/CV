@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import ProfileCard from './ProfileCard/ProfileCard';
 import StatsGrid from './StatsGrid/StatsGrid';
@@ -12,11 +12,10 @@ const Profile = () => {
     const { showLoading, hideLoading } = useGlobal();
     const [profileData, setProfileData] = useState(null);
 
-    useEffect(() => {
-        fetchProfileData();
-    }, []);
-
-    const fetchProfileData = async () => {
+    /**
+     * 📌 Hàm lấy dữ liệu profile, sử dụng useCallback để tránh render lại không cần thiết.
+     */
+    const fetchProfileData = useCallback(async () => {
         try {
             showLoading('Đang tải thông tin...');
             const response = await profileService.getProfile();
@@ -28,11 +27,16 @@ const Profile = () => {
         } finally {
             hideLoading();
         }
-    };
+    }, [showLoading, hideLoading]);
 
-    if (!profileData) {
-        return null;
-    }
+    /**
+     * 🎯 useEffect sẽ chỉ gọi lại fetchProfileData khi nó thay đổi, tránh cảnh báo ESLint.
+     */
+    useEffect(() => {
+        fetchProfileData();
+    }, [fetchProfileData]);
+
+    if (!profileData) return null;
 
     return (
         <MainLayout>
@@ -42,7 +46,7 @@ const Profile = () => {
                         <ProfileCard
                             basicInfo={profileData.basic_info}
                             clubs={profileData.clubs}
-                            onProfileUpdate={fetchProfileData}
+                            onProfileUpdate={fetchProfileData} // ✅ Tự động cập nhật avatar mà không cần reload
                         />
                         <div className="container">
                             <StatsGrid

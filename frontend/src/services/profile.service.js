@@ -8,12 +8,12 @@ class ProfileService {
             const response = await axios.get(`${API_URL}/me`, {
                 withCredentials: true
             });
-
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Lỗi kết nối đến server' };
         }
     }
+
 
     static async updateProfile(profileData) {
         try {
@@ -28,17 +28,20 @@ class ProfileService {
 
     static async updateAvatar(formData) {
         try {
-            const response = await axios.patch(`${API_URL}/me/avatar`, formData, {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'multipart/form-data'
+            const response = await axios.patch(
+                'http://localhost:5000/profile/me/avatar',
+                formData,
+                {
+                    withCredentials: true,
+                    headers: { 'Content-Type': 'multipart/form-data' }
                 }
-            });
+            );
             return response.data;
         } catch (error) {
             throw error.response?.data || { message: 'Lỗi khi cập nhật avatar' };
         }
     }
-}
+};
+
 
 export default ProfileService;
