@@ -50,9 +50,10 @@ const Introduction = () => {
                 </div>
                 
                 <div className="content-section">
+
                     <img 
-                        src={clubInfo.avatar || 'default_club_image.jpg'}
-                        alt="Club Image" 
+                        src={clubInfo.avatar || 'https://images4.alphacoders.com/136/thumb-1920-1369866.png'}
+                        alt="Club" 
                         className="club-image"
                     />
 
