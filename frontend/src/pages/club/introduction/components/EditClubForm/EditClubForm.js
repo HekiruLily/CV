@@ -50,11 +50,11 @@ const EditClubForm = ({ visible, onClose, clubInfo, onUpdate }) => {
     
         try {
             const formData = new FormData();
-formData.append("name", values.name);
-formData.append("description", values.description);
-formData.append("province", values.province);
-formData.append("district", values.district);
-formData.append("location", values.location);
+            formData.append("name", values.name);
+            formData.append("description", values.description);
+            formData.append("province", values.province);
+            formData.append("district", values.district);
+            formData.append("location", values.location);
 
 // Trích xuất file từ mảng clubImage
 if (values.clubImage && values.clubImage.length > 0) {
