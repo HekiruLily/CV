@@ -1,39 +1,79 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
+import runningRecordService from '../../../../services/runningRecord.service';
+import TournamentService from '../../../../services/tournament.service';
+import TournamentSelect from './components/TournamentSelect';
+import DistanceSelect from './components/DistanceSelect';
+import TimeSelect from './components/TimeSelect';
+import ImageUpload from './components/ImageUpload';
 import './AddAchievementModal.css';
 
-const AddAchievementModal = ({ isOpen, onClose }) => {
+const AddAchievementModal = ({ isOpen, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
-    raceName: '',
-    raceType: '',
+    race_name: '',
+    race_year: '',
     distance: '',
-    hours: '',
-    minutes: '',
-    seconds: '',
-    paceMinutes: '',
-    paceSeconds: '',
+    duration: '',
+    surface_type: '',
+    run_date: new Date().toISOString().split('T')[0],
     image: null
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [tournamentYears, setTournamentYears] = useState([]);
+  const [selectedTournament, setSelectedTournament] = useState(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      loadTournaments();
+    }
+  }, [isOpen]);
+
+  const loadTournaments = async () => {
+    try {
+      const response = await TournamentService.getAllTournaments();
+      if (response.success) {
+        setTournaments(response.data);
+        const years = response.data.reduce((acc, tournament) => {
+          const startYear = new Date(tournament.tournament_start_date).getFullYear();
+          if (!acc.includes(startYear)) {
+            acc.push(startYear);
+          }
+          return acc;
+        }, []);
+        setTournamentYears(years.sort((a, b) => b - a));
+      }
+    } catch (error) {
+      message.error('Không thể tải danh sách giải đấu');
+    }
   };
 
-  const handleFileChange = (e) => {
-    setFormData(prevState => ({
-      ...prevState,
-      image: e.target.files[0]
-    }));
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Xử lý submit form
-    console.log(formData);
-    onClose();
+    setLoading(true);
+    try {
+      const recordData = {
+        race_name: formData.race_name,
+        race_year: formData.race_year,
+        distance: parseFloat(formData.distance),
+        duration: formData.duration,
+        surface_type: formData.surface_type,
+        run_date: formData.run_date
+      };
+
+      const response = await runningRecordService.createRecord(recordData);
+      
+      if (response.success) {
+        message.success('Thêm thành tích thành công');
+        onSuccess && onSuccess(response.data);
+        onClose();
+      }
+    } catch (error) {
+      message.error(error.message || 'Lỗi khi thêm thành tích');
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -42,121 +82,48 @@ const AddAchievementModal = ({ isOpen, onClose }) => {
     <div className="achievement-modal-overlay">
       <div className="achievement-modal-content">
         <div className="achievement-modal-header">
-            <h2>
-                <i className="fas fa-trophy" style={{color: '#ff6b6b', marginRight: '10px'}}></i>
-                Thêm thành tích mới
-            </h2>
-            <button className="close-button" onClick={onClose}>
-                <i className="fas fa-times"></i>
-            </button>
+          <h2>
+            <i className="fas fa-trophy" style={{color: '#ff6b6b', marginRight: '10px'}}></i>
+            Thêm thành tích mới
+          </h2>
+          <button className="close-button" onClick={onClose}>
+            <i className="fas fa-times"></i>
+          </button>
         </div>
 
         <form onSubmit={handleSubmit} className="achievement-form">
-          <div className="form-group">
-            <label>Tên giải</label>
-            <select 
-              name="raceName" 
-              value={formData.raceName}
-              onChange={handleChange}
-              className="form-select"
-            >
-              <option value="">Chọn giải chạy</option>
-              <option value="VnExpress Marathon">VnExpress Marathon</option>
-              <option value="Longbien Marathon">Longbien Marathon</option>
-              <option value="Trail Running">Trail Running</option>
-            </select>
-          </div>
+          <TournamentSelect
+            tournaments={tournaments}
+            tournamentYears={tournamentYears}
+            selectedTournament={selectedTournament}
+            formData={formData}
+            setFormData={setFormData}
+            setSelectedTournament={setSelectedTournament}
+            setTournamentYears={setTournamentYears}
+          />
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Hình thức</label>
-              <select 
-                name="raceType" 
-                value={formData.raceType}
-                onChange={handleChange}
-                className="form-select"
-              >
-                <option value="">Chọn hình thức</option>
-                <option value="Full Marathon">Full Marathon</option>
-                <option value="Half Marathon">Half Marathon</option>
-                <option value="10K">10K</option>
-                <option value="5K">5K</option>
-              </select>
-            </div>
+          <DistanceSelect
+            formData={formData}
+            setFormData={setFormData}
+          />
 
-            <div className="form-group">
-              <label>Khoảng cách</label>
-              <div className="distance-input">
-                <input
-                  type="number"
-                  name="distance"
-                  value={formData.distance}
-                  onChange={handleChange}
-                  placeholder="Khoảng cách"
-                />
-                <span className="unit">km</span>
-              </div>
-            </div>
-          </div>
+          <TimeSelect
+            formData={formData}
+            setFormData={setFormData}
+          />
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Thời gian hoàn thành</label>
-              <div className="time-inputs">
-                <input
-                  type="number"
-                  name="hours"
-                  value={formData.hours}
-                  onChange={handleChange}
-                  placeholder="HH"
-                  min="0"
-                  max="23"
-                />
-                <input
-                  type="number"
-                  name="minutes"
-                  value={formData.minutes}
-                  onChange={handleChange}
-                  placeholder="MM"
-                  min="0"
-                  max="59"
-                />
-                <input
-                  type="number"
-                  name="seconds"
-                  value={formData.seconds}
-                  onChange={handleChange}
-                  placeholder="SS"
-                  min="0"
-                  max="59"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <label>Hình ảnh</label>
-            <div className="file-input-wrapper">
-              <input
-                type="file"
-                onChange={handleFileChange}
-                accept="image/*"
-                id="achievement-image"
-              />
-              <label htmlFor="achievement-image" className="file-input-label">
-                <i className="fas fa-cloud-upload-alt"></i>
-                {formData.image ? formData.image.name : 'Chọn tệp'}
-              </label>
-            </div>
-          </div>
+          <ImageUpload
+            formData={formData}
+            setFormData={setFormData}
+          />
 
           <div className="form-actions">
             <button type="button" className="cancel-button" onClick={onClose}>
               Hủy
             </button>
             <button type="submit" className="submit-button">
-                <i className="fas fa-medal" style={{fontSize: '1.2rem'}}></i>
-                Thêm thành tích
+              <i className="fas fa-medal" style={{fontSize: '1.2rem'}}></i>
+              Thêm thành tích
             </button>
           </div>
         </form>

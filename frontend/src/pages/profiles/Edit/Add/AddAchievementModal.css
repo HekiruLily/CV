@@ -87,9 +87,17 @@
   }
   
   .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .tournament-select {
+    flex: 2;
+  }
+  
+  .year-select {
+    flex: 1;
   }
   
   label {
@@ -98,11 +106,30 @@
   }
   
   .form-select {
-    padding: 0.75rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    font-size: 1rem;
     width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.5rem;
+    background-color: white;
+    color: #1a202c;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .form-select:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+    outline: none;
+  }
+  
+  .form-select option {
+    padding: 0.5rem;
+  }
+  
+  .form-select:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    opacity: 0.7;
   }
   
   .distance-input {
@@ -181,14 +208,9 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  .form-select {
-    background-color: #f8f9fa;
-    border: 2px solid #e9ecef;
-    transition: all 0.3s ease;
-  }
   
-  .form-select:hover {
-    border-color: #ff6b6b;
+  .cancel-button:hover {
+    background: #f3f4f6;
   }
   
   .submit-button {
@@ -206,10 +228,6 @@
     text-transform: uppercase;
     letter-spacing: 0.5px;
     padding: 0.85rem 2rem;
-  }
-  
-  .cancel-button:hover {
-    background: #f3f4f6;
   }
   
   .submit-button:hover {
@@ -263,3 +281,24 @@ label::before {
   label[for="achievement-image"]::before {
     content: "\f03e";
   }
+
+.time-picker {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.time-picker:hover {
+    border-color: #ff6b6b;
+}
+
+.time-picker .ant-picker-input input {
+    font-size: 1rem;
+    color: #1a202c;
+}
+
+.time-picker.ant-picker-focused {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
