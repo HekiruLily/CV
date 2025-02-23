@@ -1,6 +1,6 @@
 import React from 'react';
 
-const distances = ['Xếp thứ của mọi người', 'Full Marathon Sub 4 (Nam)', 'Full Marathon Sub 4 (Nữ)', 'Full Marathon Sub 145 (Nam)', 'Half Marathon Sub 2 (Nam)', 'Half Marathon Sub 2 (Nữ)'];
+const distances = ['Xếp thứ của mọi người', 'Full Marathon (Nam)', 'Full Marathon (Nữ)', 'Half Marathon (Nam)', 'Half Marathon (Nữ)'];
 
 const DistanceButtons = ({ selectedDistance, onDistanceSelect }) => {
   return (

@@ -56,13 +56,6 @@
   background-color: white;
 }
 
-.runner-info {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
 .runner-info h3 {
   font-weight: 500;
 }
@@ -72,6 +65,12 @@
   height: 60px;
   border-radius: 50%;
   margin: auto;
+}
+
+.medal-container{
+  position: relative;
+  top: -60px;
+  right: -20px;
 }
 
 .runner-details h3 {
@@ -190,9 +189,4 @@
   background-color: #000000;
   color: white;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Increase shadow on hover */
-}
-
-.medal-icon {
-  width: 20px; 
-  height: 20px; 
 }

@@ -39,17 +39,23 @@ const clubService = {
 
   createClubRequest: async (clubData) => {
     try {
-      const response = await axios.post(`${API_URL}/request`, {
-        club_name: clubData.clubName,
-        club_code: clubData.clubCode,
-        description: clubData.description,
-        province: clubData.province,
-        district: clubData.district,
-        location: clubData.ward, // Sử dụng ward làm location
-        avatar: clubData.clubImage?.[0]?.thumbUrl || null
-      }, {
-        withCredentials: true
+      const formData = new FormData();
+      formData.append('club_name', clubData.clubName);
+      formData.append('club_code', clubData.clubCode);
+      formData.append('description', clubData.description);
+      formData.append('province', clubData.province);
+      formData.append('district', clubData.district);
+      formData.append('location', clubData.ward);
+
+      if (clubData.clubImage && clubData.clubImage[0]?.originFileObj) {
+        formData.append('avatar', clubData.clubImage[0].originFileObj);
+      }
+
+      const response = await axios.post(`${API_URL}/request`, formData, {
+        withCredentials: true,
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
+
       return response.data;
     } catch (error) {
       throw error.response?.data || { message: 'Lỗi kết nối đến server' };
