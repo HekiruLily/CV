@@ -29,7 +29,7 @@ class ProfileService {
     static async updateAvatar(formData) {
         try {
             const response = await axios.patch(
-                'http://localhost:5000/profile/me/avatar',
+                `${API_URL}/me/avatar`,
                 formData,
                 {
                     withCredentials: true,

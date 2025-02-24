@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
     EnvironmentOutlined,
     MailOutlined,
@@ -13,73 +13,82 @@ import defaultAvatar from '../avata.png';
 import ProfileService from '../../../services/profile.service';
 import './ProfileCard.css';
 
-const ProfileCard = ({ basicInfo, clubs, onProfileUpdate }) => {
+const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [avatarUrl, setAvatarUrl] = useState(
-        basicInfo.avatar ? `http://localhost:5000${basicInfo.avatar}` : defaultAvatar
-    );
-
-    useEffect(() => {
-        // Cập nhật URL avatar nếu dữ liệu thay đổi
-        setAvatarUrl(basicInfo.avatar ? `http://localhost:5000${basicInfo.avatar}` : defaultAvatar);
-    }, [basicInfo.avatar]);
+    
+    const avatarUrl = useMemo(() => {
+        if (!basicInfo?.avatar) return defaultAvatar;
+        return `http://localhost:5000${basicInfo.avatar}`;
+    }, [basicInfo?.avatar]);
 
     const latestClub = clubs?.[0];
 
-    const profileInfo = [
+    const profileInfo = useMemo(() => [
         {
             icon: <EnvironmentOutlined />,
             color: '#ef4444',
-            text: basicInfo.address || 'Chưa cập nhật địa chỉ',
+            text: basicInfo?.address || 'Chưa cập nhật địa chỉ',
         },
         {
             icon: <MailOutlined />,
             color: '#3b82f6',
-            text: basicInfo.email,
+            text: basicInfo?.email,
         },
         {
             icon: <PhoneOutlined />,
             color: '#10b981',
-            text: basicInfo.phone || 'Chưa cập nhật số điện thoại',
+            text: basicInfo?.phone || 'Chưa cập nhật số điện thoại',
         },
         {
             icon: <TeamOutlined />,
             color: '#f59e0b',
             text: latestClub ? `${latestClub.name} (${latestClub.role})` : 'Chưa tham gia CLB',
         },
-    ];
+    ], [basicInfo, latestClub]);
 
     const handleEditClick = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
 
     const handleSaveProfile = async (updatedData) => {
         try {
-            await ProfileService.updateProfile(updatedData);
-            onProfileUpdate();
-            setIsModalOpen(false);
-            message.success('🎉 Cập nhật thông tin thành công');
+            const response = await ProfileService.updateProfile(updatedData);
+            if (response.success) {
+                onInfoUpdate();
+                setIsModalOpen(false);
+                message.success('🎉 Cập nhật thông tin thành công');
+            }
         } catch (error) {
             message.error(error.message || '❌ Không thể cập nhật thông tin');
         }
     };
 
-    // ✅ Xử lý cập nhật avatar
     const handleAvatarChange = async ({ file }) => {
-        if (file.status === 'uploading') return;
+        if (file.status !== 'done' && !file.originFileObj) return;
 
-        if (file.status === 'done' || file.originFileObj) {
-            const formData = new FormData();
-            formData.append('avatar', file.originFileObj);
+        const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        const isLt2M = file.size / 1024 / 1024 < 2;
 
-            try {
-                const updatedProfile = await ProfileService.updateAvatar(formData);
-                // 🕒 Cập nhật avatar ngay lập tức với timestamp để tránh cache
-                setAvatarUrl(`http://localhost:5000${updatedProfile.avatar}?t=${Date.now()}`);
+        if (!isJpgOrPng) {
+            message.error('❌ Chỉ hỗ trợ định dạng JPG/PNG!');
+            return;
+        }
+
+        if (!isLt2M) {
+            message.error('❌ Ảnh phải nhỏ hơn 2MB!');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('avatar', file.originFileObj);
+
+        try {
+            const response = await ProfileService.updateAvatar(formData);
+            if (response.success) {
+                onProfileUpdate(response.avatarUrl);
                 message.success('🎉 Cập nhật ảnh đại diện thành công');
-                onProfileUpdate(); // Gọi callback để cập nhật thông tin
-            } catch (error) {
-                message.error(error.message || '❌ Lỗi khi cập nhật ảnh đại diện');
             }
+        } catch (error) {
+            message.error(error.message || '❌ Lỗi khi cập nhật ảnh đại diện');
         }
     };
 
@@ -91,14 +100,13 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate }) => {
                         src={avatarUrl}
                         alt="avatar"
                         className="avatar"
-                        onError={(e) => (e.target.src = defaultAvatar)} // 🛡 Nếu ảnh lỗi, fallback về mặc định
+                        onError={(e) => (e.target.src = defaultAvatar)}
                     />
                     <Upload
                         showUploadList={false}
                         customRequest={({ file, onSuccess }) => setTimeout(() => onSuccess('ok'), 0)}
                         beforeUpload={(file) => {
-                            const isJpgOrPng =
-                                file.type === 'image/jpeg' || file.type === 'image/png';
+                            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
                             if (!isJpgOrPng) message.error('❌ Chỉ hỗ trợ định dạng JPG/PNG!');
                             const isLt2M = file.size / 1024 / 1024 < 2;
                             if (!isLt2M) message.error('❌ Ảnh phải nhỏ hơn 2MB!');

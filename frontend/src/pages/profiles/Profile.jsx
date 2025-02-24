@@ -12,12 +12,23 @@ const Profile = () => {
     const { showLoading, hideLoading } = useGlobal();
     const [profileData, setProfileData] = useState(null);
 
-    /**
-     * 📌 Hàm lấy dữ liệu profile, sử dụng useCallback để tránh render lại không cần thiết.
-     */
-    const fetchProfileData = useCallback(async () => {
+    // Tối ưu hàm cập nhật avatar
+    const handleAvatarUpdate = useCallback((newAvatarUrl) => {
+        setProfileData(prev => prev && ({
+            ...prev,
+            basic_info: {
+                ...prev.basic_info,
+                avatar: newAvatarUrl
+            }
+        }));
+    }, []);
+
+    // Tối ưu hàm fetch data
+    const fetchProfileData = useCallback(async (showLoadingIndicator = true) => {
         try {
-            showLoading('Đang tải thông tin...');
+            if (showLoadingIndicator) {
+                showLoading('Đang tải thông tin...');
+            }
             const response = await profileService.getProfile();
             if (response.success) {
                 setProfileData(response.data);
@@ -25,16 +36,16 @@ const Profile = () => {
         } catch (error) {
             message.error(error.message || 'Không thể tải thông tin người dùng');
         } finally {
-            hideLoading();
+            if (showLoadingIndicator) {
+                hideLoading();
+            }
         }
     }, [showLoading, hideLoading]);
 
-    /**
-     * 🎯 useEffect sẽ chỉ gọi lại fetchProfileData khi nó thay đổi, tránh cảnh báo ESLint.
-     */
+    // Chỉ gọi API một lần khi component mount
     useEffect(() => {
         fetchProfileData();
-    }, [fetchProfileData]);
+    }, []); // Bỏ fetchProfileData khỏi dependencies
 
     if (!profileData) return null;
 
@@ -46,7 +57,8 @@ const Profile = () => {
                         <ProfileCard
                             basicInfo={profileData.basic_info}
                             clubs={profileData.clubs}
-                            onProfileUpdate={fetchProfileData} // ✅ Tự động cập nhật avatar mà không cần reload
+                            onProfileUpdate={handleAvatarUpdate}
+                            onInfoUpdate={() => fetchProfileData(false)}
                         />
                         <div className="container">
                             <StatsGrid

@@ -2,10 +2,10 @@ const express = require('express');
 const app = express();
 const port = 5000;
 const cors = require('cors');
-const authRoutes = require('./routes/auth.routes');
-const clubRoutes = require('./routes/club.routes');
-const profileRoutes = require('./routes/profile.routes');
-const tournamentRoutes = require('./routes/tournament.routes');
+const authRoutes = require('./src/routes/auth.routes');
+const clubRoutes = require('./src/routes/club.routes');
+const profileRoutes = require('./src/routes/profile.routes');
+const tournamentRoutes = require('./src/routes/tournament.routes');
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());

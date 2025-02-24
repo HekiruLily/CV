@@ -46,7 +46,6 @@ const clubService = {
       formData.append('province', clubData.province);
       formData.append('district', clubData.district);
       formData.append('location', clubData.ward);
-      formData.append('uploadDir', 'uploads/club_avatars/');
       
       if (clubData.clubImage && clubData.clubImage[0]?.originFileObj) {
         formData.append('avatar', clubData.clubImage[0].originFileObj);
