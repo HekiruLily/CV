@@ -21,7 +21,7 @@ const MemberList = () => {
     const [editingMember, setEditingMember] = useState(null);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
-
+    
     useEffect(() => {
         fetchMembers(activeTab);
     }, [activeTab, clubCode]);

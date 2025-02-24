@@ -5,7 +5,7 @@ import {
   UsergroupAddOutlined, 
   TeamOutlined,
   InfoCircleOutlined,
-  UserOutlined
+  UserOutlined,
 } from '@ant-design/icons';
 import clubService from '../../services/club.service';
 import './sidebar.css';
@@ -19,7 +19,8 @@ const Sidebar = () => {
   const { 
     showLoading, 
     hideLoading,
-    setIsJoinClubModalOpen 
+    setIsJoinClubModalOpen,
+    user
   } = useGlobal();
   const [clubs, setClubs] = useState([]);
   const navigate = useNavigate();
@@ -59,6 +60,10 @@ const Sidebar = () => {
     setIsJoinClubModalOpen(true);
   };
 
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
     <Sider className="sb-container" width={300}>
       <div className="sb-header">
@@ -75,11 +80,9 @@ const Sidebar = () => {
       </div>
 
       <Button 
-        type="primary"
         className="sb-join-btn"
         icon={<UsergroupAddOutlined />}
         block
-        size="large"
         onClick={handleJoinClub}
       >
         Tham gia câu lạc bộ
@@ -129,4 +132,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

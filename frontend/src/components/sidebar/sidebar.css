@@ -1,8 +1,9 @@
 .sb-container {
-  background: #fff !important;
+  background: linear-gradient(to bottom, #ffffff, #f8fafc) !important;
   padding: 12px !important;
   height: 100vh;
   width: 280px !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
 }
 
 .sb-header {
@@ -10,12 +11,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 16px;
+  padding: 8px;
+  background: #f0f7ff;
+  border-radius: 8px;
 }
 
 .sb-title {
   font-size: 14px;
-  font-weight: 500;
-  color: #333;
+  font-weight: 600;
+  color: #1a1a1a;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -27,16 +31,104 @@
   height: 32px !important;
   padding: 0 !important;
   border-radius: 8px !important;
+  background: #4096ff !important;
+  color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sb-join-btn {
   margin-bottom: 16px;
   height: 36px !important;
   font-size: 13px !important;
+  background: #f0f7ff !important;
+  color: #4096ff !important;
+  border: 1px solid #4096ff !important;
+  border-radius: 8px !important;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.sb-join-btn:hover {
+  background: #4096ff !important;
+  color: white !important;
 }
 
 .sb-clubs-list {
   border-right: none !important;
+  margin-top: 16px;
+}
+
+.sb-club-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.sb-club-avatar {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f5ff 100%) !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  color: #4096ff !important;
+}
+
+.sb-profile-section {
+  padding: 16px;
+  text-align: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e6f7ff 0%, #f0f5ff 100%);
+  margin-bottom: 16px;
+}
+
+.sb-profile-avatar {
+  width: 64px !important;
+  height: 64px !important;
+  margin: 0 auto 12px;
+  border: 3px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sb-profile-info h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.sb-profile-info p {
+  margin: 4px 0;
+  color: #4096ff;
+  font-size: 14px;
+}
+
+.sb-profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #666;
+  font-size: 13px;
+}
+
+.stat-icon {
+  color: #4096ff;
+  font-size: 16px;
 }
 
 .sb-club-item {
@@ -157,4 +249,4 @@
   width: 32px !important;
   height: 32px !important;
   font-size: 12px !important;
-} 
+}

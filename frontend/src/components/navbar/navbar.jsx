@@ -23,7 +23,7 @@ const Nav = () => {
 
   const userMenu = (
     <Menu>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
+      <Menu.Item key="profile" icon={<UserOutlined />} onClick={() => navigate('/profile')}> 
         Thông tin cá nhân
       </Menu.Item>
       <Menu.Divider />
@@ -62,7 +62,7 @@ const Nav = () => {
           <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
             <div className="user-profile">
               <Avatar size="small" icon={<UserOutlined />} className="user-avatar" />
-              <span className="username">{user.email}</span>
+              <span className="username">{user.full_name}</span>
             </div>
           </Dropdown>
         ) : (
