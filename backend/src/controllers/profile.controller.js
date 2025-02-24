@@ -1,7 +1,7 @@
 const ProfileModel = require('../models/profile.model');
 const { validatePhone } = require('../utils/validation');
 const { format } = require('date-fns');
-const { getUploadPath } = require('../middlewares/upload');
+const { getUploadPath, deleteFile } = require('../middlewares/upload');
 
 
 exports.getUserProfile = async (req, res) => {
@@ -102,27 +102,44 @@ exports.updateProfile = async (req, res) => {
 exports.updateAvatar = async (req, res) => {
     try {
         const userId = req.user.userId;
-        
+
         if (!req.file) {
             return res.status(400).json({
                 success: false,
-                message: 'Vui lòng tải lên một file ảnh'
+                message: ' Vui lòng tải lên một file ảnh'
             });
         }
 
-        const avatarUrl = getUploadPath(req.file.filename, 'avatar');
-        await ProfileModel.updateAvatar(userId, avatarUrl);
+        // Lấy thông tin avatar cũ từ database
+        const oldProfile = await ProfileModel.getUserProfile(userId);
+        const oldAvatar = oldProfile ? oldProfile.avatar : null;
 
-        res.json({
-            success: true,
-            message: 'Cập nhật ảnh đại diện thành công',
-            avatarUrl: avatarUrl
-        });
+        // Xóa avatar cũ nếu có
+        if (oldAvatar) {
+            deleteFile(oldAvatar);
+        }
+
+        //  Lưu avatar mới
+        const avatarUrl = getUploadPath(req.file.filename, 'avatar');
+        const updated = await ProfileModel.updateAvatar(userId, avatarUrl);
+
+        if (updated) {
+            res.json({
+                success: true,
+                message: 'Cập nhật ảnh đại diện thành công',
+                avatarUrl: avatarUrl
+            });
+        } else {
+            res.status(400).json({
+                success: false,
+                message: '❌ Không thể cập nhật ảnh đại diện'
+            });
+        }
     } catch (error) {
-        console.error('Lỗi khi cập nhật ảnh đại diện:', error);
+        console.error('❌ Lỗi khi cập nhật ảnh đại diện:', error);
         res.status(500).json({
             success: false,
-            message: 'Đã xảy ra lỗi khi cập nhật ảnh đại diện'
+            message: '❌ Đã xảy ra lỗi khi cập nhật ảnh đại diện'
         });
     }
 };

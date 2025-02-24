@@ -39,13 +39,13 @@ exports.createClubRequest = async (req, res) => {
         }
 
         const requestId = await ClubModel.createClubRequest(requestData);
-        res.status(201).json({ 
-            success: true, 
-            message: 'Gửi yêu cầu tạo CLB thành công', 
-            data: { 
+        res.status(201).json({
+            success: true,
+            message: 'Gửi yêu cầu tạo CLB thành công',
+            data: {
                 request_id: requestId,
-                avatarUrl: requestData.avatar 
-            } 
+                avatarUrl: requestData.avatar
+            }
         });
 
     } catch (error) {

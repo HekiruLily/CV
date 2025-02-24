@@ -1,4 +1,6 @@
 const db = require('../configs/database');
+const fs = require('fs');
+const path = require('path');
 
 class ProfileModel {
     static async getUserProfile(userId) {
@@ -119,6 +121,23 @@ class ProfileModel {
 
     static async updateAvatar(userId, avatarUrl) {
         try {
+            // Lấy đường dẫn ảnh cũ
+            const [rows] = await db.promise().query(
+                'SELECT avatar FROM user_profiles WHERE user_id = ?',
+                [userId]
+            );
+
+            const oldAvatar = rows[0]?.avatar;
+            if (oldAvatar) {
+                const oldAvatarPath = path.join(__dirname, '..', 'uploads', oldAvatar);
+                // Xóa ảnh cũ nếu tồn tại
+                if (fs.existsSync(oldAvatarPath)) {
+                    fs.unlinkSync(oldAvatarPath);
+                    console.log(`✅ Đã xóa ảnh cũ: ${oldAvatarPath}`);
+                }
+            }
+
+            // Cập nhật ảnh mới trong DB
             const [result] = await db.promise().query(
                 'UPDATE user_profiles SET avatar = ? WHERE user_id = ?',
                 [avatarUrl, userId]
