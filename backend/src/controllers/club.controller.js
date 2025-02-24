@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ClubModel = require('../models/club.model');
+const { getUploadPath } = require('../middlewares/upload');
 
 exports.getUserClubs = async (req, res) => {
     try {
@@ -33,7 +34,7 @@ exports.createClubRequest = async (req, res) => {
             province: req.body.province,
             district: req.body.district,
             location: req.body.location,
-            avatar: req.file ? req.file.path.replace(/\\/g, '/') : null
+            avatar: req.file ? getUploadPath(req.file.filename, 'club') : null
         };
 
         if (!requestData.club_name || !requestData.location || !requestData.province) {
@@ -41,7 +42,14 @@ exports.createClubRequest = async (req, res) => {
         }
 
         const requestId = await ClubModel.createClubRequest(requestData);
-        res.status(201).json({ success: true, message: 'Gửi yêu cầu tạo CLB thành công', data: { request_id: requestId } });
+        res.status(201).json({ 
+            success: true, 
+            message: 'Gửi yêu cầu tạo CLB thành công', 
+            data: { 
+                request_id: requestId,
+                avatarUrl: requestData.avatar 
+            } 
+        });
 
     } catch (error) {
         console.error('Lỗi khi gửi yêu cầu:', error);

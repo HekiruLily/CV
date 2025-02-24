@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { message } from 'antd';
 import ProfileCard from './ProfileCard/ProfileCard';
 import StatsGrid from './StatsGrid/StatsGrid';
@@ -12,13 +12,23 @@ const Profile = () => {
     const { showLoading, hideLoading } = useGlobal();
     const [profileData, setProfileData] = useState(null);
 
-    useEffect(() => {
-        fetchProfileData();
+    // Tối ưu hàm cập nhật avatar
+    const handleAvatarUpdate = useCallback((newAvatarUrl) => {
+        setProfileData(prev => prev && ({
+            ...prev,
+            basic_info: {
+                ...prev.basic_info,
+                avatar: newAvatarUrl
+            }
+        }));
     }, []);
 
-    const fetchProfileData = async () => {
+    // Tối ưu hàm fetch data
+    const fetchProfileData = useCallback(async (showLoadingIndicator = true) => {
         try {
-            showLoading('Đang tải thông tin...');
+            if (showLoadingIndicator) {
+                showLoading('Đang tải thông tin...');
+            }
             const response = await profileService.getProfile();
             if (response.success) {
                 setProfileData(response.data);
@@ -26,13 +36,18 @@ const Profile = () => {
         } catch (error) {
             message.error(error.message || 'Không thể tải thông tin người dùng');
         } finally {
-            hideLoading();
+            if (showLoadingIndicator) {
+                hideLoading();
+            }
         }
-    };
+    }, [showLoading, hideLoading]);
 
-    if (!profileData) {
-        return null;
-    }
+    // Chỉ gọi API một lần khi component mount
+    useEffect(() => {
+        fetchProfileData();
+    }, []); // Bỏ fetchProfileData khỏi dependencies
+
+    if (!profileData) return null;
 
     return (
         <MainLayout>
@@ -42,7 +57,8 @@ const Profile = () => {
                         <ProfileCard
                             basicInfo={profileData.basic_info}
                             clubs={profileData.clubs}
-                            onProfileUpdate={fetchProfileData}
+                            onProfileUpdate={handleAvatarUpdate}
+                            onInfoUpdate={() => fetchProfileData(false)}
                         />
                         <div className="container">
                             <StatsGrid

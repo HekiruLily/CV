@@ -1,6 +1,8 @@
 const ProfileModel = require('../models/profile.model');
 const { validatePhone } = require('../utils/validation');
 const { format } = require('date-fns');
+const { getUploadPath } = require('../middlewares/upload');
+
 
 exports.getUserProfile = async (req, res) => {
     try {
@@ -100,7 +102,7 @@ exports.updateProfile = async (req, res) => {
 exports.updateAvatar = async (req, res) => {
     try {
         const userId = req.user.userId;
-
+        
         if (!req.file) {
             return res.status(400).json({
                 success: false,
@@ -108,8 +110,7 @@ exports.updateAvatar = async (req, res) => {
             });
         }
 
-        const avatarUrl = `/uploads/${req.file.filename}`; // Đường dẫn tới file ảnh
-
+        const avatarUrl = getUploadPath(req.file.filename, 'avatar');
         await ProfileModel.updateAvatar(userId, avatarUrl);
 
         res.json({
