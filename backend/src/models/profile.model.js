@@ -1,6 +1,7 @@
 const db = require('../configs/database');
 const fs = require('fs');
 const path = require('path');
+const { deleteOldFile } = require('../utils/fileHelper');
 
 class ProfileModel {
     static async getUserProfile(userId) {
@@ -128,22 +129,21 @@ class ProfileModel {
             );
 
             const oldAvatar = rows[0]?.avatar;
-            if (oldAvatar) {
-                const oldAvatarPath = path.join(__dirname, '..', 'uploads', oldAvatar);
-                // Xóa ảnh cũ nếu tồn tại
-                if (fs.existsSync(oldAvatarPath)) {
-                    fs.unlinkSync(oldAvatarPath);
-                    console.log(`✅ Đã xóa ảnh cũ: ${oldAvatarPath}`);
-                }
-            }
-
+            
             // Cập nhật ảnh mới trong DB
             const [result] = await db.promise().query(
                 'UPDATE user_profiles SET avatar = ? WHERE user_id = ?',
                 [avatarUrl, userId]
             );
+            
+            // Xóa ảnh cũ sau khi đã cập nhật thành công
+            if (result.affectedRows > 0 && oldAvatar) {
+                deleteOldFile(oldAvatar);
+            }
+            
             return result.affectedRows > 0;
         } catch (error) {
+            console.error(`❌ Lỗi khi cập nhật avatar: ${error.message}`);
             throw error;
         }
     }

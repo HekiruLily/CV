@@ -28,6 +28,7 @@ class ProfileService {
 
     static async updateAvatar(formData) {
         try {
+            console.log(formData)
             const response = await axios.patch(
                 `${API_URL}/me/avatar`,
                 formData,
