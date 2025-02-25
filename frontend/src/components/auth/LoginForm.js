@@ -3,6 +3,8 @@ import { Form, Input, Button, Card, Typography, Divider } from 'antd';
 import { App } from 'antd';
 import { GoogleOutlined, EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/slices/userSlice';
 import authService from '../../services/auth.service';
 import './LoginForm.css';
 
@@ -11,7 +13,7 @@ const { Title } = Typography;
 const LoginForm = () => {
 
     const { message } = App.useApp();
-
+    const dispatch = useDispatch();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -20,8 +22,11 @@ const LoginForm = () => {
         try {
             setLoading(true);
             const response = await authService.login(values);
+            
+            // Dispatch action để lưu thông tin user vào Redux store
+            dispatch(setUser(response.data));
+            
             message.success('Đăng nhập thành công!');
-            localStorage.setItem('user', JSON.stringify(response.data));
             navigate('/');
         } catch (error) {
             message.error(error.message || 'Đăng nhập thất bại!');

@@ -7,10 +7,14 @@ import MainLayout from '../../layouts/MainLayout/MainLayout';
 import profileService from '../../services/profile.service';
 import { useGlobal } from '../../contexts/GlobalContext';
 import './Profile.css';
+import { useAuth } from '../../hooks/useAuth';
 
 const Profile = () => {
     const { showLoading, hideLoading } = useGlobal();
     const [profileData, setProfileData] = useState(null);
+
+    // Yêu cầu đăng nhập để truy cập trang profile
+    useAuth(true);
 
     // Tối ưu hàm cập nhật avatar
     const handleAvatarUpdate = useCallback((newAvatarUrl) => {
