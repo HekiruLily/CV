@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import store from './redux/store';
 
 import Profile from './pages/profiles/Profile';
+
 function App() {
   return (
     <Provider store={store}>
