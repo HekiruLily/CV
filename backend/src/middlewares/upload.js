@@ -54,10 +54,22 @@ const fileFilter = (req, file, cb) => {
 //  Tạo middleware upload theo loại
 const createUpload = (type) => {
     const config = {
-        avatar: { maxSize: 2 * 1024 * 1024 },
-        club: { maxSize: 3 * 1024 * 1024 },
-        achievement: { maxSize: 5 * 1024 * 1024 },
-        common: { maxSize: 5 * 1024 * 1024 }
+        avatar: {
+            destination: 'uploads/avatars',
+            maxSize: 2 * 1024 * 1024
+        },
+        club: {
+            destination: 'uploads/club_avatars',
+            maxSize: 3 * 1024 * 1024
+        },
+        achievement: {
+            destination: 'uploads/achievements',
+            maxSize: 5 * 1024 * 1024
+        },
+        common: {
+            destination: 'uploads/common',
+            maxSize: 5 * 1024 * 1024
+        }
     }[type || 'common'];
 
     return multer({
