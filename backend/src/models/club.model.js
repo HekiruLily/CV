@@ -77,6 +77,73 @@ class ClubModel {
         );
         return rows;
     }
+
+    static async joinClub(userId, clubCode) {
+        try {
+            // Bước 1: Kiểm tra xem club có tồn tại không
+            const [clubs] = await db.promise().query(
+                'SELECT club_id FROM clubs WHERE club_code = ?',
+                [clubCode]
+            );
+            
+            if (clubs.length === 0) {
+                throw new Error('Mã câu lạc bộ không tồn tại');
+            }
+            
+            const clubId = clubs[0].club_id;
+            
+            // Bước 2: Kiểm tra xem người dùng đã là thành viên chưa
+            const [members] = await db.promise().query(
+                'SELECT * FROM club_members WHERE club_id = ? AND user_id = ?',
+                [clubId, userId]
+            );
+            
+            if (members.length > 0) {
+                // Người dùng đã là thành viên hoặc đã gửi yêu cầu
+                const status = members[0].status;
+                if (status === 'Approved') {
+                    throw new Error('Bạn đã là thành viên của câu lạc bộ này');
+                } else if (status === 'Pending') {
+                    throw new Error('Yêu cầu tham gia của bạn đang chờ phê duyệt');
+                } else if (status === 'Rejected') {
+                    // Cập nhật lại trạng thái thành Pending nếu trước đó bị từ chối
+                    await db.promise().query(
+                        'UPDATE club_members SET status = "Pending", requested_at = NOW() WHERE club_id = ? AND user_id = ?',
+                        [clubId, userId]
+                    );
+                    return { clubId, status: 'Pending' };
+                }
+            }
+            
+            // Bước 3: Thêm người dùng vào club với trạng thái Pending
+            await db.promise().query(
+                `INSERT INTO club_members (club_id, user_id, role, status, joined_at) 
+                 VALUES (?, ?, 'Member', 'Pending', NOW())`,
+                [clubId, userId]
+            );
+            
+            return { clubId, status: 'Pending' };
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async getClubBasicInfo(clubCode) {
+        const [rows] = await db.promise().query(
+            `SELECT 
+                club_id, 
+                club_code,
+                name, 
+                avatar, 
+                description,
+                province,
+                (SELECT COUNT(*) FROM club_members WHERE club_id = clubs.club_id AND status = 'Approved') as member_count
+            FROM clubs 
+            WHERE club_code = ?`,
+            [clubCode]
+        );
+        return rows[0];
+    }
 }
 
 module.exports = ClubModel; 

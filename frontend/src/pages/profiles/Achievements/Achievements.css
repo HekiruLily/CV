@@ -11,9 +11,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;  /* Tăng khoảng cách giữa các phần tử */
+    gap: 1rem; 
     padding: 20px 0;
-    flex-wrap: wrap; /* Cho phép các phần tử xuống dòng nếu không đủ không gian */
+    flex-wrap: wrap; 
   }
 
   .header-filters {

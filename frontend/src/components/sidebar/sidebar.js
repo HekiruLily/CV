@@ -18,18 +18,19 @@ import { useGlobal } from '../../contexts/GlobalContext';
 import { useSelector } from 'react-redux';
 import { motion, AnimatePresence } from 'framer-motion';
 import Avatar from '../../components/Avatar/Avatar';
+import JoinClubModal from '../JoinClubModal/JoinClubModal';
 
 const { Sider } = Layout;
 
 const Sidebar = () => {
   const { 
     showLoading, 
-    hideLoading,
-    setIsJoinClubModalOpen
+    hideLoading
   } = useGlobal();
   const userData = useSelector(state => state.user.userData);
   const [clubs, setClubs] = useState([]);
   const [expandedClub, setExpandedClub] = useState(null);
+  const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -65,7 +66,12 @@ const Sidebar = () => {
   };
 
   const handleJoinClub = () => {
-    setIsJoinClubModalOpen(true);
+    setIsJoinModalVisible(true);
+  };
+
+  const handleJoinSuccess = () => {
+    // Refresh danh sách câu lạc bộ sau khi tham gia thành công
+    fetchUserClubs();
   };
 
   const handleProfileClick = () => {
@@ -201,6 +207,13 @@ const Sidebar = () => {
           </div>
         )}
       </div>
+
+      {/* Join Club Modal */}
+      <JoinClubModal 
+        isOpen={isJoinModalVisible}
+        onClose={() => setIsJoinModalVisible(false)}
+        onSuccess={handleJoinSuccess}
+      />
     </Sider>
   );
 };

@@ -81,4 +81,66 @@ exports.getClubInfo = async (req, res) => {
             message: 'Đã xảy ra lỗi khi lấy thông tin CLB'
         });
     }
+};
+
+exports.joinClub = async (req, res) => {
+    try {
+        const { clubCode } = req.body;
+        const userId = req.user.userId;
+        
+        if (!clubCode) {
+            return res.status(400).json({
+                success: false,
+                message: 'Vui lòng cung cấp mã câu lạc bộ'
+            });
+        }
+        
+        // Thực hiện tham gia câu lạc bộ
+        const result = await ClubModel.joinClub(userId, clubCode);
+        
+        // Lấy thông tin cơ bản của câu lạc bộ để trả về
+        const clubInfo = await ClubModel.getClubBasicInfo(clubCode);
+        
+        return res.status(200).json({
+            success: true,
+            message: 'Yêu cầu tham gia đã được gửi',
+            data: {
+                clubId: result.clubId,
+                status: result.status,
+                clubInfo
+            }
+        });
+    } catch (error) {
+        console.error('Join club error:', error);
+        return res.status(400).json({
+            success: false,
+            message: error.message || 'Đã xảy ra lỗi khi tham gia câu lạc bộ'
+        });
+    }
+};
+
+exports.getClubByCode = async (req, res) => {
+  try {
+    const { code } = req.params;
+    
+    const clubInfo = await ClubModel.getClubBasicInfo(code);
+    
+    if (!clubInfo) {
+      return res.status(404).json({
+        success: false,
+        message: 'Không tìm thấy câu lạc bộ'
+      });
+    }
+    
+    return res.status(200).json({
+      success: true,
+      data: clubInfo
+    });
+  } catch (error) {
+    console.error('Get club error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Đã xảy ra lỗi khi lấy thông tin câu lạc bộ'
+    });
+  }
 }; 
