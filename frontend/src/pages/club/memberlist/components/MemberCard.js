@@ -1,5 +1,6 @@
 import React from 'react';
 import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import Avatar from '../../../../components/Avatar/Avatar';
 import './MemberCard.css';
 
 const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, showApproveReject }) => {
@@ -7,9 +8,12 @@ const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, sh
 
     return (
         <div className="member-item">
-            <div className="member-avatar">
-                {member.avatar || member.full_name?.charAt(0).toUpperCase() || 'U'}
-            </div>
+            <Avatar 
+                src={member.avatar}
+                alt={member.full_name}
+                text={member.full_name}
+                size="medium"
+            />
             <div className="member-info">
                 <div className="member-header">
                     <h3 className="member-name">{member.full_name}</h3>

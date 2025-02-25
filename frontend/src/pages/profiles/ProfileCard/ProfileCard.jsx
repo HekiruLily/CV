@@ -11,6 +11,7 @@ import { message, Upload } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
 import defaultAvatar from '../avata.png';
 import ProfileService from '../../../services/profile.service';
+import Avatar from '../../../components/Avatar/Avatar';
 import './ProfileCard.css';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
@@ -96,11 +97,12 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
         <div className="profile-card">
             <div className="profile-header">
                 <div className="avatar-wrapper">
-                    <img
-                        src={avatarUrl}
-                        alt="avatar"
-                        className="avatar"
-                        onError={(e) => (e.target.src = defaultAvatar)}
+                    <Avatar 
+                        src={basicInfo?.avatar}
+                        alt={basicInfo?.full_name}
+                        text={basicInfo?.full_name}
+                        size="large"
+                        className="profile-avatar"
                     />
                     <Upload
                         showUploadList={false}
