@@ -9,11 +9,14 @@ import {
 } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
-import defaultAvatar from '../avata.png';
 import ProfileService from '../../../services/profile.service';
+import Avatar from '../../../components/Avatar/Avatar';
 import './ProfileCard.css';
+import { useDispatch } from 'react-redux';
+import { updateUserProfile } from '../../../redux/slices/userSlice';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const avatarUrl = useMemo(() => {
@@ -85,6 +88,7 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
             const response = await ProfileService.updateAvatar(formData);
             if (response.success) {
                 onProfileUpdate(response.avatarUrl);
+                dispatch(updateUserProfile({ avatar: response.avatarUrl }));
                 message.success('🎉 Cập nhật ảnh đại diện thành công');
             }
         } catch (error) {
@@ -96,11 +100,12 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
         <div className="profile-card">
             <div className="profile-header">
                 <div className="avatar-wrapper">
-                    <img
-                        src={avatarUrl}
-                        alt="avatar"
-                        className="avatar"
-                        onError={(e) => (e.target.src = defaultAvatar)}
+                    <Avatar
+                        src={basicInfo?.avatar}
+                        alt={basicInfo?.full_name}
+                        text={basicInfo?.full_name}
+                        size="large"
+                        className="profile-avatar"
                     />
                     <Upload
                         showUploadList={false}

@@ -107,7 +107,7 @@ exports.login = async (req, res) => {
             });
         }
 
-        const user = await UserModel.validateUser(mail_or_phone, password);
+        const user = await UserModel.validateUserWithProfile(mail_or_phone, password);
 
         if (!user) {
             return res.status(401).json({
@@ -116,7 +116,6 @@ exports.login = async (req, res) => {
             });
         }
 
-        // Tạo JWT token
         const token = jwt.sign(
             { 
                 userId: user.user_id,
@@ -127,12 +126,11 @@ exports.login = async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        // Thiết lập HTTP-only cookie
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000 // 24 giờ
+            maxAge: 24 * 60 * 60 * 1000
         });
 
         res.status(200).json({
@@ -141,7 +139,9 @@ exports.login = async (req, res) => {
             data: {
                 userId: user.user_id,
                 email: user.email,
-                phone: user.phone
+                phone: user.phone,
+                full_name: user.full_name,
+                avatar: user.avatar
             }
         });
 
@@ -171,6 +171,21 @@ exports.logout = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Đã xảy ra lỗi khi đăng xuất'
+        });
+    }
+};
+
+exports.checkAuth = async (req, res) => {
+    try {
+        // Middleware auth đã kiểm tra token 
+        res.json({
+            success: true,
+            message: 'Token hợp lệ'
+        });
+    } catch (error) {
+        res.status(401).json({
+            success: false,
+            message: 'Token không hợp lệ'
         });
     }
 }; 

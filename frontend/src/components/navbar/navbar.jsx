@@ -4,16 +4,20 @@ import Logo from '../../assets/img/Logo.png';
 import { useNavigate } from 'react-router-dom';
 import { Button, message, Avatar, Dropdown, Menu } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearUser } from '../../redux/slices/userSlice';
 import authService from '../../services/auth.service';
+import { useAuth } from '../../hooks/useAuth';
 
 const Nav = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const dispatch = useDispatch();
+  const { userData: user } = useAuth();
 
   const handleLogout = async () => {
     try {
       await authService.logout();
-      localStorage.removeItem('user');
+      dispatch(clearUser());
       message.success('Đăng xuất thành công!');
       navigate('/login');
     } catch (error) {
@@ -23,7 +27,7 @@ const Nav = () => {
 
   const userMenu = (
     <Menu>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
+      <Menu.Item key="profile" icon={<UserOutlined />} onClick={() => navigate('/profile')}> 
         Thông tin cá nhân
       </Menu.Item>
       <Menu.Divider />
@@ -61,8 +65,13 @@ const Nav = () => {
         {user ? (
           <Dropdown overlay={userMenu} trigger={['click']} placement="bottomRight">
             <div className="user-profile">
-              <Avatar size="small" icon={<UserOutlined />} className="user-avatar" />
-              <span className="username">{user.email}</span>
+              <Avatar 
+                size="small" 
+                src={user.avatar ? `http://localhost:5000${user.avatar}` : null}
+                icon={!user.avatar && <UserOutlined />} 
+                className="user-avatar" 
+              />
+              <span className="username">{user.full_name}</span>
             </div>
           </Dropdown>
         ) : (

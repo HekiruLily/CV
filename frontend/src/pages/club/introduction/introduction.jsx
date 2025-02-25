@@ -2,19 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { message, Card, Row, Col, Statistic, Button, Avatar, Tag } from 'antd';
 import { 
-    EditOutlined, 
-    TeamOutlined, 
-    CalendarOutlined, 
+    TeamOutlined,
+    TrophyOutlined,
+    CalendarOutlined,
     EnvironmentOutlined,
-    UserOutlined,
-    ThunderboltOutlined
+    FacebookOutlined,
+    InstagramOutlined,
+    YoutubeOutlined
 } from '@ant-design/icons';
 import './introduction.css';
 import clubService from '../../../services/club.service';
-import { useGlobal } from '../../../contexts/GlobalContext';
 
 const Introduction = () => {
-    const { showLoading, hideLoading, setIsEditClubModalOpen } = useGlobal();
     const { clubCode } = useParams();
     const [clubInfo, setClubInfo] = useState(null);
 
@@ -24,96 +23,108 @@ const Introduction = () => {
 
     const fetchClubInfo = async () => {
         try {
-            showLoading('Đang tải thông tin câu lạc bộ...');
             const response = await clubService.getClubIntroduction(clubCode);
             if (response.success) {
                 setClubInfo(response.data);
             }
         } catch (error) {
             message.error(error.message || 'Không thể tải thông tin câu lạc bộ');
-        } finally {
-            hideLoading();
         }
     };
 
-    const handleEdit = () => {
-        setIsEditClubModalOpen(true);
-    };
-
-    if (!clubInfo) {
-        return <div>Không tìm thấy thông tin câu lạc bộ</div>;
-    }
+    if (!clubInfo) return null;
 
     return (
         <div className="club-introduction">
-            {/* Hero Section */}
-            <div className="hero-banner" style={{
-                backgroundImage: `url(${clubInfo.banner || 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80'})`
-            }}>
-                <div className="hero-content">
-                    <Avatar 
-                        size={120} 
-                        src={clubInfo.avatar || 'https://images4.alphacoders.com/136/thumb-1920-1369866.png'} 
-                        icon={<UserOutlined />}
-                        className="club-avatar"
-                    />
+            {/* Banner Section */}
+            <div className="club-banner">
+                <div className="banner-content">
                     <h1>{clubInfo.name}</h1>
-                    <Tag color="blue" icon={<ThunderboltOutlined />}>Câu lạc bộ chạy bộ</Tag>
+                    <p className="club-motto">
+                        {clubInfo.description || 'Nơi quy tụ những người đam mê chạy bộ, cùng nhau rèn luyện sức khỏe và chinh phục những thử thách mới.'}
+                    </p>
+                    <div className="club-stats">
+                        <div className="stat-item">
+                            <TeamOutlined />
+                            <div className="stat-content">
+                                <span className="stat-value">{clubInfo.member_count}</span>
+                                <span className="stat-label">Thành viên</span>
+                            </div>
+                        </div>
+                        <div className="stat-item">
+                            <CalendarOutlined />
+                            <div className="stat-content">
+                                <span className="stat-value">
+                                    {new Date(clubInfo.created_at).getFullYear()}
+                                </span>
+                                <span className="stat-label">Thành lập</span>
+                            </div>
+                        </div>
+                        <div className="stat-item">
+                            <TeamOutlined />
+                            <div className="stat-content">
+                                <span className="stat-value">{clubInfo.creator_name}</span>
+                                <span className="stat-label">Người sáng lập</span>
+                            </div>
+                        </div>
+                        <div className='stat-item'>
+                            <EnvironmentOutlined />
+                            <div className="stat-content">
+                                <span className="stat-value">{clubInfo.province}</span>
+                                <span className="stat-label">Địa điểm</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div className="main-content">
                 <Row gutter={[24, 24]}>
-                    {/* Left Column - Club Description */}
-                    <Col xs={24} lg={16}>
-                        <Card 
-                            title={
-                                <div className="card-title">
-                                    <span>Giới thiệu câu lạc bộ</span>
-                                    <Button 
-                                        type="primary" 
-                                        icon={<EditOutlined />} 
-                                        onClick={handleEdit}
-                                        className="edit-button"
-                                    >
-                                        Chỉnh sửa
-                                    </Button>
-                                </div>
-                            }
-                            className="info-card"
-                        >
-                            <p className="club-description">{clubInfo.description}</p>
+                    {/* Club Rules */}
+                    <Col xs={24} md={18}>
+                        <Card className="info-card rules-card">
+                            <h2 className="section-title">Quy tắc của CLB</h2>
+                            <ul className="rules-list">
+                                <li>Tôn trọng và hỗ trợ các thành viên khác trong CLB</li>
+                                <li>Tham gia đầy đủ các buổi sinh hoạt và hoạt động của CLB</li>
+                                <li>Đóng góp ý kiến xây dựng cho sự phát triển của CLB</li>
+                                <li>Tuân thủ quy định về trang phục và an toàn khi tham gia hoạt động</li>
+                                <li>Thông báo trước nếu không thể tham gia các hoạt động đã đăng ký</li>
+                                <li>Không được đưa ra ý kiến phê phán về các thành viên khác</li>
+                            </ul>
                         </Card>
                     </Col>
 
-                    {/* Right Column - Club Stats & Info */}
-                    <Col xs={24} lg={8}>
-                        <Card className="info-card stats-card">
-                            <Statistic
-                                title="Thành viên"
-                                value={clubInfo.member_count}
-                                prefix={<TeamOutlined />}
-                                className="club-statistic"
-                            />
-                            <div className="info-divider" />
-                            <div className="info-item">
-                                <CalendarOutlined />
-                                <span className="info-label">Ngày thành lập:</span>
-                                <span className="info-value">
-                                    {new Date(clubInfo.created_at).toLocaleDateString('vi-VN')}
-                                </span>
-                            </div>
-                            <div className="info-item">
-                                <EnvironmentOutlined />
-                                <span className="info-label">Địa điểm:</span>
-                                <span className="info-value">
-                                    {`${clubInfo.district}, ${clubInfo.province}`}
-                                </span>
-                            </div>
-                            <div className="info-item">
-                                <UserOutlined />
-                                <span className="info-label">Người sáng lập:</span>
-                                <span className="info-value">{clubInfo.creator_name}</span>
+                    {/* Social Media Links */}
+                    <Col xs={24} md={6}>
+                        <Card className="info-card social-card">
+                            <h2 className="section-title">Kênh truyền thông</h2>
+                            <div className="social-links">
+                                <a href="#facebook" className="social-link">
+                                    <FacebookOutlined />
+                                    <div className="social-info">
+                                        <span className="platform">Facebook</span>
+                                        <span className="account">{clubInfo.name}</span>
+                                    </div>
+                                </a>
+                                <a href={`mailto:${clubInfo.creator_email}`} className="social-link">
+                                    <InstagramOutlined />
+                                    <div className="social-info">
+                                        <span className="platform">Email</span>
+                                        <span className="account">{clubInfo.creator_email}</span>
+                                    </div>
+                                </a>
+                                <a href="#location" className="social-link">
+                                    <YoutubeOutlined />
+                                    <div className="social-info">
+                                        <span className="platform">Địa điểm</span>
+                                        <span className="account">
+                                            {clubInfo.district && clubInfo.province 
+                                                ? `${clubInfo.district}, ${clubInfo.province}`
+                                                : clubInfo.location || 'Chưa cập nhật'}
+                                        </span>
+                                    </div>
+                                </a>
                             </div>
                         </Card>
                     </Col>

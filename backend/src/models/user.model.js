@@ -44,16 +44,33 @@ class UserModel {
             throw error;
         }
     }
-
-    static async validateUser(emailOrPhone, password) {
+    
+    static async validateUserWithProfile(emailOrPhone, password) {
         try {
-            let user;
+            let query;
+            let params;
+
             if (emailOrPhone.includes('@')) {
-                user = await this.findByEmail(emailOrPhone);
+                query = `
+                    SELECT u.*, up.full_name, up.avatar 
+                    FROM users u
+                    LEFT JOIN user_profiles up ON u.user_id = up.user_id
+                    WHERE u.email = ?
+                `;
+                params = [emailOrPhone];
             } else {
-                user = await this.findByPhone(emailOrPhone);
+                query = `
+                    SELECT u.*, up.full_name, up.avatar 
+                    FROM users u
+                    LEFT JOIN user_profiles up ON u.user_id = up.user_id
+                    WHERE u.phone = ?
+                `;
+                params = [emailOrPhone];
             }
-            // console.log(user);
+
+            const [rows] = await db.promise().query(query, params);
+            const user = rows[0];
+
             if (!user) {
                 return null;
             }
@@ -62,7 +79,7 @@ class UserModel {
             if (!isValidPassword) {
                 return null;
             }
-
+            console.log(user);
             return user;
         } catch (error) {
             throw error;
