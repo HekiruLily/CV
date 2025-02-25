@@ -13,4 +13,7 @@ router.get('/:clubCode/introduction', authMiddleware, clubController.getClubInfo
 router.get('/:clubCode/members', authMiddleware, clubMemberController.getMembers);
 router.patch('/members/:memberId/status', authMiddleware, clubMemberController.updateMemberStatus);
 
+router.post('/join', authMiddleware, clubController.joinClub);
+router.get('/code/:code', clubController.getClubByCode);
+
 module.exports = router; 
