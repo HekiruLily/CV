@@ -18,6 +18,12 @@ import { updateUserProfile } from '../../../redux/slices/userSlice';
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const avatarUrl = useMemo(() => {
+        if (!basicInfo?.avatar) return defaultAvatar;
+        return `http://localhost:5000${basicInfo.avatar}`;
+    }, [basicInfo?.avatar]);
+
     const latestClub = clubs?.[0];
 
     const profileInfo = useMemo(() => [
@@ -94,7 +100,7 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
         <div className="profile-card">
             <div className="profile-header">
                 <div className="avatar-wrapper">
-                    <Avatar 
+                    <Avatar
                         src={basicInfo?.avatar}
                         alt={basicInfo?.full_name}
                         text={basicInfo?.full_name}
@@ -103,16 +109,26 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
                     />
                     <Upload
                         showUploadList={false}
-                        customRequest={({ file, onSuccess }) => setTimeout(() => onSuccess('ok'), 0)}
-                        beforeUpload={(file) => {
-                            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-                            if (!isJpgOrPng) message.error('❌ Chỉ hỗ trợ định dạng JPG/PNG!');
-                            const isLt2M = file.size / 1024 / 1024 < 2;
-                            if (!isLt2M) message.error('❌ Ảnh phải nhỏ hơn 2MB!');
-                            return isJpgOrPng && isLt2M;
+                        customRequest={async ({ file, onSuccess, onError }) => {
+                            const formData = new FormData();
+                            formData.append('avatar', file);
+
+                            try {
+                                const response = await ProfileService.updateAvatar(formData);
+                                if (response.success) {
+                                    onProfileUpdate(response.avatarUrl);
+                                    message.success('🎉 Cập nhật ảnh đại diện thành công');
+                                    onSuccess('ok');
+                                } else {
+                                    onError(new Error(response.message));
+                                }
+                            } catch (error) {
+                                message.error(error.message || '❌ Lỗi khi cập nhật ảnh đại diện');
+                                onError(error);
+                            }
                         }}
-                        onChange={handleAvatarChange}
                     >
+
                         <div className="camera-overlay">
                             <CameraOutlined className="camera-icon" />
                         </div>
