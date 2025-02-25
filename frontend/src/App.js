@@ -6,8 +6,8 @@ import LoginPage from './pages/auth/LoginPage';
 import ClubPage from './pages/club/club_page';
 import CreateClub from './pages/create_club/createClub';
 import { GlobalProvider } from './contexts/GlobalContext';
-
 import Profile from './pages/profiles/Profile';
+
 function App() {
   return (
     <GlobalProvider>
