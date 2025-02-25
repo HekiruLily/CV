@@ -9,19 +9,15 @@ import {
 } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
-import defaultAvatar from '../avata.png';
 import ProfileService from '../../../services/profile.service';
 import Avatar from '../../../components/Avatar/Avatar';
 import './ProfileCard.css';
+import { useDispatch } from 'react-redux';
+import { updateUserProfile } from '../../../redux/slices/userSlice';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    const avatarUrl = useMemo(() => {
-        if (!basicInfo?.avatar) return defaultAvatar;
-        return `http://localhost:5000${basicInfo.avatar}`;
-    }, [basicInfo?.avatar]);
-
     const latestClub = clubs?.[0];
 
     const profileInfo = useMemo(() => [
@@ -86,6 +82,7 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
             const response = await ProfileService.updateAvatar(formData);
             if (response.success) {
                 onProfileUpdate(response.avatarUrl);
+                dispatch(updateUserProfile({ avatar: response.avatarUrl }));
                 message.success('🎉 Cập nhật ảnh đại diện thành công');
             }
         } catch (error) {

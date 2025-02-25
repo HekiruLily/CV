@@ -28,12 +28,16 @@ const clubService = {
 
   joinClub: async (clubCode) => {
     try {
+      console.log(clubCode);
       const response = await axios.post(`${API_URL}/join`, { clubCode }, {
         withCredentials: true
       });
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Lỗi kết nối đến server' };
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw { message: 'Lỗi kết nối đến server' };
     }
   },
 
@@ -133,6 +137,20 @@ const clubService = {
       return data;
     } catch (error) {
       throw error;
+    }
+  },
+
+  getClubByCode: async (clubCode) => {
+    try {
+      const response = await axios.get(`${API_URL}/code/${clubCode}`, {
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw { message: 'Không tìm thấy câu lạc bộ' };
     }
   }
 };
