@@ -1,25 +1,6 @@
-const db = require('../configs/database');
+const db = require('../config/database');
 
 class ClubModel {
-static async createClubRequest(requestData) {
-    const [result] = await db.promise().query(
-        `INSERT INTO club_requests 
-        (requested_by, club_code, club_name, description, province, district, location, avatar) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-            requestData.requested_by,
-            requestData.club_code,
-            requestData.club_name,
-            requestData.description,
-            requestData.province,
-            requestData.district, 
-            requestData.location,
-            requestData.avatar
-        ]
-    );
-    return result.insertId;
-}
-
 static async getClubByCode(clubCode) {
     const [rows] = await db.promise().query(
         `SELECT 
@@ -34,15 +15,6 @@ static async getClubByCode(clubCode) {
         [clubCode]
     );
     return rows[0];
-}
-
-// Lấy danh sách đơn xin CLB theo trạng thái
-static async getClubRequestsByStatus(status) {
-const [rows] = await db.promise().query(
-    `SELECT * FROM club_requests WHERE status = ? ORDER BY requested_at DESC`,
-    [status]
-);
-return rows;
 }
 
 // Kiểm tra đơn xin CLB có tồn tại không
@@ -137,24 +109,71 @@ try {
 }
 }
 
-// Xóa CLB
-static async deleteClubById(clubId) {
+static async getCreateClubRequests(status) {
+    const [rows] = await db.promise().query(
+        `SELECT 
+            cr.request_id,
+            cr.club_code,
+            cr.club_name,
+            cr.description,
+            cr.province,
+            cr.district,
+            cr.location,
+            cr.status,
+            cr.reject_reason,
+            cr.avatar as club_avatar,
+            cr.requested_at,
+            u.user_id,
+            u.email,
+            up.full_name,
+            up.avatar as user_avatar
+        FROM club_requests cr
+        JOIN users u ON cr.requested_by = u.user_id
+        JOIN user_profiles up ON u.user_id = up.user_id
+        WHERE cr.status = ?
+        ORDER BY cr.requested_at DESC`,
+        [status]
+    );
+    return rows;
+}
+
+// Phương thức từ chối yêu cầu tạo CLB
+static async rejectClubRequest(requestId, rejectReason) {
     try {
         await db.promise().beginTransaction();
 
-        // Xóa tất cả thành viên khỏi CLB
-        await db.promise().query(`DELETE FROM club_members WHERE club_id = ?`, [clubId]);
+        // Kiểm tra yêu cầu có tồn tại và đang ở trạng thái Pending
+        const [requestRows] = await db.promise().query(
+            `SELECT * FROM club_requests WHERE request_id = ? AND status = 'Pending'`,
+            [requestId]
+        );
 
-        // Xóa CLB
-        const [result] = await db.promise().query(`DELETE FROM clubs WHERE club_id = ?`, [clubId]);
+        if (requestRows.length === 0) {
+            throw new Error('Không tìm thấy yêu cầu hoặc yêu cầu đã được xử lý');
+        }
+
+        // Cập nhật trạng thái và lý do từ chối
+        const [result] = await db.promise().query(
+            `UPDATE club_requests 
+            SET status = 'Rejected',
+                club_code = NULL,
+                reject_reason = ?
+            WHERE request_id = ?`,
+            [rejectReason, requestId]
+        );
+
+        if (result.affectedRows === 0) {
+            throw new Error('Không thể cập nhật trạng thái yêu cầu');
+        }
 
         await db.promise().commit();
-        return result.affectedRows > 0;
+        return true;
+
     } catch (error) {
         await db.promise().rollback();
         throw error;
     }
 }
-
-
 }
+
+module.exports = ClubModel;
