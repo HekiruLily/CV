@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/clubs';
+const API_URL = process.env.REACT_APP_API_URL + '/clubs';
 
 const clubService = {
   getUserClubs: async () => {
@@ -37,7 +37,7 @@ const clubService = {
       if (error.response && error.response.data) {
         throw error.response.data;
       }
-      throw { message: 'Lỗi kết nối đến server' };
+      throw new Error('Lỗi kết nối đến server');
     }
   },
 
@@ -121,7 +121,7 @@ const clubService = {
 
   updateMemberRole: async (memberId, role, clubCode) => {
     try {
-      const response = await fetch(`${API_URL}/members/${memberId}/role`, {
+      const response = await fetch(`${API_URL}/${clubCode}/members/${memberId}/role`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -150,7 +150,7 @@ const clubService = {
       if (error.response && error.response.data) {
         throw error.response.data;
       }
-      throw { message: 'Không tìm thấy câu lạc bộ' };
+      throw new Error('Không tìm thấy câu lạc bộ');
     }
   }
 };

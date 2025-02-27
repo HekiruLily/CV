@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/profile';
+const API_URL = process.env.REACT_APP_API_URL + '/profile';
 
 class ProfileService {
     static async getProfile() {

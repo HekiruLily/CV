@@ -16,4 +16,7 @@ router.patch('/members/:memberId/status', authMiddleware, clubMemberController.u
 router.post('/join', authMiddleware, clubController.joinClub);
 router.get('/code/:code', clubController.getClubByCode);
 
+// Route chuyển quyền hạn cho thành viên (Chỉ Admin)
+router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
+
 module.exports = router; 
