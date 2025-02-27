@@ -4,10 +4,14 @@ import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import './club_page.css';
 import clubService from '../../services/clubService';
 
+
 const { TabPane } = Tabs;
 const { Search } = Input;
 
 const ClubList = () => {
+  //Hàm lưu kết quả tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('');
+
   // State để lưu trữ dữ liệu từ API
   const [pendingClubs, setPendingClubs] = useState([]);
   const [approvedClubs, setApprovedClubs] = useState([]);
@@ -24,7 +28,7 @@ const ClubList = () => {
     try {
       setLoading(true);
       const response = await clubService.getCreateClubRequests(status);
-      switch(status) {
+      switch (status) {
         case 'Pending':
           setPendingClubs(response.data);
           break;
@@ -54,14 +58,23 @@ const ClubList = () => {
   // Xử lý duyệt/từ chối yêu cầu
   const handleApprove = async (requestId) => {
     try {
-      await clubService.approveClubRequest(requestId);
+      console.log('Duyệt yêu cầu với ID:', requestId); // Debug
+
+      const response = await clubService.approveClubRequest(requestId);
+
+      console.log('Phản hồi từ API:', response); // Debug API response
+
       message.success('Duyệt yêu cầu thành công');
-      fetchClubRequests('Pending'); // Refresh danh sách
+
+      // Cập nhật lại danh sách CLB
+      fetchClubRequests('Pending');
       fetchClubRequests('Approved');
     } catch (error) {
+      console.error('Lỗi khi duyệt:', error); // Debug lỗi
       message.error(error.message || 'Có lỗi xảy ra khi duyệt yêu cầu');
     }
   };
+
 
   // Xử lý hiển thị modal từ chối
   const showRejectModal = (requestId) => {
@@ -88,6 +101,28 @@ const ClubList = () => {
     }
   };
 
+  //Xử lý tìm kiếm
+  const handleSearch = async (value) => {
+    setSearchTerm(value);
+
+    if (!value.trim()) {
+      fetchClubRequests('Pending');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await clubService.searchClubRequests(value, value, 'Pending');
+      setPendingClubs(response.data);
+    } catch (error) {
+      message.error(error.message || 'Có lỗi xảy ra khi tìm kiếm');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+
   /**
    * Hàm dùng chung để render danh sách CLB.
    * 'tabType' cho biết đang ở tab nào: 'approved', 'pending', 'rejected'.
@@ -110,8 +145,8 @@ const ClubList = () => {
 
             <Card.Meta
               avatar={
-                <Avatar 
-                  size={48} 
+                <Avatar
+                  size={48}
                   src={process.env.REACT_APP_API_URL + club.club_avatar || 'https://i.imgur.com/KUodm7t.jpg'}
                   alt={club.club_name}
                 />
@@ -121,15 +156,15 @@ const ClubList = () => {
                 <div className="club-info">
                   <p className="club-id">Mã CLB: {club.club_code}</p>
                   <p className="club-description">{club.description || 'Chưa có mô tả'}</p>
-                  
+
                   <div className="club-location">
                     <p>Địa điểm: {club.location}</p>
                     <p>{club.district}, {club.province}</p>
                   </div>
 
                   <div className="requester-info">
-                    <Avatar 
-                      src={process.env.REACT_APP_API_URL + club.user_avatar || 'https://i.imgur.com/KUodm7t.jpg'} 
+                    <Avatar
+                      src={process.env.REACT_APP_API_URL + club.user_avatar || 'https://i.imgur.com/KUodm7t.jpg'}
                       size="small"
                     />
                     <span>{club.full_name}</span>
@@ -144,13 +179,13 @@ const ClubList = () => {
 
                   {tabType === 'pending' && (
                     <div className="approval-buttons">
-                      <button 
+                      <button
                         className="approve-btn"
                         onClick={() => handleApprove(club.request_id)}
                       >
                         Duyệt
                       </button>
-                      <button 
+                      <button
                         className="reject-btn"
                         onClick={() => showRejectModal(club.request_id)}
                       >
@@ -177,7 +212,11 @@ const ClubList = () => {
                 placeholder="Tìm kiếm yêu cầu..."
                 prefix={<SearchOutlined />}
                 className="search-bar"
+                onSearch={handleSearch}
+                onChange={(e) => handleSearch(e.target.value)}
               />
+
+
               {renderClubCards(pendingClubs, 'pending')}
             </div>
           </TabPane>
