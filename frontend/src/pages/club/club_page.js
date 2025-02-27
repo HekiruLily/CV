@@ -6,9 +6,9 @@ import MemberList from './memberlist/memberlist';
 import { useAuth } from '../../hooks/useAuth';
 
 const ClubPage = () => {
-    const { user } = useAuth();
+    const { isAuthenticated } = useAuth();
 
-    if (!user) {
+    if (!isAuthenticated) {
         return <Navigate to="/login" />;
     }
 

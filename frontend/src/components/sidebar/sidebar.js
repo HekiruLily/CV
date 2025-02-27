@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons';
 import clubService from '../../services/club.service';
 import './sidebar.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../contexts/GlobalContext';
 import { useSelector } from 'react-redux';
 import Avatar from '../../components/Avatar/Avatar';
@@ -28,7 +28,6 @@ const Sidebar = () => {
   const [expandedClub, setExpandedClub] = useState(null);
   const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     fetchUserClubs();
@@ -77,10 +76,6 @@ const Sidebar = () => {
 
   const toggleClub = (clubId) => {
     setExpandedClub(expandedClub === clubId ? null : clubId);
-  };
-
-  const isActive = (path) => {
-    return location.pathname === path;
   };
 
   return (
