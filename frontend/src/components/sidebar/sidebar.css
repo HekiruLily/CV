@@ -258,3 +258,14 @@
 .sb-container .ant-menu-submenu-open > .ant-menu-submenu-title > .ant-menu-submenu-arrow {
   color: #1890ff;
 }
+
+.sb-club-pending {
+  opacity: 0.6;
+}
+
+.sb-club-pending-label {
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+  font-style: italic;
+}
