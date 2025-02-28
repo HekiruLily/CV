@@ -108,9 +108,9 @@ exports.getClubRequestsByStatus = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Đã xảy ra lỗi khi lấy danh sách đơn xin CLB'
-        }}
-        };
-
+        });
+    }
+};
 exports.joinClub = async (req, res) => {
     try {
         const { clubCode } = req.body;
