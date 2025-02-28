@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const clubController = require('../controllers/club.controller');
+const clubNewsController = require('../controllers/club.news.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 const clubMemberController = require('../controllers/clubMember.controller');
-const { uploadClubAvatar } = require('../middlewares/upload');
+const { uploadClubAvatar, createUpload } = require('../middlewares/upload');
 
 router.get('/user-clubs', authMiddleware, clubController.getUserClubs);
 router.post('/request', authMiddleware, uploadClubAvatar, clubController.createClubRequest);
@@ -18,5 +19,14 @@ router.get('/code/:code', clubController.getClubByCode);
 
 // Route chuyển quyền hạn cho thành viên (Chỉ Admin)
 router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
+
+// News routes
+const uploadNews = createUpload('news').single('image');
+
+router.post('/:clubCode/news', authMiddleware, uploadNews, clubNewsController.createNews);
+
+router.get('/:clubCode/news', authMiddleware, clubNewsController.getClubNews);
+
+router.get('/:clubCode/news/:newsId', authMiddleware, clubNewsController.getNewsDetail);
 
 module.exports = router; 

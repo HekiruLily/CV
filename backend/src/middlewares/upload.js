@@ -17,6 +17,11 @@ const createStorage = (type = 'common') => {
             destination: 'uploads/achievements',
             maxSize: 5 * 1024 * 1024 // 5MB
         },
+        news: {
+            destination: 'uploads/news',
+            maxSize: 5 * 1024 * 1024 // 5MB
+        },
+
         common: {
             destination: 'uploads/common',
             maxSize: 5 * 1024 * 1024 // 5MB
@@ -66,6 +71,10 @@ const createUpload = (type) => {
             destination: 'uploads/achievements',
             maxSize: 5 * 1024 * 1024
         },
+        news: {
+            destination: 'uploads/news',
+            maxSize: 5 * 1024 * 1024
+        },
         common: {
             destination: 'uploads/common',
             maxSize: 5 * 1024 * 1024
@@ -83,6 +92,7 @@ const createUpload = (type) => {
 const uploadAvatar = createUpload('avatar').single('avatar');
 const uploadClubAvatar = createUpload('club').single('avatar');
 const uploadAchievement = createUpload('achievement').single('image');
+const uploadNews = createUpload('news').single('image');
 
 //  Helper function để lấy đường dẫn file
 const getUploadPath = (filename, type = 'common') => {
@@ -90,6 +100,7 @@ const getUploadPath = (filename, type = 'common') => {
         avatar: '/uploads/avatars',
         club: '/uploads/club_avatars',
         achievement: '/uploads/achievements',
+        news: '/uploads/news',
         common: '/uploads/common'
     }[type] || '/uploads/common';
 
@@ -116,6 +127,7 @@ module.exports = {
     uploadAvatar,
     uploadClubAvatar,
     uploadAchievement,
+    uploadNews,
     createUpload,
     getUploadPath,
     deleteFile

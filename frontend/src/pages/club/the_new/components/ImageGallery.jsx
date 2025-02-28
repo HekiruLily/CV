@@ -6,7 +6,7 @@ const ImageGallery = ({ images }) => {
       {images.map((image, index) => (
         <img
           key={index}
-          src={image}
+          src={process.env.REACT_APP_API_URL + image}
           alt={`Gallery image ${index + 1}`}
           className="gallery-image"
         />

@@ -1,10 +1,10 @@
 .page-body {
   background: #f0f2f5;
   min-height: 100vh;
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
-.container {
+.page-body .container {
   max-width: 800px;
   margin: 0 auto;
   padding: 0 1rem;
@@ -23,6 +23,7 @@
   box-shadow: 0 4px 15px rgba(255, 75, 43, 0.2);
   position: relative;
   overflow: hidden;
+  margin: 0;
 }
 
 .page-title::before {
@@ -58,7 +59,7 @@
   gap: 1rem;
 }
 
-.avatar-title-row {
+.avatar-author-row {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -80,8 +81,8 @@
   border-color: #FF4B2B;
 }
 
-.news-title {
-  font-size: 1.4rem;
+.news-author {
+  font-size: 1.2rem;
   font-weight: 700;
   color: #2d3748;
   margin: 0;
@@ -90,7 +91,7 @@
   padding-bottom: 0.5rem;
 }
 
-.news-title::after {
+.news-author::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -101,7 +102,7 @@
   transition: width 0.3s ease;
 }
 
-.news-title:hover::after {
+.news-author:hover::after {
   width: 100px;
 }
 
@@ -121,6 +122,7 @@
 }
 
 .news-text {
+  display: flex;
   font-size: 1.1rem;
   line-height: 1.6;
   color: #4a5568;
@@ -208,4 +210,55 @@
   font-size: 1.2rem;
   font-weight: 700;
   color: #2d3748;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.empty-news {
+  text-align: center;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.empty-news p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.header-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.create-button {
+  background: linear-gradient(135deg, #FF416C, #FF4B2B);
+  border: none;
+  padding: 0 1.5rem;
+  height: 40px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.create-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
+  background: linear-gradient(135deg, #FF4B2B, #FF416C);
 }

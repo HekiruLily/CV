@@ -78,11 +78,11 @@ const ClubList = ({ clubs, expandedClub, toggleClub }) => {
                     <span>Thành viên</span>
                   </div>
                   <div 
-                    className={`sb-menu-item ${isActive(`/clubs/${club.club_code}/events`) ? 'active' : ''}`}
-                    onClick={() => navigate(`/clubs/${club.club_code}/events`)}
+                    className={`sb-menu-item ${isActive(`/clubs/${club.club_code}/news-feed`) ? 'active' : ''}`}
+                    onClick={() => navigate(`/clubs/${club.club_code}/news-feed`)}
                   >
                     <CalendarOutlined className="sb-menu-icon" />
-                    <span>Sự kiện</span>
+                    <span>Tin tức</span>
                   </div>
                 </motion.div>
               )}

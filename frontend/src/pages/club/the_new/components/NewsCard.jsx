@@ -13,7 +13,7 @@ import {
 
 const NewsCard = ({ 
   avatar, 
-  title, 
+  author,
   views, 
   timestamp, 
   content, 
@@ -31,9 +31,9 @@ const NewsCard = ({
           </div>
         )}
         
-        <div className="avatar-title-row">
-          <Avatar src={avatar} />
-          <h2 className="news-title">{title}</h2>
+        <div className="avatar-author-row">
+          <Avatar src={process.env.REACT_APP_API_URL + avatar} />
+          <h2 className="news-author">{author}</h2>
         </div>
 
         <div className="metadata-row">

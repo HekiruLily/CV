@@ -1,0 +1,337 @@
+.create-news-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.form-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 12px;
+}
+
+.form-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.visibility-select {
+  width: 150px;
+}
+
+.content-input {
+  margin-top: 8px;
+}
+
+.content-input .ant-input {
+  font-size: 1.1rem;
+  padding: 8px 0;
+  resize: none;
+}
+
+.content-input .ant-input:focus {
+  box-shadow: none;
+}
+
+.image-preview {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.form-tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #e8e8e8;
+}
+
+.tool-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tool-buttons .ant-btn {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.tool-buttons .ant-btn:hover {
+  background: #f0f2f5;
+  color: #1890ff;
+}
+
+.tool-buttons .anticon {
+  font-size: 1.2rem;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #FF416C, #FF4B2B);
+  border: none;
+  padding: 0 1.5rem;
+  height: 36px;
+  border-radius: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
+  background: linear-gradient(135deg, #FF4B2B, #FF416C);
+}
+
+.submit-button:disabled {
+  background: #e8e8e8;
+  color: #999;
+}
+
+.emoji-button .emoji-picker-container {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  z-index: 1000;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+}
+
+.close-emoji {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 1;
+}
+
+/* Ant Design overrides */
+.ant-upload-list-picture-card .ant-upload-list-item {
+  padding: 0;
+  border: none;
+}
+
+.ant-upload.ant-upload-select-picture-card {
+  width: 100%;
+  height: 200px;
+  margin: 0;
+}
+
+.ant-upload-list-picture-card-container {
+  width: 100%;
+  height: 200px;
+  margin: 0;
+}
+
+.ant-upload-list-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ant-form-item-label > label {
+  font-weight: 500;
+  color: #4a5568;
+}
+
+.ant-input,
+.ant-select-selector,
+.ant-upload.ant-upload-select {
+  border-radius: 8px !important;
+}
+
+.ant-input:hover,
+.ant-select-selector:hover,
+.ant-upload.ant-upload-select:hover {
+  border-color: #FF416C !important;
+}
+
+.ant-input:focus,
+.ant-select-selector:focus,
+.ant-upload.ant-upload-select:focus {
+  border-color: #FF416C !important;
+  box-shadow: 0 0 0 2px rgba(255, 65, 108, 0.2) !important;
+}
+
+/* Thêm styles mới cho custom image preview */
+.custom-image-preview {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* Tỷ lệ 16:9 */
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.remove-image-btn {
+  position: absolute !important;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6) !important;
+  border: none;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.remove-image-btn:hover {
+  background: rgba(0, 0, 0, 0.8) !important;
+  transform: scale(1.1);
+}
+
+/* Animation cho preview */
+.custom-image-preview {
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Thêm styles mới */
+.user-info {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-settings {
+  flex: 1;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.post-options {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.visibility-btn,
+.activity-btn {
+  height: 24px;
+  padding: 0 8px;
+  background: #f0f2f5;
+  border-radius: 12px;
+  font-size: 13px;
+  color: #050505;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.visibility-btn:hover,
+.activity-btn:hover {
+  background: #e4e6eb;
+}
+
+.visibility-icon,
+.activity-icon {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.separator {
+  color: #65676b;
+  font-size: 12px;
+}
+
+.visibility-select,
+.activity-select {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+/* Dropdown styles */
+.visibility-dropdown,
+.activity-dropdown {
+  min-width: 200px;
+}
+
+.visibility-dropdown .ant-select-item,
+.activity-dropdown .ant-select-item {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Thêm animation cho dropdowns */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ant-select-dropdown {
+  animation: fadeIn 0.2s ease;
+} 
