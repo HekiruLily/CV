@@ -78,6 +78,29 @@ class ClubMemberModel {
             throw error;
         }
     }
+
+    static async updateMemberCode(memberId, newMemberCode, clubId) {
+        try {
+            // Kiểm tra xem member_code có trùng không
+            const [existing] = await db.promise().query(
+                'SELECT COUNT(*) AS count FROM club_members WHERE member_code = ? AND club_id = ?',
+                [newMemberCode, clubId]
+            );
+
+            if (existing[0].count > 0) {
+                return { success: false, message: "Member code đã tồn tại" };
+            }
+
+            const [result] = await db.promise().query(
+                'UPDATE club_members SET member_code = ? WHERE club_member_id = ?',
+                [newMemberCode, memberId]
+            );
+
+            return { success: result.affectedRows > 0 };
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = ClubMemberModel; 
