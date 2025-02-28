@@ -1,10 +1,26 @@
 import React from 'react';
 import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { Dropdown, Menu, Button } from 'antd';
 import Avatar from '../../../../components/Avatar/Avatar';
 import './MemberCard.css';
 
 const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, showApproveReject }) => {
     const joinedDate = new Date(member.joined_at).toLocaleDateString('vi-VN');
+
+    const menu = (
+        <Menu
+            onClick={({ key }) => {
+                if (key === 'updateCode') {
+                    onEdit(member, 'code');
+                } else if (key === 'updateRole') {
+                    onEdit(member, 'role');
+                }
+            }}
+        >
+            <Menu.Item key="updateCode">Cập nhật mã thành viên</Menu.Item>
+            <Menu.Item key="updateRole">Cập nhật vị trí thành viên</Menu.Item>
+        </Menu>
+    );
 
     return (
         <div className="member-item">
@@ -42,9 +58,11 @@ const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, sh
                     </>
                 ) : isAdmin && (
                     <>
-                        <button className="action-button edit" onClick={() => onEdit(member)}>
-                            <EditOutlined />
-                        </button>
+                        <Dropdown overlay={menu} trigger={['hover']}>
+                            <Button className="action-button edit">
+                                <EditOutlined /> 
+                            </Button>
+                        </Dropdown>
                         <button className="action-button delete" onClick={() => onDelete(member)}>
                             <DeleteOutlined />
                         </button>
@@ -55,4 +73,4 @@ const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, sh
     );
 };
 
-export default MemberCard; 
+export default MemberCard;

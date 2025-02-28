@@ -12,6 +12,8 @@ router.get('/:clubCode/introduction', authMiddleware, clubController.getClubInfo
 router.get('/requests', authMiddleware, clubController.getClubRequestsByStatus);
 router.post('/requests/approve', authMiddleware, clubController.approveClubRequest);
 router.patch('/update/:club_id', authMiddleware, clubController.updateClubInfo);
+const uploadNews = createUpload('news').single('image');
+
 // Routes cho quản lý thành viên
 router.get('/:clubCode/members', authMiddleware, clubMemberController.getMembers);
 router.patch('/members/:memberId/status', authMiddleware, clubMemberController.updateMemberStatus);
@@ -22,13 +24,8 @@ router.get('/code/:code', clubController.getClubByCode);
 // Route chuyển quyền hạn cho thành viên (Chỉ Admin)
 router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
 
-
-// Route chuyển quyền hạn cho thành viên (Chỉ Admin)
-router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
-
-
-// News routes
-const uploadNews = createUpload('news').single('image');
+// Route cập nhật mã thành viên
+router.put('/update-member-code/:memberId', authMiddleware, clubMemberController.updateMemberCode);
 
 router.post('/:clubCode/news', authMiddleware, uploadNews, clubNewsController.createNews);
 

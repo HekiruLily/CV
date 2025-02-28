@@ -168,7 +168,27 @@ const clubService = {
       }
       throw new Error('Không tìm thấy câu lạc bộ');
     }
-  }
+  },
+
+  updateMemberCode: async (memberId, newMemberCode, clubCode) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/update-member-code/${memberId}`,
+        { newMemberCode, clubCode },
+        {
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error.response?.data || { message: 'Lỗi kết nối đến server' };
+    }
+  },
 };
+
+
 
 export default clubService; 

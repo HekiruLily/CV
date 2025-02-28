@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message, Modal, Select } from 'antd';
+import { message, Modal, Select, Input } from 'antd';
 import { useParams } from 'react-router-dom';
 import MemberStatusList from './components/MemberStatusList';
 import clubService from '../../../services/club.service';
@@ -21,6 +21,8 @@ const MemberList = () => {
     const [editingMember, setEditingMember] = useState(null);
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [selectedRole, setSelectedRole] = useState('');
+    const [newMemberCode, setNewMemberCode] = useState('');
+    const [modalType, setModalType] = useState('');
     
     useEffect(() => {
         fetchMembers(activeTab);
@@ -44,85 +46,52 @@ const MemberList = () => {
         }
     };
 
-    const handleStatusUpdate = async (member, newStatus) => {
+    const handleUpdateMemberCode = async () => {
+        if (!newMemberCode) {
+            message.error('Vui lòng nhập mã thành viên mới');
+            return;
+        }
         try {
-            showLoading('Đang cập nhật trạng thái...');
-            await clubService.updateMemberStatus(member.club_member_id, newStatus, clubCode);
-            message.success('Cập nhật trạng thái thành công');
+            showLoading('Đang cập nhật mã thành viên...');
+            await clubService.updateMemberCode(editingMember.club_member_id, newMemberCode, clubCode);
+            message.success('Cập nhật mã thành viên thành công');
+            setIsEditModalVisible(false);
             fetchMembers(activeTab);
         } catch (error) {
-            message.error(error.message || 'Không thể cập nhật trạng thái');
+            message.error(error.message || 'Không thể cập nhật mã thành viên');
         } finally {
             hideLoading();
         }
     };
 
-    const handleApprove = (member) => handleStatusUpdate(member, 'Approved');
-    const handleReject = (member) => handleStatusUpdate(member, 'Rejected');
-    const handleEdit = (member) => {
-        setEditingMember(member);
-        setSelectedRole(member.role);
-        setIsEditModalVisible(true);
-    };
-    const handleRoleUpdate = async () => {
+    const handleUpdateMemberRole = async () => {
         try {
-            showLoading('Đang cập nhật vị trí...');
+            showLoading('Đang cập nhật vị trí thành viên...');
             await clubService.updateMemberRole(editingMember.club_member_id, selectedRole, clubCode);
-            message.success('Cập nhật vị trí thành công');
+            message.success('Cập nhật vị trí thành viên thành công');
             setIsEditModalVisible(false);
             fetchMembers(activeTab);
         } catch (error) {
-            message.error(error.message || 'Không thể cập nhật vị trí');
+            message.error(error.message || 'Không thể cập nhật vị trí thành viên');
         } finally {
             hideLoading();
         }
     };
-    const handleDelete = (member) => {
-        Modal.confirm({
-            title: 'Xác nhận xóa',
-            content: 'Bạn có chắc chắn muốn xóa thành viên này?',
-            okText: 'Xóa',
-            cancelText: 'Hủy',
-            okButtonProps: { danger: true },
-            onOk: () => handleStatusUpdate(member, 'Rejected')
-        });
+
+    const handleEdit = (member, type) => {
+        setEditingMember(member);
+        setSelectedRole(member.role);
+        setNewMemberCode(member.member_code);
+        setModalType(type);
+        setIsEditModalVisible(true);
     };
 
     return (
         <div className="member-list-container">
-            <div className="tabs">
-                <button 
-                    className={`tab ${activeTab === 'Approved' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('Approved')}
-                >
-                    Thành viên
-                </button>
-                {isAdmin && (
-                    <>
-                        <button 
-                            className={`tab ${activeTab === 'Pending' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('Pending')}
-                        >
-                            Chưa duyệt
-                        </button>
-                        <button 
-                            className={`tab ${activeTab === 'Rejected' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('Rejected')}
-                        >
-                            Đã hủy
-                        </button>
-                    </>
-                )}
-            </div>
-
             <MemberStatusList
                 members={members[activeTab]}
                 isAdmin={isAdmin}
                 onEdit={handleEdit}
-                onDelete={handleDelete}
-                onApprove={handleApprove}
-                onReject={handleReject}
-                showApproveReject={activeTab === 'Pending'}
                 emptyMessage={`Không có thành viên ${
                     activeTab === 'Pending' ? 'chờ duyệt' : 
                     activeTab === 'Approved' ? 'đã duyệt' : 'bị từ chối'
@@ -130,15 +99,20 @@ const MemberList = () => {
             />
 
             <Modal
-                title="Cập nhật vị trí thành viên"
+                title={modalType === 'code' ? "Cập nhật mã thành viên" : "Cập nhật vị trí thành viên"}
                 open={isEditModalVisible}
-                onOk={handleRoleUpdate}
                 onCancel={() => setIsEditModalVisible(false)}
-                okText="Cập nhật"
-                cancelText="Hủy"
+                onOk={modalType === 'code' ? handleUpdateMemberCode : handleUpdateMemberRole}
             >
-                <div style={{ marginBottom: 16 }}>
-                    <p>Thành viên: {editingMember?.full_name}</p>
+                <p>Thành viên: {editingMember?.full_name}</p>
+                {modalType === 'code' ? (
+                    <Input
+                        value={newMemberCode}
+                        onChange={(e) => setNewMemberCode(e.target.value)}
+                        style={{ width: '100%' }}
+                        placeholder="Nhập mã thành viên mới"
+                    />
+                ) : (
                     <Select
                         value={selectedRole}
                         onChange={setSelectedRole}
@@ -148,7 +122,7 @@ const MemberList = () => {
                         <Option value="Manager">Quản lý</Option>
                         <Option value="Finance">Tài chính</Option>
                     </Select>
-                </div>
+                )}
             </Modal>
         </div>
     );
