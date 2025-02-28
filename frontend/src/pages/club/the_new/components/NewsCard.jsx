@@ -14,6 +14,7 @@ import {
   MessageOutlined,
   ShareAltOutlined
 } from '@ant-design/icons';
+import Comments from './Comments';
 
 const NewsCard = ({ 
   id,
@@ -32,6 +33,7 @@ const NewsCard = ({
   const [likeCount, setLikeCount] = useState(stats?.likes || 0);
   const [showReactions, setShowReactions] = useState(false);
   const [reactions, setReactions] = useState([]);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     checkUserReaction();
@@ -97,7 +99,7 @@ const NewsCard = ({
           <ViewCount count={views} />
         </div>
 
-        <p className="news-text">{content}</p>
+        <pre className="news-text">{content}</pre>
 
         {images && images.length > 0 && <ImageGallery images={images} />}
 
@@ -118,7 +120,7 @@ const NewsCard = ({
                 </div>
               </div>
             </Tooltip>
-            <div className="stat-item">
+            <div className="stat-item" onClick={() => setShowComments(!showComments)}>
               <div className="stat-label">
                 <MessageOutlined className="icon" /> Bình luận
               </div>
@@ -149,6 +151,10 @@ const NewsCard = ({
           ))}
         </div>
       </Modal>
+
+      {showComments && (
+        <Comments clubCode={clubCode} newsId={id} />
+      )}
     </div>
   );
 };

@@ -99,6 +99,34 @@ class ClubNewsService {
             throw error.response?.data || { message: 'Lỗi khi kiểm tra cảm xúc' };
         }
     }
+
+    static async getComments(clubCode, newsId, page = 1, limit = 10) {
+        try {
+            const response = await axios.get(
+                `${API_URL}/${clubCode}/news/${newsId}/comments`,
+                {
+                    params: { page, limit },
+                    withCredentials: true
+                }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi lấy bình luận' };
+        }
+    }
+
+    static async createComment(clubCode, newsId, comment) {
+        try {
+            const response = await axios.post(
+                `${API_URL}/${clubCode}/news/${newsId}/comments`,
+                { comment },
+                { withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi thêm bình luận' };
+        }
+    }
 }
 
 export default ClubNewsService; 

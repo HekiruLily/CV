@@ -94,7 +94,8 @@ exports.deleteComment = async (req, res) => {
 exports.getComments = async (req, res) => {
     try {
         const { newsId } = req.params;
-        const { page = 1, limit = 10 } = req.query;
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
 
         const result = await ClubNewsCommentModel.getComments(newsId, page, limit);
         
@@ -103,7 +104,7 @@ exports.getComments = async (req, res) => {
             data: {
                 comments: result.comments,
                 pagination: {
-                    current_page: parseInt(page),
+                    current_page: page,
                     total_pages: Math.ceil(result.total / limit),
                     total_items: result.total
                 }

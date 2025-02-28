@@ -39,15 +39,23 @@ class ClubNewsCommentModel {
 
     static async getComments(newsId, page = 1, limit = 10) {
         try {
-            const offset = (page - 1) * limit;
+            const offset = (page - 1) * parseInt(limit);
             const [comments] = await db.promise().query(
-                `SELECT c.*, up.full_name, up.avatar 
+                `SELECT 
+                    c.comment_id,
+                    c.news_id,
+                    c.user_id,
+                    c.comment,
+                    c.created_at,
+                    c.updated_at,
+                    up.full_name,
+                    up.avatar 
                 FROM club_news_comments c 
                 JOIN user_profiles up ON up.user_id = c.user_id
                 WHERE c.news_id = ? 
                 ORDER BY c.created_at DESC 
                 LIMIT ? OFFSET ?`,
-                [newsId, limit, offset]
+                [newsId, parseInt(limit), offset]
             );
             
             const [total] = await db.promise().query(

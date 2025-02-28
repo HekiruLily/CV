@@ -1,0 +1,136 @@
+.comments-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.comment-input-container {
+    margin-bottom: 24px;
+}
+
+.comment-input-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.comment-input-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.comment-textarea {
+    border-radius: 18px;
+    padding: 8px 16px;
+    resize: none;
+    background: #f5f5f5;
+    border: 1px solid #e8e8e8;
+}
+
+.comment-textarea:focus {
+    background: #fff;
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.send-button {
+    align-self: flex-end;
+    border-radius: 18px;
+    padding: 4px 16px;
+}
+
+.comments-list {
+    margin-top: 20px;
+}
+
+.comment-item {
+    padding: 16px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.comment-item:last-child {
+    border-bottom: none;
+}
+
+.comment-content {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.comment-avatar {
+    flex-shrink: 0;
+}
+
+.comment-body {
+    flex: 1;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #262626;
+}
+
+.comment-time {
+    font-size: 12px;
+    color: #8c8c8c;
+}
+
+.comment-text {
+    display: flex;
+    margin: 8px 0;
+    color: #262626;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.comment-actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+}
+
+.comment-actions .ant-btn {
+    padding: 0;
+    height: auto;
+    color: #8c8c8c;
+}
+
+.comment-actions .ant-btn:hover {
+    color: #1890ff;
+}
+
+.comment-actions .ant-btn.ant-btn-dangerous:hover {
+    color: #ff4d4f;
+}
+
+.ant-list-pagination {
+    margin-top: 24px;
+    text-align: center;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .comment-input-wrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .comment-avatar {
+        margin-bottom: 8px;
+    }
+
+    .comment-actions {
+        flex-wrap: wrap;
+    }
+} 
