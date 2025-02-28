@@ -9,19 +9,16 @@ import {
 } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
-import defaultAvatar from '../avata.png';
 import ProfileService from '../../../services/profile.service';
 import Avatar from '../../../components/Avatar/Avatar';
 import './ProfileCard.css';
+import { useDispatch } from 'react-redux';
+import { updateUserProfile } from '../../../redux/slices/userSlice';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
+    const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    const avatarUrl = useMemo(() => {
-        if (!basicInfo?.avatar) return defaultAvatar;
-        return `http://localhost:5000${basicInfo.avatar}`;
-    }, [basicInfo?.avatar]);
-
+    const [uploading, setUploading] = useState(false);
     const latestClub = clubs?.[0];
 
     const profileInfo = useMemo(() => [
@@ -63,33 +60,44 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
         }
     };
 
-    const handleAvatarChange = async ({ file }) => {
-        if (file.status !== 'done' && !file.originFileObj) return;
-
+    const handleAvatarChange = async (info) => {
+        const file = info.file;
+        
+        // Chỉ xử lý khi file được chọn và không đang trong quá trình upload
+        if (info.file.status !== 'uploading' || uploading) return;
+        
+        setUploading(true);
+        
+        // Kiểm tra định dạng và kích thước file
         const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
         const isLt2M = file.size / 1024 / 1024 < 2;
-
+        
         if (!isJpgOrPng) {
             message.error('❌ Chỉ hỗ trợ định dạng JPG/PNG!');
+            setUploading(false);
             return;
         }
-
+        
         if (!isLt2M) {
             message.error('❌ Ảnh phải nhỏ hơn 2MB!');
+            setUploading(false);
             return;
         }
-
-        const formData = new FormData();
-        formData.append('avatar', file.originFileObj);
-
+        
         try {
+            const formData = new FormData();
+            formData.append('avatar', file.originFileObj);
+
             const response = await ProfileService.updateAvatar(formData);
             if (response.success) {
                 onProfileUpdate(response.avatarUrl);
+                dispatch(updateUserProfile({ avatar: response.avatarUrl }));
                 message.success('🎉 Cập nhật ảnh đại diện thành công');
             }
         } catch (error) {
             message.error(error.message || '❌ Lỗi khi cập nhật ảnh đại diện');
+        } finally {
+            setUploading(false);
         }
     };
 
@@ -106,15 +114,11 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
                     />
                     <Upload
                         showUploadList={false}
-                        customRequest={({ file, onSuccess }) => setTimeout(() => onSuccess('ok'), 0)}
-                        beforeUpload={(file) => {
-                            const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-                            if (!isJpgOrPng) message.error('❌ Chỉ hỗ trợ định dạng JPG/PNG!');
-                            const isLt2M = file.size / 1024 / 1024 < 2;
-                            if (!isLt2M) message.error('❌ Ảnh phải nhỏ hơn 2MB!');
-                            return isJpgOrPng && isLt2M;
-                        }}
                         onChange={handleAvatarChange}
+                        customRequest={({ onSuccess }) => {
+                            // Đánh dấu thành công ngay lập tức để component Upload không tự gửi request
+                            setTimeout(() => onSuccess('ok'), 0);
+                        }}
                     >
                         <div className="camera-overlay">
                             <CameraOutlined className="camera-icon" />

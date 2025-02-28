@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/profile/records';
+const API_URL = process.env.REACT_APP_API_URL + '/profile/records';
 
 const runningRecordService = {
     createRecord: async (recordData) => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/clubs';
+const API_URL = process.env.REACT_APP_API_URL + '/clubs';
 
 const clubService = {
   getUserClubs: async () => {
@@ -28,12 +28,16 @@ const clubService = {
 
   joinClub: async (clubCode) => {
     try {
+      console.log(clubCode);
       const response = await axios.post(`${API_URL}/join`, { clubCode }, {
         withCredentials: true
       });
       return response.data;
     } catch (error) {
-      throw error.response?.data || { message: 'Lỗi kết nối đến server' };
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw new Error('Lỗi kết nối đến server');
     }
   },
 
@@ -117,7 +121,7 @@ const clubService = {
 
   updateMemberRole: async (memberId, role, clubCode) => {
     try {
-      const response = await fetch(`${API_URL}/members/${memberId}/role`, {
+      const response = await fetch(`${API_URL}/${clubCode}/members/${memberId}/role`, {
         method: 'PATCH',
         credentials: 'include',
         headers: {
@@ -135,6 +139,7 @@ const clubService = {
       throw error;
     }
   },
+
   updateClub: async (clubId, clubData) => {
     try {
         const response = await axios.patch(`${API_URL}/update/${clubId}`, clubData, {
@@ -149,9 +154,21 @@ const clubService = {
 
         throw error.response?.data || { message: 'Lỗi kết nối đến server' };
     }
-}
+},
 
-
+  getClubByCode: async (clubCode) => {
+    try {
+      const response = await axios.get(`${API_URL}/code/${clubCode}`, {
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw new Error('Không tìm thấy câu lạc bộ');
+    }
+  }
 };
 
 export default clubService; 

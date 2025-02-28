@@ -1,4 +1,7 @@
 const db = require('../configs/database');
+const fs = require('fs');
+const path = require('path');
+const { deleteOldFile } = require('../utils/fileHelper');
 
 class ProfileModel {
     static async getUserProfile(userId) {
@@ -119,12 +122,28 @@ class ProfileModel {
 
     static async updateAvatar(userId, avatarUrl) {
         try {
+            // Lấy đường dẫn ảnh cũ
+            const [rows] = await db.promise().query(
+                'SELECT avatar FROM user_profiles WHERE user_id = ?',
+                [userId]
+            );
+
+            const oldAvatar = rows[0]?.avatar;
+            
+            // Cập nhật ảnh mới trong DB
             const [result] = await db.promise().query(
                 'UPDATE user_profiles SET avatar = ? WHERE user_id = ?',
                 [avatarUrl, userId]
             );
+            
+            // Xóa ảnh cũ sau khi đã cập nhật thành công
+            if (result.affectedRows > 0 && oldAvatar) {
+                deleteOldFile(oldAvatar);
+            }
+            
             return result.affectedRows > 0;
         } catch (error) {
+            console.error(`❌ Lỗi khi cập nhật avatar: ${error.message}`);
             throw error;
         }
     }

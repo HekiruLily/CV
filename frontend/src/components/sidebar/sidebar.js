@@ -1,30 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Button, Avatar, message } from 'antd';
+import { Layout, Button, message, Divider, Tooltip } from 'antd';
 import { 
   PlusOutlined, 
   UsergroupAddOutlined, 
   TeamOutlined,
-  InfoCircleOutlined,
   UserOutlined,
+  FireOutlined,
 } from '@ant-design/icons';
 import clubService from '../../services/club.service';
 import './sidebar.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../contexts/GlobalContext';
+import { useSelector } from 'react-redux';
+import Avatar from '../../components/Avatar/Avatar';
+import JoinClubModal from '../JoinClubModal/JoinClubModal';
+import ClubList from './ClubList';
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 const Sidebar = () => {
   const { 
     showLoading, 
-    hideLoading,
-    setIsJoinClubModalOpen,
-    user
+    hideLoading
   } = useGlobal();
+  const userData = useSelector(state => state.user.userData);
   const [clubs, setClubs] = useState([]);
+  const [expandedClub, setExpandedClub] = useState(null);
+  const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     fetchUserClubs();
@@ -41,7 +44,9 @@ const Sidebar = () => {
           name: club.name,
           members: club.member_count,
           initial: club.name.charAt(0),
-          avatar: club.avatar
+          avatar: club.avatar,
+          status: club.status || 'Active',
+          hasNotifications: Math.random() > 0.5
         }));
         setClubs(formattedClubs);
       }
@@ -57,26 +62,63 @@ const Sidebar = () => {
   };
 
   const handleJoinClub = () => {
-    setIsJoinClubModalOpen(true);
+    setIsJoinModalVisible(true);
+  };
+
+  const handleJoinSuccess = () => {
+    // Refresh danh sách câu lạc bộ sau khi tham gia thành công
+    fetchUserClubs();
   };
 
   const handleProfileClick = () => {
     navigate('/profile');
   };
 
+  const toggleClub = (clubId) => {
+    setExpandedClub(expandedClub === clubId ? null : clubId);
+  };
+
   return (
     <Sider className="sb-container" width={300}>
+      {/* User Profile Section */}
+      <div className="sb-user-profile">
+        <Avatar 
+          src={userData?.avatar}
+          alt={userData?.full_name}
+          text={userData?.full_name}
+          size="large"
+          className="sb-user-avatar"
+        />
+        <div className="sb-user-info">
+          <div className="sb-user-name">{userData?.full_name || 'Người dùng'}</div>
+          <Button 
+            type="link" 
+            className="sb-profile-link"
+            onClick={handleProfileClick}
+            icon={<UserOutlined />}
+          >
+            Trang cá nhân
+          </Button>
+        </div>
+      </div>
+
+      <Divider className="sb-divider">
+        <FireOutlined className="sb-divider-icon" /> Câu lạc bộ
+      </Divider>
+
+      {/* Club Actions */}
       <div className="sb-header">
         <div className="sb-title">
-          <TeamOutlined /> Câu lạc bộ của bạn
+          <TeamOutlined className="sb-title-icon" /> Câu lạc bộ của bạn
         </div>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          className="sb-create-btn"
-          onClick={handleCreateClub}
-          title="Tạo câu lạc bộ mới"
-        />
+        <Tooltip title="Tạo câu lạc bộ mới">
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            className="sb-create-btn"
+            onClick={handleCreateClub}
+          />
+        </Tooltip>
       </div>
 
       <Button 
@@ -88,46 +130,18 @@ const Sidebar = () => {
         Tham gia câu lạc bộ
       </Button>
 
-      <Menu 
-        mode="inline" 
-        className="sb-clubs-list"
-        selectedKeys={[location.pathname]}
-      >
-        {clubs.map(club => (
-          <SubMenu
-            key={club.id}
-            title={
-              <div className="sb-club-header">
-                <Avatar 
-                  className="sb-club-avatar"
-                  src={club.avatar}
-                >
-                  {!club.avatar && club.initial}
-                </Avatar>
-                <div className="sb-club-info">
-                  <div className="sb-club-name">{club.name}</div>
-                  <div className="sb-club-members">{club.members} thành viên</div>
-                </div>
-              </div>
-            }
-          >
-            <Menu.Item 
-              key={`/clubs/${club.club_code}/introduction`}
-              icon={<InfoCircleOutlined />}
-              onClick={() => navigate(`/clubs/${club.club_code}/introduction`)}
-            >
-              Giới thiệu
-            </Menu.Item>
-            <Menu.Item 
-              key={`/clubs/${club.club_code}/members`}
-              icon={<UserOutlined />}
-              onClick={() => navigate(`/clubs/${club.club_code}/members`)}
-            >
-              Thành viên
-            </Menu.Item>
-          </SubMenu>
-        ))}
-      </Menu>
+      <ClubList 
+        clubs={clubs}
+        expandedClub={expandedClub}
+        toggleClub={toggleClub}
+      />
+
+      {/* Join Club Modal */}
+      <JoinClubModal 
+        isOpen={isJoinModalVisible}
+        onClose={() => setIsJoinModalVisible(false)}
+        onSuccess={handleJoinSuccess}
+      />
     </Sider>
   );
 };

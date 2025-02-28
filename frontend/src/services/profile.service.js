@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/profile';
+const API_URL = process.env.REACT_APP_API_URL + '/profile';
 
 class ProfileService {
     static async getProfile() {
@@ -28,6 +28,7 @@ class ProfileService {
 
     static async updateAvatar(formData) {
         try {
+            console.log(formData)
             const response = await axios.patch(
                 `${API_URL}/me/avatar`,
                 formData,

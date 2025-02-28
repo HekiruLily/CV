@@ -64,7 +64,7 @@ CREATE TABLE clubs (
 -- lần thêm thứ 2
 CREATE TABLE club_members (
     club_member_id INT AUTO_INCREMENT PRIMARY KEY,
-    member_code VARCHAR(255) UNIQUE NOT NULL, -- Mã thành viên tự sinh
+    member_code VARCHAR(255) NULL, -- Mã thành viên tự sinh
     club_id INT NOT NULL,                          
     user_id INT NOT NULL,                          
     role ENUM('Member', 'Manager', 'Finance', 'Admin') DEFAULT 'Member',  
@@ -90,6 +90,46 @@ CREATE TABLE tournaments (
     tournament_rules TEXT
 );
 
+CREATE TABLE club_news (
+    news_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    club_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    image VARCHAR(255),
+    video VARCHAR(255),
+    activity_type ENUM('Run', 'Event', 'News', 'Notice') DEFAULT 'Run',
+    visibility ENUM('Public', 'Private') DEFAULT 'Public',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (club_id) REFERENCES clubs(club_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE club_news_reactions (
+    reaction_id INT AUTO_INCREMENT PRIMARY KEY,
+    news_id INT NOT NULL,
+    user_id INT NOT NULL,
+    reaction ENUM('Like', 'Love', 'Haha', 'Sad', 'Angry', 'Wow', 'Care') DEFAULT 'Like',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (news_id) REFERENCES club_news(news_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+CREATE TABLE club_news_comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    news_id INT NOT NULL,
+    user_id INT NOT NULL,
+    comment TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (news_id) REFERENCES club_news(news_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);
+
+
+
+
 
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_phone ON users(phone);
@@ -107,3 +147,10 @@ CREATE INDEX idx_club_members_user_id ON club_members(user_id);
 CREATE INDEX idx_club_members_member_code ON club_members(member_code);
 CREATE INDEX idx_club_members_club_id ON club_members(club_id);
 CREATE INDEX idx_club_members_is_active ON club_members(is_active);
+
+
+CREATE INDEX idx_club_news_reactions_news_id ON club_news_reactions(news_id);
+CREATE INDEX idx_club_news_reactions_user_id ON club_news_reactions(user_id);
+
+CREATE INDEX idx_club_news_comments_news_id ON club_news_comments(news_id);
+CREATE INDEX idx_club_news_comments_user_id ON club_news_comments(user_id);
