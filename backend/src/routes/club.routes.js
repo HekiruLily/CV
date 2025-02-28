@@ -5,6 +5,8 @@ const clubNewsController = require('../controllers/club.news.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 const clubMemberController = require('../controllers/clubMember.controller');
 const { uploadClubAvatar, createUpload } = require('../middlewares/upload');
+const newsReactionController = require('../controllers/club.news.reaction.controller');
+const newsCommentController = require('../controllers/club.news.comment.controller');
 
 router.get('/user-clubs', authMiddleware, clubController.getUserClubs);
 router.post('/request', authMiddleware, uploadClubAvatar, clubController.createClubRequest);
@@ -28,5 +30,19 @@ router.post('/:clubCode/news', authMiddleware, uploadNews, clubNewsController.cr
 router.get('/:clubCode/news', authMiddleware, clubNewsController.getClubNews);
 
 router.get('/:clubCode/news/:newsId', authMiddleware, clubNewsController.getNewsDetail);
+
+
+// Comment routes
+router.post('/:clubCode/news/:newsId/comments', authMiddleware, newsCommentController.createComment);
+router.put('/:clubCode/news/comments/:commentId', authMiddleware, newsCommentController.updateComment);
+router.delete('/:clubCode/news/comments/:commentId', authMiddleware, newsCommentController.deleteComment);
+router.get('/:clubCode/news/:newsId/comments', authMiddleware, newsCommentController.getComments);
+
+// Reaction routes
+router.post('/:clubCode/news/:newsId/reactions', authMiddleware, newsReactionController.addReaction);
+router.delete('/:clubCode/news/:newsId/reactions', authMiddleware, newsReactionController.removeReaction);
+router.get('/:clubCode/news/:newsId/reactions', authMiddleware, newsReactionController.getReactions);
+// router.get('/news/reactions/me', authMiddleware, newsReactionController.getUserReactedNews);
+router.get('/:clubCode/news/:newsId/reactions/check', authMiddleware, newsReactionController.checkReaction);
 
 module.exports = router; 

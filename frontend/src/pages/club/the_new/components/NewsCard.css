@@ -1,0 +1,38 @@
+.reactions-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.reaction-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.reaction-item:last-child {
+    border-bottom: none;
+}
+
+.reaction-user-name {
+    margin-left: 12px;
+    font-weight: 500;
+}
+
+.stat-item {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+    background-color: #f5f5f5;
+}
+
+.icon.liked {
+    color: #1890ff;
+}
+
+.stat-value {
+    color: #666;
+    font-size: 14px;
+} 

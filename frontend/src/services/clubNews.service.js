@@ -48,6 +48,57 @@ class ClubNewsService {
             throw error.response?.data || { message: 'Lỗi khi tạo bài viết' };
         }
     }
+
+    static async addReaction(clubCode, newsId, reactionType) {
+        try {
+            const response = await axios.post(
+                `${API_URL}/${clubCode}/news/${newsId}/reactions`,
+                { reaction_type: reactionType },
+                { withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi thêm cảm xúc' };
+        }
+    }
+
+    static async removeReaction(clubCode, newsId) {
+        try {
+            const response = await axios.delete(
+                `${API_URL}/${clubCode}/news/${newsId}/reactions`,
+                { withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi xóa cảm xúc' };
+        }
+    }
+
+    // Lấy danh sách cảm xúc của bài viết
+    static async getReactions(clubCode, newsId) {
+        try {
+            const response = await axios.get(
+                `${API_URL}/${clubCode}/news/${newsId}/reactions`,
+                { withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi lấy danh sách cảm xúc' };
+        }
+    }
+
+    // Kiểm tra cảm xúc của người dùng
+    static async checkReaction(clubCode, newsId) {
+        try {
+            const response = await axios.get(
+                `${API_URL}/${clubCode}/news/${newsId}/reactions/check`,
+                { withCredentials: true }
+            );
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || { message: 'Lỗi khi kiểm tra cảm xúc' };
+        }
+    }
 }
 
 export default ClubNewsService; 
