@@ -40,8 +40,8 @@ const CreateNewsForm = ({ clubCode, onSuccess }) => {
       const formData = {
         title: content || 'Bài viết mới',
         content: content,
-        activity_type: values.activity_type || 'News',
-        visibility: values.visibility || 'Public',
+        activity_type: activityType,
+        visibility: visibility,
         image: selectedImage
       };
 

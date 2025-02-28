@@ -47,6 +47,9 @@ const Nav = () => {
       </div>
 
       <div className="nav-center">
+        <Button type="text" onClick={() => navigate('/')} className="nav-link">
+          Trang chủ
+        </Button>
         <Button type="text" onClick={() => navigate('/events')} className="nav-link">
           Sự kiện
         </Button>
@@ -55,6 +58,9 @@ const Nav = () => {
         </Button>
         <Button type="text" onClick={() => navigate('/community')} className="nav-link">
           Cộng đồng
+        </Button>
+        <Button type="text" onClick={() => navigate('/profile')} className="nav-link">
+          Trang cá nhân
         </Button>
         <Button type="text" onClick={() => navigate('/profile')} className="nav-link">
           Câu lạc bộ
