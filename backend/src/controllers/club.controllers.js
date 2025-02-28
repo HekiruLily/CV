@@ -3,10 +3,10 @@ const { format } = require('date-fns');
 exports.getClubInfo = async (req, res) => {
     try {
         const { clubCode } = req.params;
-        
+
         // Lấy thông tin cơ bản của club
         const clubInfo = await ClubModel.getClubByCode(clubCode);
-        
+
         if (!clubInfo) {
             return res.status(404).json({
                 success: false,
@@ -203,3 +203,41 @@ exports.rejectClubRequest = async (req, res) => {
         });
     }
 };
+
+//Tìm kiếm đơn xin CLB
+exports.searchClubRequests = async (req, res) => {
+    try {
+        let { club_name, club_code } = req.query;
+
+        // Chuẩn hóa dữ liệu đầu vào (xoá khoảng trắng & ký tự xuống dòng)
+        club_name = club_name ? club_name.trim() : null;
+        club_code = club_code ? club_code.trim() : null;
+
+        // Kiểm tra nếu cả hai đều rỗng thì báo lỗi
+        if (!club_name && !club_code) {
+            return res.status(400).json({
+                success: false,
+                message: "Vui lòng nhập club_name hoặc club_code để tìm kiếm"
+            });
+        }
+
+        // Gọi model để tìm kiếm
+        const results = await ClubModel.searchClubRequests({ club_name, club_code });
+
+        res.status(200).json({
+            success: true,
+            message: results.length > 0 ? "Tìm kiếm đơn xin tạo CLB thành công" : "Không tìm thấy kết quả nào",
+            data: results
+        });
+
+    } catch (error) {
+        console.error('Lỗi khi tìm kiếm club_requests:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Đã xảy ra lỗi khi tìm kiếm club_requests',
+            error: error.message
+        });
+    }
+};
+
+
