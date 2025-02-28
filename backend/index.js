@@ -5,7 +5,7 @@ const cors = require('cors');
 const clubRoutes = require('./src/routes/club.routes');
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
 }));
 
