@@ -20,6 +20,11 @@ router.get('/code/:code', clubController.getClubByCode);
 // Route chuyển quyền hạn cho thành viên (Chỉ Admin)
 router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
 
+
+// Route chuyển quyền hạn cho thành viên (Chỉ Admin)
+router.patch('/:clubCode/members/:memberId/role', authMiddleware, clubMemberController.updateMemberRole);
+
+
 // News routes
 const uploadNews = createUpload('news').single('image');
 
