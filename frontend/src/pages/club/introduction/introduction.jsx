@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { message, Card, Row, Col, Button } from 'antd';
+import { message, Card, Row, Col } from 'antd';
 import { 
     TeamOutlined,
-    TrophyOutlined,
     CalendarOutlined,
     EnvironmentOutlined,
     FacebookOutlined,
