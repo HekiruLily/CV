@@ -16,7 +16,7 @@ exports.getMembers = async (req, res) => {
 
         // Lấy vai trò của user trong câu lạc bộ
         const userRole = await ClubMemberModel.checkMemberRole(req.user.userId, clubCode);
-        
+
         if (!userRole) {
             return res.status(403).json({
                 success: false,
@@ -138,4 +138,35 @@ exports.updateMemberRole = async (req, res) => {
             message: 'Đã xảy ra lỗi khi cập nhật vị trí thành viên'
         });
     }
-}; 
+};
+
+
+exports.updateMemberCode = async (req, res) => {
+    try {
+        const { memberId } = req.params;
+        const { newMemberCode, clubCode } = req.body;
+
+        // Lấy ID CLB từ club_code
+        const clubId = await ClubMemberModel.getClubIdByCode(clubCode);
+        if (!clubId) {
+            return res.status(404).json({ success: false, message: "Câu lạc bộ không tồn tại" });
+        }
+
+        // Kiểm tra quyền Admin
+        const userRole = await ClubMemberModel.checkMemberRole(req.user.userId, clubCode);
+        if (userRole !== 'Admin') {
+            return res.status(403).json({ success: false, message: "Bạn không có quyền cập nhật" });
+        }
+
+        // Cập nhật member_code
+        const result = await ClubMemberModel.updateMemberCode(memberId, newMemberCode, clubId);
+        if (!result.success) {
+            return res.status(400).json({ success: false, message: result.message });
+        }
+
+        res.json({ success: true, message: "Cập nhật member_code thành công" });
+    } catch (error) {
+        console.error("Update member_code error:", error);
+        res.status(500).json({ success: false, message: "Đã xảy ra lỗi khi cập nhật" });
+    }
+};
