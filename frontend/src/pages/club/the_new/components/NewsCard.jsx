@@ -15,6 +15,7 @@ import {
   ShareAltOutlined
 } from '@ant-design/icons';
 import Comments from './Comments';
+import './NewsCard.css';
 
 const NewsCard = ({ 
   id,
@@ -34,6 +35,10 @@ const NewsCard = ({
   const [showReactions, setShowReactions] = useState(false);
   const [reactions, setReactions] = useState([]);
   const [showComments, setShowComments] = useState(false);
+  const [expandedContent, setExpandedContent] = useState(false);
+  const contentLength = content?.length || 0;
+  const contentThreshold = 500; // Character threshold for showing "See more"
+  const shouldTruncate = contentLength > contentThreshold;
 
   useEffect(() => {
     checkUserReaction();
@@ -73,6 +78,19 @@ const NewsCard = ({
     }
   };
 
+  // Format content with line breaks
+  const formatContent = (text) => {
+    if (!text) return '';
+    
+    // If content should be truncated and is not expanded
+    if (shouldTruncate && !expandedContent) {
+      return text.substring(0, contentThreshold) + '...';
+    }
+    
+    // Đảm bảo hiển thị đúng dấu xuống dòng
+    return text;
+  };
+
   return (
     <div className="news-card">
       <div className="news-content">
@@ -82,24 +100,40 @@ const NewsCard = ({
           </div>
         )}
         
-        <div className="avatar-author-row">
-          <Avatar src={process.env.REACT_APP_API_URL + avatar} />
-          <h2 className="news-author">{author}</h2>
+        <div className="user-info-container">
+          <div className="avatar-author-row">
+            <Avatar src={process.env.REACT_APP_API_URL + avatar} />
+            <div className="author-metadata">
+              <h2 className="news-author">{author}</h2>
+              <div className="metadata-row">
+                <span className="timestamp">
+                  <ClockCircleOutlined className="icon" /> {timestamp}
+                </span>
+                {location && (
+                  <span className="location">
+                    <EnvironmentOutlined className="icon" /> {location}
+                  </span>
+                )}
+                <ViewCount count={views} />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="metadata-row">
-          <span className="timestamp">
-            <ClockCircleOutlined className="icon" /> {timestamp}
-          </span>
-          {location && (
-            <span className="location">
-              <EnvironmentOutlined className="icon" /> {location}
-            </span>
+        <div className="news-text-container">
+          <div className="news-text">
+            {formatContent(content)}
+          </div>
+          
+          {shouldTruncate && (
+            <div 
+              className="see-more-button" 
+              onClick={() => setExpandedContent(!expandedContent)}
+            >
+              {expandedContent ? 'Thu gọn' : 'Xem thêm'}
+            </div>
           )}
-          <ViewCount count={views} />
         </div>
-
-        <pre className="news-text">{content}</pre>
 
         {images && images.length > 0 && <ImageGallery images={images} />}
 

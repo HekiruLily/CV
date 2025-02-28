@@ -146,6 +146,37 @@
     padding: 3rem 2rem;
     color: white;
     margin-bottom: 2rem;
+    position: relative;
+}
+
+.club-banner:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.edit-banner-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    z-index: 10;
+    cursor: pointer;
+}
+
+.edit-banner-button:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.edit-banner-button .anticon {
+    font-size: 16px;
 }
 
 .banner-content {
@@ -252,28 +283,39 @@
 .social-links {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 12px;
 }
 
 .social-link {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    border-radius: 8px;
-    background: #f8fafc;
-    color: #4a5568;
+    padding: 10px;
+    border-radius: 6px;
     transition: all 0.3s ease;
+    color: rgba(0, 0, 0, 0.85);
+    background-color: #f5f5f5;
 }
 
 .social-link:hover {
-    transform: translateX(8px);
-    background: #f0f7ff;
+    background-color: #e6f7ff;
+    transform: translateX(5px);
 }
 
 .social-link .anticon {
-    font-size: 1.5rem;
-    color: #1890ff;
+    font-size: 20px;
+    margin-right: 12px;
+}
+
+.social-link .anticon-facebook {
+    color: #1877f2;
+}
+
+.social-link .anticon-instagram {
+    color: #c13584;
+}
+
+.social-link .anticon-youtube {
+    color: #ff0000;
 }
 
 .social-info {
@@ -283,12 +325,19 @@
 
 .platform {
     font-weight: 600;
-    color: #1f2937;
+    font-size: 14px;
 }
 
 .account {
-    font-size: 0.9rem;
-    color: #6b7280;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.no-social-links {
+    text-align: center;
+    padding: 20px;
+    color: rgba(0, 0, 0, 0.45);
+    font-style: italic;
 }
 
 /* Responsive Design */
@@ -363,4 +412,10 @@
     .club-mission, .club-vision {
         padding: 1rem;
     }
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
 }

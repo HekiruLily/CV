@@ -33,8 +33,8 @@ class UserModel {
 
             // Insert user profile data
             await conn.query(
-                'INSERT INTO user_profiles (user_id, full_name) VALUES (?, ?)',
-                [userId, userProfile.full_name]
+                'INSERT INTO user_profiles (user_id, full_name, email, phone) VALUES (?, ?, ?, ?)',
+                [userId, userProfile.full_name, userData.email, userData.phone]
             );
 
             await conn.commit();

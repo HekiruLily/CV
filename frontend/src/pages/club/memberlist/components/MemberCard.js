@@ -1,10 +1,67 @@
 import React from 'react';
-import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, MoreOutlined, UserOutlined, IdcardOutlined } from '@ant-design/icons';
+import { Dropdown } from 'antd';
 import Avatar from '../../../../components/Avatar/Avatar';
 import './MemberCard.css';
 
-const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, showApproveReject }) => {
+const MemberCard = ({ 
+    member, 
+    isAdmin, 
+    onDelete, 
+    onApprove, 
+    onReject, 
+    showApproveReject,
+    onShowRoleModal,
+    onShowMemberCodeModal 
+}) => {
     const joinedDate = new Date(member.joined_at).toLocaleDateString('vi-VN');
+
+    const getActionItems = () => {
+        if (showApproveReject) {
+            return [
+                {
+                    key: 'approve',
+                    icon: <CheckOutlined />,
+                    label: 'Duyệt',
+                    onClick: () => onApprove(member)
+                },
+                {
+                    key: 'reject',
+                    icon: <CloseOutlined />,
+                    label: 'Từ chối',
+                    onClick: () => onReject(member)
+                }
+            ];
+        } else if (isAdmin) {
+            const items = [
+                {
+                    key: 'editRole',
+                    icon: <UserOutlined />,
+                    label: 'Cập nhật vị trí',
+                    onClick: () => onShowRoleModal(member)
+                },
+                {
+                    key: 'delete',
+                    icon: <DeleteOutlined />,
+                    label: 'Xóa',
+                    onClick: () => onDelete(member)
+                }
+            ];
+            
+            // Only Admin can update member code
+            if (member.role !== 'Admin') {
+                items.splice(1, 0, {
+                    key: 'editMemberCode',
+                    icon: <IdcardOutlined />,
+                    label: 'Cập nhật mã thành viên',
+                    onClick: () => onShowMemberCodeModal(member)
+                });
+            }
+            
+            return items;
+        }
+        return [];
+    };
 
     return (
         <div className="member-item">
@@ -31,24 +88,16 @@ const MemberCard = ({ member, isAdmin, onEdit, onDelete, onApprove, onReject, sh
                 </div>
             </div>
             <div className="member-actions">
-                {showApproveReject ? (
-                    <>
-                        <button className="action-button approve" onClick={() => onApprove(member)}>
-                            <CheckOutlined />
+                {(showApproveReject || isAdmin) && (
+                    <Dropdown 
+                        menu={{ items: getActionItems() }} 
+                        trigger={['click']} 
+                        placement="bottomRight"
+                    >
+                        <button className="action-button more">
+                            <MoreOutlined />
                         </button>
-                        <button className="action-button reject" onClick={() => onReject(member)}>
-                            <CloseOutlined />
-                        </button>
-                    </>
-                ) : isAdmin && (
-                    <>
-                        <button className="action-button edit" onClick={() => onEdit(member)}>
-                            <EditOutlined />
-                        </button>
-                        <button className="action-button delete" onClick={() => onDelete(member)}>
-                            <DeleteOutlined />
-                        </button>
-                    </>
+                    </Dropdown>
                 )}
             </div>
         </div>

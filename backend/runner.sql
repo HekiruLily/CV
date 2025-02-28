@@ -9,6 +9,8 @@ CREATE TABLE users (
 CREATE TABLE user_profiles (
     user_id INT PRIMARY KEY,                 -- Khóa chính liên kết với users
     full_name VARCHAR(100) NOT NULL,         -- Họ và tên
+    email VARCHAR(255) NULL,          -- Email (có thể NULL nếu đăng ký bằng số điện thoại)
+    phone VARCHAR(20) NULL,           -- Số điện thoại (có thể NULL nếu đăng ký bằng email)
     birth_date DATE,                         -- Ngày sinh
     gender ENUM('male', 'female', 'other'),        -- Giới tính
     address TEXT,                            -- Địa chỉ
@@ -56,6 +58,9 @@ CREATE TABLE clubs (
     district VARCHAR(20),                      -- Quận huyện
     location VARCHAR(255),                   -- Địa điểm
     avatar VARCHAR(255),                    -- Ảnh đại diện
+    facebook_url VARCHAR(255),
+    instagram_url VARCHAR(255),
+    youtube_channel_url VARCHAR(255),
     created_by INT NOT NULL,                 -- Người tạo CLB (admin mặc định)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (created_by) REFERENCES users(user_id) ON DELETE CASCADE

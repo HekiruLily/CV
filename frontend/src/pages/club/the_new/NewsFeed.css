@@ -82,6 +82,7 @@
 }
 
 .news-author {
+  width: fit-content;
   font-size: 1.2rem;
   font-weight: 700;
   color: #2d3748;
@@ -89,6 +90,7 @@
   line-height: 1.4;
   position: relative;
   padding-bottom: 0.5rem;
+  text-align: left;
 }
 
 .news-author::after {
@@ -113,20 +115,24 @@
   margin: 1rem 0;
   color: #718096;
   font-size: 0.9rem;
+  text-align: left;
 }
 
 .timestamp, .location, .view-count {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-align: left;
 }
 
 .news-text {
-  display: flex;
+  display: block;
   font-size: 1.1rem;
   line-height: 1.6;
   color: #4a5568;
   margin: 1rem 0;
+  text-align: left;
+  white-space: pre-line;
 }
 
 .image-gallery {
@@ -208,12 +214,14 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  text-align: left;
 }
 
 .stats-row .stat-value {
   font-size: 1.2rem;
   font-weight: 700;
   color: #2d3748;
+  text-align: center;
 }
 
 .loading-container {
@@ -269,4 +277,33 @@
 
 .icon.liked {
   color: #1890ff;
+}
+
+.see-more-button {
+  display: flex;
+  color: #FF416C;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+
+.reactions-list {
+  max-height: 300px;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.reaction-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+
+.reaction-user-name {
+  margin-left: 12px;
+  font-weight: 500;
+  text-align: left;
 }

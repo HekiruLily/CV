@@ -12,6 +12,8 @@ const Comments = ({ clubCode, newsId }) => {
     const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [commentText, setCommentText] = useState('');
+    const [expandedComments, setExpandedComments] = useState({});
+    const commentThreshold = 300; // Character threshold for showing "See more"
     const [pagination, setPagination] = useState({
         current: 1,
         pageSize: 10,
@@ -67,6 +69,26 @@ const Comments = ({ clubCode, newsId }) => {
             e.preventDefault();
             handleSubmit();
         }
+    };
+
+    const toggleCommentExpand = (commentId) => {
+        setExpandedComments(prev => ({
+            ...prev,
+            [commentId]: !prev[commentId]
+        }));
+    };
+
+    const formatCommentText = (text, commentId) => {
+        if (!text) return '';
+        
+        const shouldTruncate = text.length > commentThreshold;
+        const isExpanded = expandedComments[commentId];
+        
+        if (shouldTruncate && !isExpanded) {
+            return text.substring(0, commentThreshold) + '...';
+        }
+        
+        return text;
     };
 
     return (
@@ -132,7 +154,19 @@ const Comments = ({ clubCode, newsId }) => {
                                         {new Date(comment.created_at).toLocaleString('vi-VN')}
                                     </span>
                                 </div>
-                                <div className="comment-text">{comment.comment}</div>
+                                <div className="comment-text-container">
+                                    <div className="comment-text">
+                                        {formatCommentText(comment.comment, comment.comment_id)}
+                                    </div>
+                                    {comment.comment && comment.comment.length > commentThreshold && (
+                                        <div 
+                                            className="see-more-button" 
+                                            onClick={() => toggleCommentExpand(comment.comment_id)}
+                                        >
+                                            {expandedComments[comment.comment_id] ? 'Thu gọn' : 'Xem thêm'}
+                                        </div>
+                                    )}
+                                </div>
                                 <div className="comment-actions">
                                     <Tooltip title="Thích">
                                         <Button type="text" icon={<LikeOutlined />} size="small">

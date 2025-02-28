@@ -79,8 +79,14 @@ class ClubMemberModel {
         }
     }
 
-    static async updateMemberCode(memberId, newMemberCode, clubId) {
+    static async updateMemberCode(memberId, newMemberCode, clubCode) {
         try {
+            // Get club_id from club_code
+            const clubId = await this.getClubIdByCode(clubCode);
+            if (!clubId) {
+                return { success: false, message: "Câu lạc bộ không tồn tại" };
+            }
+            
             // Kiểm tra xem member_code có trùng không
             const [existing] = await db.promise().query(
                 'SELECT COUNT(*) AS count FROM club_members WHERE member_code = ? AND club_id = ?',

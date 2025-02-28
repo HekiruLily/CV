@@ -1,6 +1,4 @@
 const db = require('../configs/database');
-const fs = require('fs');
-const path = require('path');
 const { deleteOldFile } = require('../utils/fileHelper');
 
 class ProfileModel {
@@ -8,8 +6,8 @@ class ProfileModel {
         try {
             const [rows] = await db.promise().query(
                 `SELECT 
-                    u.email,
-                    u.phone,
+                    up.email,
+                    up.phone,
                     up.full_name,
                     up.birth_date,
                     up.gender,
@@ -19,22 +17,21 @@ class ProfileModel {
                     (
                         SELECT COUNT(*) 
                         FROM running_records 
-                        WHERE user_id = u.user_id
+                        WHERE user_id = up.user_id
                     ) as total_runs,
                     (
                         SELECT SUM(distance) 
                         FROM running_records 
-                        WHERE user_id = u.user_id
+                        WHERE user_id = up.user_id
                     ) as total_distance,
                     (
                         SELECT COUNT(DISTINCT club_id) 
                         FROM club_members 
-                        WHERE user_id = u.user_id 
+                        WHERE user_id = up.user_id 
                         AND status = 'Approved'
                     ) as total_clubs
-                FROM users u
-                LEFT JOIN user_profiles up ON u.user_id = up.user_id
-                WHERE u.user_id = ?`,
+                FROM user_profiles up
+                WHERE up.user_id = ?`,
                 [userId]
             );
 
@@ -90,20 +87,16 @@ class ProfileModel {
         try {
             await conn.beginTransaction();
 
-            // Cập nhật users
-            await conn.query(
-                'UPDATE users SET phone = ? WHERE user_id = ?',
-                [profileData.phone, userId]
-            );
-
             // Cập nhật user_profiles
             await conn.query(
                 `UPDATE user_profiles 
-                SET full_name = ?, birth_date = ?, gender = ?, 
+                SET full_name = ?, email = ?, phone = ?, birth_date = ?, gender = ?, 
                     address = ?, achievement = ?
                 WHERE user_id = ?`,
                 [
                     profileData.full_name,
+                    profileData.email,
+                    profileData.phone,
                     profileData.birth_date,
                     profileData.gender,
                     profileData.address,

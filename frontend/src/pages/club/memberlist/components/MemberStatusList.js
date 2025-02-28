@@ -6,10 +6,11 @@ import './MemberStatusList.css';
 const MemberStatusList = ({ 
     members, 
     isAdmin, 
-    onEdit, 
     onDelete, 
     onApprove, 
     onReject, 
+    onShowRoleModal,
+    onShowMemberCodeModal,
     showApproveReject, 
     emptyMessage 
 }) => {
@@ -24,10 +25,11 @@ const MemberStatusList = ({
                     key={member.club_member_id}
                     member={member}
                     isAdmin={isAdmin}
-                    onEdit={onEdit}
                     onDelete={onDelete}
                     onApprove={onApprove}
                     onReject={onReject}
+                    onShowRoleModal={onShowRoleModal}
+                    onShowMemberCodeModal={onShowMemberCodeModal}
                     showApproveReject={showApproveReject}
                 />
             ))}

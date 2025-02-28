@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { message, Card, Row, Col, Statistic, Button, Avatar, Tag } from 'antd';
+import { useParams, useNavigate } from 'react-router-dom';
+import { message, Card, Row, Col, Button } from 'antd';
 import { 
     TeamOutlined,
     TrophyOutlined,
@@ -8,17 +8,23 @@ import {
     EnvironmentOutlined,
     FacebookOutlined,
     InstagramOutlined,
-    YoutubeOutlined
+    YoutubeOutlined,
+    EditOutlined
 } from '@ant-design/icons';
 import './introduction.css';
 import clubService from '../../../services/club.service';
+import ClubEditForm from './ClubEditForm';
 
 const Introduction = () => {
     const { clubCode } = useParams();
+    const navigate = useNavigate();
     const [clubInfo, setClubInfo] = useState(null);
+    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
         fetchClubInfo();
+        checkAdminStatus();
     }, [clubCode]);
 
     const fetchClubInfo = async () => {
@@ -32,12 +38,55 @@ const Introduction = () => {
         }
     };
 
+    const checkAdminStatus = async () => {
+        try {
+            // Get user clubs to check if user is admin of this club
+            const response = await clubService.getUserClubs();
+            if (response.success) {
+                const currentClub = response.data.find(club => club.club_code === clubCode);
+                if (currentClub && currentClub.role === 'Admin') {
+                    setIsAdmin(true);
+                }
+            }
+        } catch (error) {
+            console.error('Error checking admin status:', error);
+        }
+    };
+
+    const showEditModal = () => {
+        if (!isAdmin) {
+            message.warning('Bạn không có quyền chỉnh sửa thông tin câu lạc bộ này');
+            return;
+        }
+        setIsEditModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsEditModalVisible(false);
+    };
+
+    const handleUpdateSuccess = (values) => {
+        setIsEditModalVisible(false);
+        // If club_code was changed, navigate to the new URL
+        if (values.club_code !== clubCode) {
+            navigate(`/club/${values.club_code}/introduction`);
+        } else {
+            // Refresh club info
+            fetchClubInfo();
+        }
+    };
+
     if (!clubInfo) return null;
 
     return (
         <div className="club-introduction">
             {/* Banner Section */}
             <div className="club-banner">
+                {isAdmin && (
+                    <div className="edit-banner-button" onClick={showEditModal}>
+                        <EditOutlined /> Chỉnh sửa
+                    </div>
+                )}
                 <div className="banner-content">
                     <h1>{clubInfo.name}</h1>
                     <p className="club-motto">
@@ -100,34 +149,69 @@ const Introduction = () => {
                         <Card className="info-card social-card">
                             <h2 className="section-title">Kênh truyền thông</h2>
                             <div className="social-links">
-                                <a href="#facebook" className="social-link">
-                                    <FacebookOutlined />
-                                    <div className="social-info">
-                                        <span className="platform">Facebook</span>
-                                        <span className="account">{clubInfo.facebook_url}</span>
+                                {clubInfo.facebook_url && (
+                                    <a 
+                                        href={clubInfo.facebook_url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="social-link"
+                                    >
+                                        <FacebookOutlined />
+                                        <div className="social-info">
+                                            <span className="platform">Facebook</span>
+                                            <span className="account">Trang Facebook</span>
+                                        </div>
+                                    </a>
+                                )}
+                                
+                                {clubInfo.instagram_url && (
+                                    <a 
+                                        href={clubInfo.instagram_url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="social-link"
+                                    >
+                                        <InstagramOutlined />
+                                        <div className="social-info">
+                                            <span className="platform">Instagram</span>
+                                            <span className="account">Trang Instagram</span>
+                                        </div>
+                                    </a>
+                                )}
+                                
+                                {clubInfo.youtube_channel_url && (
+                                    <a 
+                                        href={clubInfo.youtube_channel_url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer" 
+                                        className="social-link"
+                                    >
+                                        <YoutubeOutlined />
+                                        <div className="social-info">
+                                            <span className="platform">Youtube</span>
+                                            <span className="account">Kênh Youtube</span>
+                                        </div>
+                                    </a>
+                                )}
+                                
+                                {!clubInfo.facebook_url && !clubInfo.instagram_url && !clubInfo.youtube_channel_url && (
+                                    <div className="no-social-links">
+                                        Chưa có kênh truyền thông
                                     </div>
-                                </a>
-                                <a href={`mailto:${clubInfo.creator_email}`} className="social-link">
-                                    <InstagramOutlined />
-                                    <div className="social-info">
-                                        <span className="platform">Instagram</span>
-                                        <span className="account">{clubInfo.instagram_url}</span>
-                                    </div>
-                                </a>
-                                <a href="#location" className="social-link">
-                                    <YoutubeOutlined />
-                                    <div className="social-info">
-                                        <span className="platform">Youtube</span>
-                                        <span className="account">
-                                            {clubInfo.youtube_channel_url}
-                                        </span>
-                                    </div>
-                                </a>
+                                )}
                             </div>
                         </Card>
                     </Col>
                 </Row>
             </div>
+
+            {/* Club Edit Form Modal */}
+            <ClubEditForm 
+                clubInfo={clubInfo}
+                visible={isEditModalVisible}
+                onCancel={handleCancel}
+                onSuccess={handleUpdateSuccess}
+            />
         </div>
     );
 };

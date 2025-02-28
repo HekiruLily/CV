@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const port = 5000;
 const cors = require('cors');
 const authRoutes = require('./src/routes/auth.routes');
 const clubRoutes = require('./src/routes/club.routes');
@@ -30,6 +29,6 @@ app.use('/clubs', clubRoutes);
 app.use('/profile', profileRoutes);
 app.use('/tournaments', tournamentRoutes);
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Example app listening at http://localhost:${process.env.PORT}`);
 });

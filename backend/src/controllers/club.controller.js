@@ -1,5 +1,6 @@
 const ClubModel = require('../models/club.model');
 const { getUploadPath } = require('../middlewares/upload');
+const db = require('../configs/database');
 
 exports.getUserClubs = async (req, res) => {
     try {
@@ -141,6 +142,38 @@ exports.getClubByCode = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Đã xảy ra lỗi khi lấy thông tin câu lạc bộ'
+    });
+  }
+};
+
+exports.updateClubInfo = async (req, res) => {
+  try {
+    const { clubId } = req.params;
+    const userId = req.user.userId;
+    
+    // Extract update data from request body
+    const updateData = {};
+    const allowedFields = ['club_code', 'name', 'description', 'province', 'district', 'location', 'facebook_url', 'instagram_url', 'youtube_channel_url'];
+    
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        updateData[field] = req.body[field];
+      }
+    }
+    
+    // Update club information using the model
+    const updatedClub = await ClubModel.updateClubInfoWithPermissionCheck(clubId, userId, updateData);
+    
+    return res.status(200).json({
+      success: true,
+      message: 'Cập nhật thông tin câu lạc bộ thành công',
+      data: updatedClub
+    });
+  } catch (error) {
+    console.error('Update club error:', error);
+    return res.status(error.statusCode || 400).json({
+      success: false,
+      message: error.message || 'Đã xảy ra lỗi khi cập nhật thông tin câu lạc bộ'
     });
   }
 }; 

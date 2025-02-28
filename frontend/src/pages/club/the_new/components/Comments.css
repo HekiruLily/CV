@@ -86,12 +86,32 @@
     color: #8c8c8c;
 }
 
-.comment-text {
-    display: flex;
+.comment-text-container {
     margin: 8px 0;
+}
+
+.comment-text {
     color: #262626;
     line-height: 1.5;
     white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.see-more-button {
+    color: #1890ff;
+    cursor: pointer;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.see-more-button:hover {
+    color: #40a9ff;
+    text-decoration: underline;
 }
 
 .comment-actions {

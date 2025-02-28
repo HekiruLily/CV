@@ -152,7 +152,42 @@ const clubService = {
       }
       throw new Error('Không tìm thấy câu lạc bộ');
     }
-  }
+  },
+
+  updateMemberCode: async (memberId, newMemberCode, clubCode) => {
+    try {
+      const response = await fetch(`${API_URL}/members/${memberId}/code`, {
+        method: 'PATCH',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ newMemberCode, clubCode })
+      });
+
+      const data = await response.json();
+      if (!data.success) {
+        throw new Error(data.message);
+      }
+      return data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  updateClubInfo: async (clubId, updateData) => {
+    try {
+      const response = await axios.patch(`${API_URL}/${clubId}/update`, updateData, {
+        withCredentials: true
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        throw error.response.data;
+      }
+      throw new Error('Lỗi khi cập nhật thông tin câu lạc bộ');
+    }
+  },
 };
 
 export default clubService; 

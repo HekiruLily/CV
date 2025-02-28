@@ -176,3 +176,31 @@
     transform: scale(1.1);
     transition: transform 0.3s ease;
   }
+
+  .form-actions {
+    margin-bottom: 0;
+    margin-top: 24px;
+    text-align: right;
+  }
+
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .ant-input::placeholder,
+  .ant-select-selection-placeholder,
+  .ant-picker-input input::placeholder {
+    color: #bfbfbf;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .ant-modal-header {
+    border-radius: 8px 8px 0 0;
+  }
+
+  .ant-form-item-label > label {
+    font-weight: 500;
+  }

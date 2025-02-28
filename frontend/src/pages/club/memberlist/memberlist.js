@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message, Modal, Select } from 'antd';
+import { message, Modal, Input, Select } from 'antd';
 import { useParams } from 'react-router-dom';
 import MemberStatusList from './components/MemberStatusList';
 import clubService from '../../../services/club.service';
@@ -19,7 +19,13 @@ const MemberList = () => {
     });
     const [isAdmin, setIsAdmin] = useState(false);
     const [editingMember, setEditingMember] = useState(null);
-    const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+    
+    // Modal states
+    const [isCodeModalVisible, setIsCodeModalVisible] = useState(false);
+    const [isRoleModalVisible, setIsRoleModalVisible] = useState(false);
+    
+    // Form states
+    const [memberCode, setMemberCode] = useState('');
     const [selectedRole, setSelectedRole] = useState('');
     
     useEffect(() => {
@@ -59,17 +65,27 @@ const MemberList = () => {
 
     const handleApprove = (member) => handleStatusUpdate(member, 'Approved');
     const handleReject = (member) => handleStatusUpdate(member, 'Rejected');
-    const handleEdit = (member) => {
+    
+    // Modal handlers
+    const handleShowRoleModal = (member) => {
         setEditingMember(member);
-        setSelectedRole(member.role);
-        setIsEditModalVisible(true);
+        setSelectedRole(member.role || 'Member');
+        setIsRoleModalVisible(true);
     };
+    
+    const handleShowMemberCodeModal = (member) => {
+        setEditingMember(member);
+        setMemberCode(member.member_code || '');
+        setIsCodeModalVisible(true);
+    };
+    
+    // Update handlers
     const handleRoleUpdate = async () => {
         try {
             showLoading('Đang cập nhật vị trí...');
             await clubService.updateMemberRole(editingMember.club_member_id, selectedRole, clubCode);
             message.success('Cập nhật vị trí thành công');
-            setIsEditModalVisible(false);
+            setIsRoleModalVisible(false);
             fetchMembers(activeTab);
         } catch (error) {
             message.error(error.message || 'Không thể cập nhật vị trí');
@@ -77,6 +93,21 @@ const MemberList = () => {
             hideLoading();
         }
     };
+    
+    const handleMemberCodeUpdate = async () => {
+        try {
+            showLoading('Đang cập nhật mã thành viên...');
+            await clubService.updateMemberCode(editingMember.club_member_id, memberCode, clubCode);
+            message.success('Cập nhật mã thành viên thành công');
+            setIsCodeModalVisible(false);
+            fetchMembers(activeTab);
+        } catch (error) {
+            message.error(error.message || 'Không thể cập nhật mã thành viên');
+        } finally {
+            hideLoading();
+        }
+    };
+    
     const handleDelete = (member) => {
         Modal.confirm({
             title: 'Xác nhận xóa',
@@ -118,10 +149,11 @@ const MemberList = () => {
             <MemberStatusList
                 members={members[activeTab]}
                 isAdmin={isAdmin}
-                onEdit={handleEdit}
                 onDelete={handleDelete}
                 onApprove={handleApprove}
                 onReject={handleReject}
+                onShowRoleModal={handleShowRoleModal}
+                onShowMemberCodeModal={handleShowMemberCodeModal}
                 showApproveReject={activeTab === 'Pending'}
                 emptyMessage={`Không có thành viên ${
                     activeTab === 'Pending' ? 'chờ duyệt' : 
@@ -129,26 +161,43 @@ const MemberList = () => {
                 }`}
             />
 
+            {/* Member Code Modal */}
             <Modal
-                title="Cập nhật vị trí thành viên"
-                open={isEditModalVisible}
-                onOk={handleRoleUpdate}
-                onCancel={() => setIsEditModalVisible(false)}
+                title="Cập nhật mã thành viên"
+                open={isCodeModalVisible}
+                onOk={handleMemberCodeUpdate}
+                onCancel={() => setIsCodeModalVisible(false)}
                 okText="Cập nhật"
                 cancelText="Hủy"
             >
-                <div style={{ marginBottom: 16 }}>
-                    <p>Thành viên: {editingMember?.full_name}</p>
-                    <Select
-                        value={selectedRole}
-                        onChange={setSelectedRole}
-                        style={{ width: '100%' }}
-                    >
-                        <Option value="Member">Thành viên</Option>
-                        <Option value="Manager">Quản lý</Option>
-                        <Option value="Finance">Tài chính</Option>
-                    </Select>
-                </div>
+                <p>Thành viên: {editingMember?.full_name}</p>
+                <Input
+                    placeholder="Nhập mã thành viên"
+                    value={memberCode}
+                    onChange={(e) => setMemberCode(e.target.value)}
+                    style={{ marginTop: 16 }}
+                />
+            </Modal>
+
+            {/* Role Modal */}
+            <Modal
+                title="Cập nhật vị trí thành viên"
+                open={isRoleModalVisible}
+                onOk={handleRoleUpdate}
+                onCancel={() => setIsRoleModalVisible(false)}
+                okText="Cập nhật"
+                cancelText="Hủy"
+            >
+                <p>Thành viên: {editingMember?.full_name}</p>
+                <Select
+                    value={selectedRole}
+                    onChange={setSelectedRole}
+                    style={{ width: '100%', marginTop: 16 }}
+                >
+                    <Option value="Member">Thành viên</Option>
+                    <Option value="Manager">Quản lý</Option>
+                    <Option value="Finance">Tài chính</Option>
+                </Select>
             </Modal>
         </div>
     );

@@ -6,6 +6,8 @@ import {
     TeamOutlined,
     EditOutlined,
     CameraOutlined,
+    ScheduleOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
@@ -14,6 +16,7 @@ import Avatar from '../../../components/Avatar/Avatar';
 import './ProfileCard.css';
 import { useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../redux/slices/userSlice';
+import moment from 'moment';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
     const dispatch = useDispatch();
@@ -21,21 +24,46 @@ const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
     const [uploading, setUploading] = useState(false);
     const latestClub = clubs?.[0];
 
+    const formatDate = (dateString) => {
+        if (!dateString) return 'Chưa cập nhật ngày sinh';
+        const date = moment(dateString, 'YYYY-MM-DD');
+        return date.isValid() ? date.format('DD/MM/YYYY') : 'Chưa cập nhật ngày sinh';
+    };
+
+    const formatGender = (gender) => {
+        const genderMap = {
+            'male': 'Nam',
+            'female': 'Nữ',
+            'other': 'Khác'
+        };
+        return genderMap[gender] || 'Chưa cập nhật giới tính';
+    };
+
     const profileInfo = useMemo(() => [
-        {
-            icon: <EnvironmentOutlined />,
-            color: '#ef4444',
-            text: basicInfo?.address || 'Chưa cập nhật địa chỉ',
-        },
         {
             icon: <MailOutlined />,
             color: '#3b82f6',
-            text: basicInfo?.email,
+            text: basicInfo?.email || 'Chưa cập nhật email',
         },
         {
             icon: <PhoneOutlined />,
             color: '#10b981',
             text: basicInfo?.phone || 'Chưa cập nhật số điện thoại',
+        },
+        {
+            icon: <UserOutlined />,
+            color: '#10b981',
+            text: formatGender(basicInfo?.gender),
+        },
+        {
+            icon: <ScheduleOutlined />,
+            color: '#3b82f6',
+            text: formatDate(basicInfo?.birth_date),
+        },
+        {
+            icon: <EnvironmentOutlined />,
+            color: '#ef4444',
+            text: basicInfo?.address || 'Chưa cập nhật địa chỉ',
         },
         {
             icon: <TeamOutlined />,

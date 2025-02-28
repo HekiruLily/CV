@@ -35,10 +35,21 @@
   font-size: 1.1rem;
   padding: 8px 0;
   resize: none;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
 }
 
 .content-input .ant-input:focus {
   box-shadow: none;
+}
+
+.content-input .ant-input-textarea-show-count::after {
+  color: #8c8c8c;
+  font-size: 12px;
+  float: right;
+  margin-top: 5px;
 }
 
 .image-preview {

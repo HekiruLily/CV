@@ -181,7 +181,9 @@ const CreateNewsForm = ({ clubCode, onSuccess }) => {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Bạn đang nghĩ gì?"
-            autoSize={{ minRows: 3, maxRows: 6 }}
+            autoSize={{ minRows: 3, maxRows: 10 }}
+            maxLength={5000}
+            showCount
             bordered={false}
           />
         </div>

@@ -146,12 +146,6 @@ exports.updateMemberCode = async (req, res) => {
         const { memberId } = req.params;
         const { newMemberCode, clubCode } = req.body;
 
-        // Lấy ID CLB từ club_code
-        const clubId = await ClubMemberModel.getClubIdByCode(clubCode);
-        if (!clubId) {
-            return res.status(404).json({ success: false, message: "Câu lạc bộ không tồn tại" });
-        }
-
         // Kiểm tra quyền Admin
         const userRole = await ClubMemberModel.checkMemberRole(req.user.userId, clubCode);
         if (userRole !== 'Admin') {
@@ -159,7 +153,7 @@ exports.updateMemberCode = async (req, res) => {
         }
 
         // Cập nhật member_code
-        const result = await ClubMemberModel.updateMemberCode(memberId, newMemberCode, clubId);
+        const result = await ClubMemberModel.updateMemberCode(memberId, newMemberCode, clubCode);
         if (!result.success) {
             return res.status(400).json({ success: false, message: result.message });
         }

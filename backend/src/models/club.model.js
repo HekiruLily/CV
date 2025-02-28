@@ -144,6 +144,90 @@ class ClubModel {
         );
         return rows[0];
     }
+
+    static async updateClubInfo(clubId, updateData) {
+        try {
+            // Check if club exists
+            const [clubs] = await db.promise().query(
+                'SELECT * FROM clubs WHERE club_id = ?',
+                [clubId]
+            );
+            
+            if (clubs.length === 0) {
+                throw new Error('Câu lạc bộ không tồn tại');
+            }
+            
+            // Check if club_code is being updated and if it's unique
+            if (updateData.club_code) {
+                const [existingClubs] = await db.promise().query(
+                    'SELECT * FROM clubs WHERE club_code = ? AND club_id != ?',
+                    [updateData.club_code, clubId]
+                );
+                
+                if (existingClubs.length > 0) {
+                    throw new Error('Mã câu lạc bộ đã tồn tại');
+                }
+            }
+            
+            // Build the update query dynamically based on provided fields
+            const allowedFields = ['club_code', 'name', 'description', 'province', 'district', 'location', 'facebook_url', 'instagram_url', 'youtube_channel_url'];
+            const updates = [];
+            const values = [];
+            
+            for (const field of allowedFields) {
+                if (updateData[field] !== undefined) {
+                    updates.push(`${field} = ?`);
+                    values.push(updateData[field]);
+                }
+            }
+            
+            if (updates.length === 0) {
+                throw new Error('Không có thông tin nào được cập nhật');
+            }
+            
+            // Add club_id to values array for WHERE clause
+            values.push(clubId);
+            
+            // Execute the update query
+            await db.promise().query(
+                `UPDATE clubs SET ${updates.join(', ')} WHERE club_id = ?`,
+                values
+            );
+            
+            // Return updated club info
+            const [updatedClub] = await db.promise().query(
+                'SELECT * FROM clubs WHERE club_id = ?',
+                [clubId]
+            );
+            
+            return updatedClub[0];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    static async updateClubInfoWithPermissionCheck(clubId, userId, updateData) {
+        try {
+            // Verify if the user has permission to update the club
+            // First, check if the club exists and if the user is an admin of the club
+            const [clubMembers] = await db.promise().query(
+                `SELECT * FROM club_members 
+                WHERE club_id = ? AND user_id = ? AND role = 'Admin' AND status = 'Approved'`,
+                [clubId, userId]
+            );
+            
+            if (clubMembers.length === 0) {
+                const error = new Error('Bạn không có quyền cập nhật thông tin câu lạc bộ này');
+                error.statusCode = 403;
+                throw error;
+            }
+            
+            // If permission check passes, proceed with the update
+            return await this.updateClubInfo(clubId, updateData);
+        } catch (error) {
+            throw error;
+        }
+    }
 }
 
 module.exports = ClubModel; 
