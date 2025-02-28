@@ -104,24 +104,22 @@ const Introduction = () => {
                                     <FacebookOutlined />
                                     <div className="social-info">
                                         <span className="platform">Facebook</span>
-                                        <span className="account">{clubInfo.name}</span>
+                                        <span className="account">{clubInfo.facebook_url}</span>
                                     </div>
                                 </a>
                                 <a href={`mailto:${clubInfo.creator_email}`} className="social-link">
                                     <InstagramOutlined />
                                     <div className="social-info">
-                                        <span className="platform">Email</span>
-                                        <span className="account">{clubInfo.creator_email}</span>
+                                        <span className="platform">Instagram</span>
+                                        <span className="account">{clubInfo.instagram_url}</span>
                                     </div>
                                 </a>
                                 <a href="#location" className="social-link">
                                     <YoutubeOutlined />
                                     <div className="social-info">
-                                        <span className="platform">Địa điểm</span>
+                                        <span className="platform">Youtube</span>
                                         <span className="account">
-                                            {clubInfo.district && clubInfo.province 
-                                                ? `${clubInfo.district}, ${clubInfo.province}`
-                                                : clubInfo.location || 'Chưa cập nhật'}
+                                            {clubInfo.youtube_channel_url}
                                         </span>
                                     </div>
                                 </a>

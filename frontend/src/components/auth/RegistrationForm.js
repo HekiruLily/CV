@@ -29,14 +29,14 @@ const RegistrationForm = () => {
   // Validate contact info (either email or phone)
   const validateContactInfo = (_, value) => {
     if (!value) {
-      return Promise.reject('Please enter your email or phone number');
+      return Promise.reject('Vui lòng nhập email hoặc số điện thoại');
     }
 
     const phoneRegex = /^[0-9]{10}$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(value) && !phoneRegex.test(value)) {
-      return Promise.reject('Please enter a valid email or phone number');
+      return Promise.reject('Vui lòng nhập email hoặc số điện thoại hợp lệ');
     }
     return Promise.resolve();
   };
@@ -45,8 +45,8 @@ const RegistrationForm = () => {
     <div className="register-container">
       <Card className="register-card">
         <div className="register-header">
-          <Title level={2}>Create Account</Title>
-          <p className="subtitle">Sign up to get started</p>
+          <Title level={2}>Tạo tài khoản</Title>
+          <p className="subtitle">Đăng ký để bắt đầu</p>
         </div>
 
         <Form
@@ -58,15 +58,15 @@ const RegistrationForm = () => {
         >
           <Form.Item
             name="fullName"
-            label="Full Name"
+            label="Họ và tên"
             rules={[
-              { required: true, message: 'Please enter your full name' },
-              { min: 2, message: 'Name must be at least 2 characters' },
-              { whitespace: true, message: 'Name cannot be empty' }
+              { required: true, message: 'Vui lòng nhập họ và tên' },
+              { min: 2, message: 'Họ và tên phải có ít nhất 2 ký tự' },
+              { whitespace: true, message: 'Họ và tên không được để trống' }
             ]}
           >
             <Input 
-              placeholder="Enter your full name"
+              placeholder="Nhập họ và tên"
               className="custom-input"
             />
           </Form.Item>
@@ -75,12 +75,12 @@ const RegistrationForm = () => {
             name="contactInfo"
             label="Email or Phone Number"
             rules={[
-              { required: true, message: 'Please enter your email or phone number' },
+              { required: true, message: 'Vui lòng nhập email hoặc số điện thoại' },
               { validator: validateContactInfo }
             ]}
           >
             <Input 
-              placeholder="Enter your email or phone number"
+              placeholder="Nhập email hoặc số điện thoại"
               className="custom-input"
             />
           </Form.Item>
@@ -89,36 +89,36 @@ const RegistrationForm = () => {
             name="password"
             label="Password"
             rules={[
-              { required: true, message: 'Please enter your password' },
-              { min: 6, message: 'Password must be at least 6 characters' }
+              { required: true, message: 'Vui lòng nhập mật khẩu' },
+              { min: 6, message: 'Mật khẩu phải có ít nhất 6 ký tự' }
             ]}
             hasFeedback
           >
             <Input.Password
-              placeholder="Enter your password"
+              placeholder="Nhập mật khẩu"
               className="custom-input"
             />
           </Form.Item>
 
           <Form.Item
             name="confirmPassword"
-            label="Confirm Password"
+            label="Xác nhận mật khẩu"
             dependencies={['password']}
             rules={[
-              { required: true, message: 'Please confirm your password' },
+              { required: true, message: 'Vui lòng xác nhận mật khẩu' },
               ({ getFieldValue }) => ({
                 validator(_, value) {
                   if (!value || getFieldValue('password') === value) {
                     return Promise.resolve();
                   }
-                  return Promise.reject('Passwords do not match');
+                  return Promise.reject('Mật khẩu không khớp');
                 },
               }),
             ]}
             hasFeedback
           >
             <Input.Password
-              placeholder="Confirm your password"
+              placeholder="Xác nhận mật khẩu"
               className="custom-input"
             />
           </Form.Item>
@@ -131,12 +131,12 @@ const RegistrationForm = () => {
               loading={loading}
               className="signin-button"
             >
-              Create Account
+              Tạo tài khoản
             </Button>
           </Form.Item>
 
           <div className="divider-container">
-            <Divider className="custom-divider">OR CONTINUE WITH</Divider>
+            <Divider className="custom-divider">HOẶC TIẾP TỤC VỚI</Divider>
           </div>
 
           <Button 
@@ -145,13 +145,13 @@ const RegistrationForm = () => {
             icon={<GoogleOutlined />}
             className="google-button"
           >
-            Sign up with Google
+            Đăng ký với Google
           </Button>
 
           <div className="login-link-container">
-            <span>Already have an account? </span>
+            <span>Đã có tài khoản? </span>
             <Link to="/login" className="login-link">
-              Sign in
+              Đăng nhập
             </Link>
           </div>
         </Form>

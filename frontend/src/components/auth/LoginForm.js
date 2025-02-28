@@ -39,8 +39,8 @@ const LoginForm = () => {
         <div className="login-container">
             <Card className="login-card">
             <div className="login-header">
-            <Title level={2}>Welcome Back</Title>
-            <p className="subtitle">Sign in to your account to continue</p>
+            <Title level={2}>Chào mừng trở lại</Title>
+            <p className="subtitle">Đăng nhập để tiếp tục</p>
         </div>
 
         <Form
@@ -52,26 +52,26 @@ const LoginForm = () => {
         >
             <Form.Item
             name="email"
-            label="Email or Phone Number"
+            label="Email hoặc Số điện thoại"
             rules={[
-            { required: true, message: 'Please enter your email or phone number' }
+            { required: true, message: 'Vui lòng nhập email hoặc số điện thoại' }
             ]}
             >
             <Input 
-                placeholder="Enter your email or phone number"
+                placeholder="Nhập email hoặc số điện thoại"
                 className="custom-input"
             />
             </Form.Item>
 
             <Form.Item
             name="password"
-            label="Password"
+            label="Mật khẩu"
             rules={[
-            { required: true, message: 'Please enter your password' }
+            { required: true, message: 'Vui lòng nhập mật khẩu' }
             ]}
             >
             <Input.Password
-            placeholder="Enter your password"
+            placeholder="Nhập mật khẩu"
             className="custom-input"
             iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
             />
@@ -85,12 +85,12 @@ const LoginForm = () => {
             loading={loading}
             className="signin-button"
             >
-            Sign in
+            Đăng nhập
             </Button>
         </Form.Item>
 
         <div className="divider-container">
-            <Divider className="custom-divider">OR CONTINUE WITH</Divider>
+            <Divider className="custom-divider">HOẶC TIẾP TỤC VỚI</Divider>
         </div>
 
         <Button 
@@ -99,12 +99,12 @@ const LoginForm = () => {
             icon={<GoogleOutlined />}
             className="google-button"
         >
-            Sign in with Google
+            Đăng nhập với Google
         </Button>
 
         <div className="forgot-password-container">
             <Link to="/forgot-password" className="forgot-link">
-            Forgot your password?
+            Quên mật khẩu?
             </Link>
         </div>
         </Form>
