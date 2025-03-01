@@ -132,6 +132,14 @@ CREATE TABLE club_news_comments (
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );
 
+--Phần quản trị
+CREATE TABLE admin_users (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,   
+    full_name VARCHAR(100) NOT NULL,          -- Họ và tên của admin  
+    email VARCHAR(255) UNIQUE NOT NULL,       -- Email đăng nhập  
+    password_hash VARCHAR(255) NOT NULL,      -- Mật khẩu đã mã hóa  
+);
+
 
 
 

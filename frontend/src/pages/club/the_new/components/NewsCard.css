@@ -19,20 +19,20 @@
     font-weight: 500;
 }
 
-.stat-item {
+.stats-row .stat-item {
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.stat-item:hover {
+.stats-row .stat-item:hover {
     background-color: #f5f5f5;
 }
 
-.icon.liked {
+.stats-row .icon.liked {
     color: #1890ff;
 }
 
-.stat-value {
+.stats-row .stat-value {
     color: #666;
     font-size: 14px;
 } 

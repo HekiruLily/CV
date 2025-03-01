@@ -205,22 +205,22 @@
     margin-top: 2rem;
 }
 
-.stat-item {
+.banner-content .club-stats .stat-item {
     display: flex;
     align-items: center;
     gap: 1rem;
 }
 
-.stat-item .anticon {
+.club-stats .stat-item .anticon {
     font-size: 2rem;
     opacity: 0.9;
 }
 
-.stat-content {
+ .club-stats .stat-content {
     text-align: left;
 }
 
-.stat-content span {
+ .club-stats .stat-content span {
     color: white !important; 
 }
 

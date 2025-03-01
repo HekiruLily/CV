@@ -6,6 +6,140 @@
   height: 100vh;
   position: sticky;
   top: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+/* Styles cho sidebar khi mở rộng */
+.sb-content {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Styles cho sidebar khi thu gọn (kiểu Discord) */
+.sb-collapsed {
+  background: #2f3136;
+}
+
+.sb-toggle-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.sb-toggle-btn {
+  color: #72767d;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+}
+
+.sb-toggle-btn:hover {
+  color: #ffffff;
+  background: transparent;
+}
+
+.sb-collapsed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+}
+
+.sb-collapsed-btn {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 20px !important;
+  background: #4f545c !important;
+  color: white !important;
+  border: none !important;
+}
+
+.sb-collapsed-btn:hover {
+  background: #5865f2;
+  transform: translateY(-2px);
+  transition: all 0.3s;
+}
+
+.sb-collapsed-join-btn {
+  background: #43b581;
+}
+
+.sb-collapsed-join-btn:hover {
+  background: #3ca374;
+}
+
+.sb-collapsed-divider {
+  width: 32px;
+  height: 2px;
+  background: #4f545c;
+  margin: 10px 0;
+  border-radius: 1px;
+}
+
+.sb-collapsed-clubs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 10px;
+  overflow-y: auto;
+}
+
+.sb-collapsed-club-item {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sb-collapsed-club-item:hover {
+  border-radius: 30%;
+  background-color: #5865f2;
+}
+
+.sb-collapsed-club-avatar {
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.sb-collapsed-club-item:hover .sb-collapsed-club-avatar {
+  border-radius: 30%;
+}
+
+.sb-notification-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #f04747;
+  border-radius: 50%;
+  top: 0;
+  right: 0;
+}
+
+.sb-collapsed-club-item.has-notification::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  width: 4px;
+  height: 20px;
+  background-color: white;
+  border-radius: 0 4px 4px 0;
 }
 
 .sb-user-profile {
@@ -228,6 +362,13 @@
 
 .sb-empty-clubs p {
   margin: 5px 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .sb-container {
+    position: fixed;
+  }
 }
 
 /* Customize Ant Design Menu */

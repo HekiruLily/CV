@@ -12,6 +12,12 @@
 .main-content {
   flex: 1;
   background: #f5f5f5;
+  transition: margin-left 0.3s ease;
+  margin-left: 300px; /* Chiều rộng của sidebar khi mở rộng */
+}
+
+.mobile-content {
+  margin-left: 70px; /* Chiều rộng của sidebar khi thu gọn */
 }
 
 .content-area {
@@ -24,6 +30,18 @@
 
 @media (max-width: 768px) {
   .main-content {
-    margin-left: 0;
+    margin-left: 70px; /* Chiều rộng của sidebar khi thu gọn trên mobile */
+  }
+  
+  .content-area {
+    margin: 12px;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-area {
+    margin: 8px;
+    padding: 12px;
   }
 } 
