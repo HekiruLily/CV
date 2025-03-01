@@ -1,7 +1,7 @@
 const TournamentModel = require("../models/tournament.model");
 
 class TournamentController {
-    // 📌 Lấy danh sách tất cả giải đấu (trừ giải đấu đã hoàn thành)
+    //  Lấy danh sách tất cả giải đấu (trừ giải đấu đã hoàn thành)
     static async getAllTournaments(req, res) {
         try {
             const tournaments = await TournamentModel.getAll();
@@ -19,7 +19,7 @@ class TournamentController {
         }
     }
 
-    // 📌 Lấy thông tin giải đấu theo ID
+    //  Lấy thông tin giải đấu theo ID
     static async getTournamentById(req, res) {
         try {
             const { id } = req.params;
@@ -44,7 +44,7 @@ class TournamentController {
         }
     }
 
-    // 📌 Tạo giải đấu mới
+    //  Tạo giải đấu mới
     static async createTournament(req, res) {
         try {
             const tournamentData = req.body;
@@ -72,7 +72,7 @@ class TournamentController {
         }
     }
 
-    // 📌 Cập nhật thông tin giải đấu
+    //  Cập nhật thông tin giải đấu
     static async updateTournament(req, res) {
         try {
             const { id } = req.params;
@@ -98,7 +98,7 @@ class TournamentController {
         }
     }
 
-    // 📌 Xóa giải đấu
+    //  Xóa giải đấu
     static async deleteTournament(req, res) {
         try {
             const { id } = req.params;
@@ -123,7 +123,7 @@ class TournamentController {
         }
     }
 
-    // 📌 Lấy danh sách năm diễn ra giải đấu
+    //  Lấy danh sách năm diễn ra giải đấu
     static async getTournamentYears(req, res) {
         try {
             const { id } = req.params;

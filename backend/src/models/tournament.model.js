@@ -1,7 +1,7 @@
 const db = require("../config/database")
 
 class TournamentModel {
-    // 📌 Lấy danh sách giải đấu (bỏ qua giải đấu đã hoàn thành)
+    //  Lấy danh sách giải đấu (bỏ qua giải đấu đã hoàn thành)
     static async getAll() {
         try {
             const [rows] = await db.promise().query(
@@ -16,7 +16,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Lấy thông tin giải đấu theo ID
+    //  Lấy thông tin giải đấu theo ID
     static async getById(tournamentId) {
         try {
             const [rows] = await db.promise().query(
@@ -30,7 +30,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Lấy thông tin giải đấu theo mã giải đấu (tournament_code)
+    //  Lấy thông tin giải đấu theo mã giải đấu (tournament_code)
     static async getByCode(tournamentCode) {
         try {
             const [rows] = await db.promise().query(
@@ -44,7 +44,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Tạo giải đấu (Sử dụng TRANSACTION)
+    //  Tạo giải đấu (Sử dụng TRANSACTION)
     static async create(tournamentData) {
         const conn = db.promise();
         try {
@@ -88,7 +88,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Cập nhật giải đấu
+    // Cập nhật giải đấu
     static async update(tournamentId, tournamentData) {
         try {
             const [result] = await db.promise().query(
@@ -102,7 +102,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Xóa giải đấu
+    //  Xóa giải đấu
     static async delete(tournamentId) {
         try {
             const [result] = await db.promise().query(
@@ -116,7 +116,7 @@ class TournamentModel {
         }
     }
 
-    // 📌 Lấy danh sách năm mà giải đấu diễn ra
+    // Lấy danh sách năm mà giải đấu diễn ra
     static async getTournamentYears(tournamentId) {
         try {
             const [rows] = await db.promise().query(
