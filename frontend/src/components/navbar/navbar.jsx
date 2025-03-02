@@ -3,13 +3,13 @@ import './navbar.css';
 import Logo from '../../assets/img/Logo.png'; 
 import { useNavigate } from 'react-router-dom';
 import { Button, message, Avatar, Dropdown, Menu } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../../redux/slices/userSlice';
 import authService from '../../services/auth.service';
 import { useAuth } from '../../hooks/useAuth';
 
-const Nav = () => {
+const Nav = ({ toggleSidebar, isMobile, sidebarVisible }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData: user } = useAuth();
@@ -39,6 +39,15 @@ const Nav = () => {
 
   return (
     <nav className="navbar">
+      {isMobile && (
+        <Button 
+          type="text" 
+          onClick={toggleSidebar} 
+          className="sidebar-toggle-btn"
+          icon={sidebarVisible ? <CloseOutlined /> : <MenuOutlined />}
+        />
+      )}
+      
       <div className="nav-left">
         <div className="logo-container">
           <img src={Logo} alt="RunnersPro Logo" className="logo-image" />

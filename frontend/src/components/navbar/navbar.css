@@ -159,3 +159,45 @@ body {
     padding: 0.5rem 1rem;
   }
 }
+
+.sidebar-toggle-btn {
+  margin-right: 10px;
+  font-size: 18px;
+  display: none;
+}
+
+/* Media queries cho responsive */
+@media (max-width: 768px) {
+  .sidebar-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  .nav-right {
+    margin-left: auto;
+  }
+
+  .username {
+    display: none;
+  }
+
+  .brand-name {
+    font-size: 16px;
+  }
+
+  .logo-image {
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .join-button {
+    display: none;
+  }
+}

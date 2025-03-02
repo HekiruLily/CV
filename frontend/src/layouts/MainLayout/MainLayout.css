@@ -12,36 +12,36 @@
 .main-content {
   flex: 1;
   background: #f5f5f5;
-  transition: margin-left 0.3s ease;
-  margin-left: 300px; /* Chiều rộng của sidebar khi mở rộng */
-}
-
-.mobile-content {
-  margin-left: 70px; /* Chiều rộng của sidebar khi thu gọn */
+  padding: 0 !important;
 }
 
 .content-area {
-  margin: 24px;
-  padding: 24px;
   background: #fff;
   border-radius: 8px;
   min-height: calc(100vh - 112px);
 }
 
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 70px; /* Chiều rộng của sidebar khi thu gọn trên mobile */
-  }
-  
-  .content-area {
-    margin: 12px;
-    padding: 16px;
-  }
+.main-content.full-width {
+  margin-left: 0;
+  width: 100%;
 }
 
-@media (max-width: 480px) {
-  .content-area {
-    margin: 8px;
-    padding: 12px;
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+  }
+  
+  .sb-container {
+    position: fixed;
+    z-index: 999;
+    height: calc(100vh - 64px);
+    top: 64px;
+    left: 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
   }
 } 

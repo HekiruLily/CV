@@ -7,26 +7,42 @@ import './MainLayout.css';
 const { Content } = Layout;
 
 const MainLayout = ({ children }) => {
+  const [sidebarVisible, setSidebarVisible] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
+  // Kiểm tra kích thước màn hình và cập nhật trạng thái
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
+    const checkScreenSize = () => {
+      const mobile = window.innerWidth <= 768;
+      setIsMobile(mobile);
+      // Tự động ẩn sidebar trên mobile
+      if (mobile) {
+        setSidebarVisible(false);
+      } else {
+        setSidebarVisible(true);
+      }
     };
-    
-    // Kiểm tra kích thước màn hình khi component mount
-    handleResize();
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+
+    // Kiểm tra khi component mount
+    checkScreenSize();
+
+    // Thêm event listener để kiểm tra khi resize
+    window.addEventListener('resize', checkScreenSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
+
+  const toggleSidebar = () => {
+    setSidebarVisible(!sidebarVisible);
+  };
 
   return (
     <div className="app-container">
-      <Nav />
+      <Nav toggleSidebar={toggleSidebar} isMobile={isMobile} sidebarVisible={sidebarVisible} />
       <Layout className="main-layout">
-        <Sidebar />
-        <Layout className={`main-content ${isMobile ? 'mobile-content' : ''}`}>
+        {sidebarVisible && <Sidebar />}
+        <Layout className={`main-content ${sidebarVisible ? '' : 'full-width'}`}>
           <Content className="content-area">
             {children}
           </Content>

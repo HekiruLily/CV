@@ -6,12 +6,10 @@ import {
   TeamOutlined,
   UserOutlined,
   FireOutlined,
-  MenuFoldOutlined,
-  MenuUnfoldOutlined
 } from '@ant-design/icons';
 import clubService from '../../services/club.service';
 import './sidebar.css';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useGlobal } from '../../contexts/GlobalContext';
 import { useSelector } from 'react-redux';
 import Avatar from '../../components/Avatar/Avatar';
@@ -19,12 +17,6 @@ import JoinClubModal from '../JoinClubModal/JoinClubModal';
 import ClubList from './ClubList';
 
 const { Sider } = Layout;
-
-// Lưu trạng thái collapse vào localStorage để duy trì giữa các lần chuyển trang
-const getSavedCollapsedState = () => {
-  const savedState = localStorage.getItem('sidebarCollapsed');
-  return savedState ? JSON.parse(savedState) : false;
-};
 
 const Sidebar = () => {
   const { 
@@ -35,49 +27,11 @@ const Sidebar = () => {
   const [clubs, setClubs] = useState([]);
   const [expandedClub, setExpandedClub] = useState(null);
   const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
-  const [collapsed, setCollapsed] = useState(getSavedCollapsedState);
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  // Xác định câu lạc bộ đang active dựa trên URL
-  const getCurrentClubCode = () => {
-    const match = location.pathname.match(/\/clubs\/([^\/]+)/);
-    return match ? match[1] : null;
-  };
 
   useEffect(() => {
     fetchUserClubs();
-    
-    // Thêm event listener để kiểm tra kích thước màn hình
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setCollapsedWithSave(true);
-      }
-    };
-    
-    // Kiểm tra kích thước màn hình khi component mount
-    handleResize();
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  // Cập nhật expandedClub khi URL thay đổi
-  useEffect(() => {
-    const currentClubCode = getCurrentClubCode();
-    if (currentClubCode) {
-      const club = clubs.find(c => c.club_code === currentClubCode);
-      if (club) {
-        setExpandedClub(club.id);
-      }
-    }
-  }, [location.pathname, clubs]);
-
-  // Hàm này sẽ lưu trạng thái collapse vào localStorage
-  const setCollapsedWithSave = (value) => {
-    setCollapsed(value);
-    localStorage.setItem('sidebarCollapsed', JSON.stringify(value));
-  };
 
   const fetchUserClubs = async () => {
     try {
@@ -124,118 +78,63 @@ const Sidebar = () => {
     setExpandedClub(expandedClub === clubId ? null : clubId);
   };
 
-  const toggleCollapsed = () => {
-    setCollapsedWithSave(!collapsed);
-  };
-
-  // Render các biểu tượng câu lạc bộ khi thu gọn
-  const renderCollapsedClubs = () => {
-    const currentClubCode = getCurrentClubCode();
-    
-    return (
-      <div className="sb-collapsed-clubs">
-        {clubs.map(club => (
-          <Tooltip 
-            key={club.id} 
-            title={club.name} 
-            placement="right"
-          >
-            <div 
-              className={`sb-collapsed-club-item ${club.hasNotifications ? 'has-notification' : ''} ${club.club_code === currentClubCode ? 'active' : ''}`}
-              onClick={() => navigate(`/clubs/${club.club_code}/introduction`)}
-            >
-              <Avatar 
-                src={club.avatar}
-                alt={club.name}
-                text={club.initial}
-                size="medium"
-                className="sb-collapsed-club-avatar"
-              />
-              {club.hasNotifications && <div className="sb-notification-dot"></div>}
-            </div>
-          </Tooltip>
-        ))}
-      </div>
-    );
-  };
-
   return (
-    <Sider 
-      className={`sb-container ${collapsed ? 'sb-collapsed' : ''}`} 
-      width={300}
-      collapsedWidth={70}
-      collapsed={collapsed}
-      trigger={null}
-    >
-      <div className="sb-toggle-wrapper">
-        <Button 
-          type="text" 
-          className="sb-toggle-btn"
-          onClick={toggleCollapsed}
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+    <Sider className="sb-container" width={300}>
+      {/* User Profile Section */}
+      {/* <div className="sb-user-profile">
+        <Avatar 
+          src={userData?.avatar}
+          alt={userData?.full_name}
+          text={userData?.full_name}
+          size="large"
+          className="sb-user-avatar"
         />
+        <div className="sb-user-info">
+          <div className="sb-user-name">{userData?.full_name || 'Người dùng'}</div>
+          <Button 
+            type="link" 
+            className="sb-profile-link"
+            onClick={handleProfileClick}
+            icon={<UserOutlined />}
+          >
+            Trang cá nhân
+          </Button>
+        </div>
+      </div> */}
+
+      <Divider className="sb-divider">
+        <FireOutlined className="sb-divider-icon" /> Câu lạc bộ
+      </Divider>
+
+      {/* Club Actions */}
+      <div className="sb-header">
+        <div className="sb-title">
+          <TeamOutlined className="sb-title-icon" /> Câu lạc bộ của bạn
+        </div>
+        <Tooltip title="Tạo câu lạc bộ mới">
+          <Button
+            type="primary"
+            icon={<PlusOutlined />}
+            className="sb-create-btn"
+            onClick={handleCreateClub}
+          />
+        </Tooltip>
       </div>
 
-      {collapsed ? (
-        <div className="sb-collapsed-content">
-          <Tooltip title="Tạo câu lạc bộ mới" placement="right">
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              className="sb-collapsed-btn"
-              onClick={handleCreateClub}
-            />
-          </Tooltip>
-          
-          <Tooltip title="Tham gia câu lạc bộ" placement="right">
-            <Button 
-              className="sb-collapsed-btn sb-collapsed-join-btn"
-              icon={<UsergroupAddOutlined />}
-              onClick={handleJoinClub}
-            />
-          </Tooltip>
-          
-          <div className="sb-collapsed-divider"></div>
-          
-          {renderCollapsedClubs()}
-        </div>
-      ) : (
-        <div className="sb-content">
-          <Divider className="sb-divider">
-            <FireOutlined className="sb-divider-icon" /> Câu lạc bộ
-          </Divider>
+      <Button 
+        className="sb-join-btn"
+        icon={<UsergroupAddOutlined />}
+        block
+        onClick={handleJoinClub}
+      >
+        Tham gia câu lạc bộ
+      </Button>
 
-          {/* Club Actions */}
-          <div className="sb-header">
-            <div className="sb-title">
-              <TeamOutlined className="sb-title-icon" /> Câu lạc bộ của bạn
-            </div>
-            <Tooltip title="Tạo câu lạc bộ mới">
-              <Button
-                type="primary"
-                icon={<PlusOutlined />}
-                className="sb-create-btn"
-                onClick={handleCreateClub}
-              />
-            </Tooltip>
-          </div>
-
-          <Button 
-            className="sb-join-btn"
-            icon={<UsergroupAddOutlined />}
-            block
-            onClick={handleJoinClub}
-          >
-            Tham gia câu lạc bộ
-          </Button>
-
-          <ClubList 
-            clubs={clubs}
-            expandedClub={expandedClub}
-            toggleClub={toggleClub}
-          />
-        </div>
-      )}
+      <ClubList 
+        clubs={clubs}
+        expandedClub={expandedClub}
+        toggleClub={toggleClub}
+      />
 
       {/* Join Club Modal */}
       <JoinClubModal 
