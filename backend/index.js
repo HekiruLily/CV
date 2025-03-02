@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const port = 5000;
 const authRoutes = require('./src/routes/auth.routes')
 const clubRoutes = require('./src/routes/club.routes');
 
@@ -18,6 +17,6 @@ app.use('/auth', authRoutes)
 app.use('/clubs', clubRoutes);
 
 
-app.listen(port, () => {
-    console.log(`Server is running on port http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}`);
 });
