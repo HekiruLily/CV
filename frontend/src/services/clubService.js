@@ -75,6 +75,57 @@ const clubService = {
         }
     },
 
+    // Xóa yêu cầu tạo CLB
+    deleteClubRequest: async (requestId) => {
+        try {
+            console.log(`Xóa yêu cầu với ID: ${requestId}`);
+            const response = await axios.delete(`${API_URL}/clubs/request/${requestId}`, {
+                data: { request_id: requestId }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Lỗi từ API deleteClubRequest:', error.response?.data || error.message);
+            throw error.response?.data || {
+                success: false,
+                message: 'Có lỗi xảy ra khi xóa yêu cầu'
+            };
+        }
+    },
+
+    //Xóa CLB
+    deleteClub: async (requestId) => {
+        try {
+            console.log(`Lấy club_id từ request_id: ${requestId}`);
+
+            // Gọi API để lấy club_id từ request_id
+            const response = await axios.get(`${API_URL}/clubs/club-id/${requestId}`, {
+                params: { request_id: requestId }
+            });
+
+            const clubId = response.data.data.club_id;
+            console.log(clubId);
+
+            if (!clubId) {
+                throw { success: false, message: "Không tìm thấy club_id từ request_id" };
+            }
+
+            console.log(`Xóa CLB với club_id: ${clubId}`);
+
+            // Gọi API để xóa CLB theo club_id
+            const deleteResponse = await axios.delete(`${API_URL}/clubs/${clubId}`);
+
+            return deleteResponse.data;
+        } catch (error) {
+            console.error('Lỗi từ API deleteClub:', error.response?.data || error.message);
+            throw error.response?.data || {
+                success: false,
+                message: 'Có lỗi xảy ra khi xóa CLB'
+            };
+        }
+    },
+
+
+
 
 
 };

@@ -234,6 +234,68 @@ class ClubModel {
         }
     }
 
+    // Xóa CLB theo ID
+    static async deleteClubById(clubId) {
+        try {
+            await db.promise().beginTransaction();
+
+            // Xóa tất cả thành viên trong CLB trước
+            await db.promise().query(
+                `DELETE FROM club_members WHERE club_id = ?`,
+                [clubId]
+            );
+
+            // Xóa CLB
+            const [result] = await db.promise().query(
+                `DELETE FROM clubs WHERE club_id = ?`,
+                [clubId]
+            );
+
+            if (result.affectedRows === 0) {
+                throw new Error("Không thể xóa CLB hoặc CLB không tồn tại");
+            }
+
+            await db.promise().commit();
+            return true;
+        } catch (error) {
+            await db.promise().rollback();
+            throw error;
+        }
+    }
+
+    // Xóa club requests
+    static async deleteClubRequestById(requestId) {
+        try {
+            const [result] = await db.promise().query(
+                `DELETE FROM club_requests WHERE request_id = ?`,
+                [requestId]
+            );
+
+            return result.affectedRows > 0;
+        } catch (error) {
+            console.error("Lỗi khi xóa club_request:", error);
+            throw new Error("Không thể xóa yêu cầu tạo CLB");
+        }
+    }
+
+    // Lấy club_code từ request_id
+    static async getClubCodeByRequestId(requestId) {
+        const [rows] = await db.promise().query(
+            `SELECT club_code FROM club_requests WHERE request_id = ?`,
+            [requestId]
+        );
+        return rows.length > 0 ? rows[0].club_code : null;
+    }
+
+    // Lấy club_id từ club_code
+    static async getClubIdByCode(clubCode) {
+        const [rows] = await db.promise().query(
+            `SELECT club_id FROM clubs WHERE club_code = ?`,
+            [clubCode]
+        );
+        return rows.length > 0 ? rows[0].club_id : null;
+    }
+
 
 }
 

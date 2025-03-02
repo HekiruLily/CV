@@ -81,7 +81,7 @@ exports.approveClubRequest = async (req, res) => {
     }
 };
 
-// Xóa CLBCLB
+// Xóa CLB
 exports.deleteClub = async (req, res) => {
     try {
         const { clubId } = req.params;
@@ -125,6 +125,52 @@ exports.deleteClub = async (req, res) => {
         });
     }
 };
+
+//Xóa club reuquest
+exports.deleteClubRequest = async (req, res) => {
+    try {
+        const { request_id } = req.params;
+
+        if (!request_id) {
+            return res.status(400).json({
+                success: false,
+                message: "Thiếu request_id"
+            });
+        }
+
+        // Kiểm tra xem yêu cầu có tồn tại không
+        const existingRequest = await ClubModel.getClubRequestById(request_id);
+        if (!existingRequest) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy yêu cầu tạo CLB"
+            });
+        }
+
+        // Thực hiện xóa yêu cầu
+        const deleted = await ClubModel.deleteClubRequestById(request_id);
+
+        if (deleted) {
+            return res.status(200).json({
+                success: true,
+                message: "Xóa yêu cầu tạo CLB thành công"
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                message: "Không thể xóa yêu cầu tạo CLB"
+            });
+        }
+
+    } catch (error) {
+        console.error("Lỗi khi xóa yêu cầu tạo CLB:", error);
+        res.status(500).json({
+            success: false,
+            message: "Đã xảy ra lỗi khi xóa yêu cầu tạo CLB"
+        });
+    }
+};
+
 
 exports.getCreateClubRequests = async (req, res) => {
     try {
@@ -238,4 +284,49 @@ exports.searchClubRequests = async (req, res) => {
     }
 };
 
+//Tìm kiếm club_id qua request_id
+exports.getClubIdFromRequest = async (req, res) => {
+    try {
+        const { request_id } = req.params;
+
+        if (!request_id) {
+            return res.status(400).json({
+                success: false,
+                message: "Thiếu request_id"
+            });
+        }
+
+        // Lấy club_code từ request_id
+        const clubCode = await ClubModel.getClubCodeByRequestId(request_id);
+        if (!clubCode) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy club_code từ request_id"
+            });
+        }
+
+        // Lấy club_id từ club_code
+        const clubId = await ClubModel.getClubIdByCode(clubCode);
+        if (!clubId) {
+            return res.status(404).json({
+                success: false,
+                message: "Không tìm thấy club_id từ club_code"
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Lấy club_id thành công",
+            data: { club_id: clubId, club_code: clubCode }
+        });
+
+    } catch (error) {
+        console.error("Lỗi khi lấy club_id từ request_id:", error);
+        res.status(500).json({
+            success: false,
+            message: "Đã xảy ra lỗi khi lấy club_id",
+            error: error.message
+        });
+    }
+};
 

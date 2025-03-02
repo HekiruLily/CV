@@ -1,352 +1,353 @@
-*{
-    font-family: 'Arial', sans-serif;
+* {
+  font-family: 'Arial', sans-serif;
 }
 
-  .club-list-container {
-    padding: 20px;
+.club-list-container {
+  padding: 20px;
+}
+
+.custom-tabs {
+  margin-bottom: 20px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-bar {
+  width: 50%;
+  margin: 20px 0;
+}
+
+.club-cards {
+  width: 100%;
+  padding: 0 24px;
+}
+
+/* Animation keyframes */
+@keyframes fadeInCard {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
   }
-  
-  .custom-tabs {
-    margin-bottom: 20px;
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .content-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .search-bar {
-    width: 50%;
-    margin: 20px 0;
-  }
-  
-  .club-cards {
-    width: 100%;
-    padding: 0 24px;
-  }
-  
-  /* Animation keyframes */
-  @keyframes fadeInCard {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .ant-card {
-    height: 220px;
-    margin-bottom: 16px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    animation: fadeInCard 0.3s ease-out;
-    will-change: transform;
-  }
-  
-  .ant-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .ant-card-meta-description {
-    margin-top: 10px;
-  }
-  
-  .ant-card-meta-description p {
-    margin: 5px 0;
-  }
-  
-  .custom-tabs .ant-tabs-nav {
-    margin-bottom: 24px;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-nav-list {
-    display: flex;
-    width: 400px;
-    border: none;
-    margin: 0;
-    gap: 8px;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab {
-    flex: 1;
-    padding: 8px 16px;
-    margin: 0;
-    text-align: center;
-    background: #f5f5f5;
-    border: 1px solid #e8e8e8;
-    transition: all 0.3s ease;
-    min-width: 120px;
-    border-radius: 20px;
-  
-    /* Thêm 3 dòng dưới đây để căn giữa nội dung */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab:first-child {
-    margin-left: 0;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab:last-child {
-    margin-right: 0;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-btn {
-    color: #595959;
-    font-weight: normal;
-    font-size: 14px;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab-active {
-    background: #1890ff;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
-    color: white !important;
-  }
-  
-  .custom-tabs .ant-tabs-nav .ant-tabs-tab:hover {
-    opacity: 0.9;
-  }
-  
-  .custom-tabs .ant-tabs-ink-bar {
-    display: none;
-  }
-  
-  /* Xóa border bottom của nav */
-  .ant-tabs-nav::before {
-    display: none !important;
-  }
-  
-  .ant-card-meta-detail {
-    text-align: left;
-  }
-  
-  .club-card {
-    position: relative;
-  }
-  
-  .card-actions {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    display: flex;
-    gap: 12px;
-  }
-  
-  .card-actions button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    padding: 4px;
-  }
-  
-  .card-actions .anticon {
-    font-size: 16px;
-    color: #666;
-    cursor: pointer;
-  }
-  
-  .card-actions .anticon:hover {
-    color: #1890ff;
-  }
-  
-  /* Điều chỉnh kích thước avatar */
-  .ant-card-meta-avatar {
-    padding-right: 12px;
-  }
-  
-  .ant-avatar {
-    width: 48px;
-    height: 48px;
-  }
-  
-  /* Điều chỉnh font size cho các phần tử */
-  .club-title {
-    font-size: 16px;
-    font-weight: 500;
-    color: #000;
-    margin-bottom: 4px;
-  }
-  
-  .club-id {
-    font-size: 12px;
-    color: #666;
-    margin-bottom: 8px;
-  }
-  
-  .club-description {
-    font-size: 12px;
-    color: black;
-    line-height: 1.4;
-    margin-bottom: 8px;
-  }
-  
-  .club-stats {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    color: #666;
-    margin: 8px 0;
-  }
-  
-  .club-rules {
-    font-size: 12px;
-    color: black;
-    line-height: 1.4;
-    margin-bottom: 4px;
-  }
-  
-  /* Điều chỉnh layout tổng thể */
+}
+
+.ant-card {
+  height: 220px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  animation: fadeInCard 0.3s ease-out;
+  will-change: transform;
+}
+
+.ant-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ant-card-meta-description {
+  margin-top: 10px;
+}
+
+.ant-card-meta-description p {
+  margin: 5px 0;
+}
+
+.custom-tabs .ant-tabs-nav {
+  margin-bottom: 24px;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-nav-list {
+  display: flex;
+  width: 400px;
+  border: none;
+  margin: 0;
+  gap: 8px;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab {
+  flex: 1;
+  padding: 8px 16px;
+  margin: 0;
+  text-align: center;
+  background: #f5f5f5;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  border-radius: 20px;
+
+  /* Thêm 3 dòng dưới đây để căn giữa nội dung */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab:first-child {
+  margin-left: 0;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab:last-child {
+  margin-right: 0;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab .ant-tabs-tab-btn {
+  color: #595959;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab-active {
+  background: #1890ff;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+}
+
+.custom-tabs .ant-tabs-nav .ant-tabs-tab:hover {
+  opacity: 0.9;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  display: none;
+}
+
+/* Xóa border bottom của nav */
+.ant-tabs-nav::before {
+  display: none !important;
+}
+
+.ant-card-meta-detail {
+  text-align: left;
+}
+
+.club-card {
+  position: relative;
+}
+
+.card-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  gap: 12px;
+}
+
+.card-actions button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.card-actions .anticon {
+  font-size: 16px;
+  color: #666;
+  cursor: pointer;
+}
+
+.card-actions .anticon:hover {
+  color: #1890ff;
+}
+
+/* Điều chỉnh kích thước avatar */
+.ant-card-meta-avatar {
+  padding-right: 12px;
+}
+
+.ant-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+/* Điều chỉnh font size cho các phần tử */
+.club-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  margin-bottom: 4px;
+}
+
+.club-id {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.club-description {
+  font-size: 12px;
+  color: black;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.club-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  margin: 8px 0;
+}
+
+.club-rules {
+  font-size: 12px;
+  color: black;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+/* Điều chỉnh layout tổng thể */
+.ant-col {
+  width: 33.33%;
+  padding: 8px;
+}
+
+/* Điều chỉnh khoảng cách giữa các phần tử */
+.ant-card-meta {
+  align-items: flex-start;
+}
+
+.ant-card-meta-detail {
+  overflow: hidden;
+  line-height: 1.0;
+}
+
+.approval-buttons {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.approve-btn,
+.reject-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+  border-radius: 5px;
+  white-space: nowrap;
+}
+
+.approve-btn {
+  background-color: #1a2238;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.reject-btn {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.approve-btn:hover {
+  background-color: #16202f;
+  transform: scale(1.05);
+}
+
+.reject-btn:hover {
+  background-color: #c92a36;
+  transform: scale(1.05);
+}
+
+.club-reason {
+  color: red;
+}
+
+/* Responsive styles */
+@media screen and (max-width: 1200px) {
   .ant-col {
-    width: 33.33%;
-    padding: 8px;
+    width: 100% !important;
+    flex: 0 0 100% !important;
+    max-width: 100% !important;
   }
-  
-  /* Điều chỉnh khoảng cách giữa các phần tử */
-  .ant-card-meta {
-    align-items: flex-start;
+
+  .club-cards {
+    padding: 0 16px;
   }
-  
-  .ant-card-meta-detail {
-    overflow: hidden;
-    line-height: 1.0;
+
+  .ant-card {
+    height: auto;
+    min-height: 220px;
+    margin-bottom: 16px;
+    width: 100%;
   }
-  
+
+  .search-bar {
+    width: 80%;
+  }
+
+  .club-info {
+    padding-right: 0;
+    padding-bottom: 60px;
+  }
+
   .approval-buttons {
     position: absolute;
     right: 12px;
     bottom: 12px;
-    display: flex;
-    gap: 8px;
   }
-  
+
+  .custom-tabs .ant-tabs-nav .ant-tabs-nav-list {
+    width: 100%;
+    max-width: 400px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .club-list-container {
+    padding: 10px;
+  }
+
+  .club-cards {
+    padding: 0 8px;
+  }
+
+  .search-bar {
+    width: 90%;
+  }
+
+  .ant-card-meta-avatar {
+    padding-right: 8px;
+  }
+
+  .ant-avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .club-title {
+    font-size: 14px;
+  }
+
+  .club-description,
+  .club-rules,
+  .club-id,
+  .club-stats {
+    font-size: 12px;
+  }
+
   .approve-btn,
   .reject-btn {
-    padding: 6px 16px;
-    font-size: 14px;
-    border-radius: 5px;
-    white-space: nowrap;
+    padding: 4px 12px;
+    font-size: 12px;
   }
-  
-  .approve-btn {
-    background-color: #1a2238;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  
-  .reject-btn {
-    background-color: #e63946;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-  
-  .approve-btn:hover {
-    background-color: #16202f;
-    transform: scale(1.05);
-  }
-  
-  .reject-btn:hover {
-    background-color: #c92a36;
-    transform: scale(1.05);
-  }
-  
-  .club-reason {
-    color: red; 
-  }
-  
-  /* Responsive styles */
-  @media screen and (max-width: 1200px) {
-    .ant-col {
-      width: 100% !important;
-      flex: 0 0 100% !important;
-      max-width: 100% !important;
-    }
-  
-    .club-cards {
-      padding: 0 16px;
-    }
-  
-    .ant-card {
-      height: auto;
-      min-height: 220px;
-      margin-bottom: 16px;
-      width: 100%;
-    }
-  
-    .search-bar {
-      width: 80%;
-    }
-  
-    .club-info {
-      padding-right: 0;
-      padding-bottom: 60px;
-    }
-  
-    .approval-buttons {
-      position: absolute;
-      right: 12px;
-      bottom: 12px;
-    }
-  
-    .custom-tabs .ant-tabs-nav .ant-tabs-nav-list {
-      width: 100%;
-      max-width: 400px;
-    }
-  }
-  
-  @media screen and (max-width: 576px) {
-    .club-list-container {
-      padding: 10px;
-    }
-  
-    .club-cards {
-      padding: 0 8px;
-    }
-  
-    .search-bar {
-      width: 90%;
-    }
-  
-    .ant-card-meta-avatar {
-      padding-right: 8px;
-    }
-  
-    .ant-avatar {
-      width: 40px;
-      height: 40px;
-    }
-  
-    .club-title {
-      font-size: 14px;
-    }
-  
-    .club-description,
-    .club-rules,
-    .club-id,
-    .club-stats {
-      font-size: 12px;
-    }
-  
-    .approve-btn,
-    .reject-btn {
-      padding: 4px 12px;
-      font-size: 12px;
-    }
-  }
+}
 
 .club-location {
   margin: 8px 0;
