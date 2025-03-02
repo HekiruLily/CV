@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const authRoutes = require('./src/routes/auth.routes')
 const clubRoutes = require('./src/routes/club.routes');
+const tournamentRoute = require('./src/routes/tournament.routes');
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoutes)
 app.use('/clubs', clubRoutes);
+app.use('/tournament', tournamentRoute);
 
 
 app.listen(process.env.PORT, () => {

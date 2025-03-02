@@ -1,16 +1,13 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const clubController = require('../controllers/club.controllers');
+const tournamentController = require("../controllers/tournament.controller");
 
-router.get('/:clubCode/introduction', clubController.getClubInfo);
-router.post('/request/approve', clubController.approveClubRequest);
-router.delete('/:clubId', clubController.deleteClub);
-router.get('/create-club-requests', clubController.getCreateClubRequests);
-router.post('/request/reject', clubController.rejectClubRequest);
-router.get('/search-club-requests', clubController.searchClubRequests);
+router.get("/", tournamentController.getAllTournaments);
+router.get("/:tournamentId", tournamentController.getTournamentById);
+router.get("/:tournamentId/years", tournamentController.getTournamentYears);
 
+router.post("/", tournamentController.createTournament);
+router.put("/:tournamentId", tournamentController.updateTournament);
+router.delete("/:tournamentId", tournamentController.deleteTournament);
 
 module.exports = router;
-
-
-

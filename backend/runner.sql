@@ -92,7 +92,8 @@ CREATE TABLE tournaments (
     tournament_status ENUM('Pending', 'Ongoing', 'Completed') DEFAULT 'Pending',
     tournament_prize_pool DECIMAL(10,2),
     tournament_registration_deadline DATE,
-    tournament_rules TEXT
+    tournament_rules TEXT,
+    tournament_link TEXT,
 );
 
 CREATE TABLE club_news (
@@ -139,9 +140,6 @@ CREATE TABLE admin_users (
     email VARCHAR(255) UNIQUE NOT NULL,       -- Email đăng nhập  
     password_hash VARCHAR(255) NOT NULL,      -- Mật khẩu đã mã hóa  
 );
-
-
-
 
 
 CREATE INDEX idx_users_email ON users(email);
