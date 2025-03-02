@@ -12,7 +12,8 @@ import {
   LikeOutlined,
   LikeFilled,
   MessageOutlined,
-  ShareAltOutlined
+  ShareAltOutlined,
+  CommentOutlined
 } from '@ant-design/icons';
 import Comments from './Comments';
 import './NewsCard.css';
@@ -138,35 +139,54 @@ const NewsCard = ({
         {images && images.length > 0 && <ImageGallery images={images} />}
 
         {stats && (
-          <div className="stats-row">
-            <Tooltip title="Nhấn để thích">
-              <div className="stat-item" onClick={handleLikeClick}>
-                <div className="stat-label">
-                  {liked ? (
-                    <LikeFilled className="icon liked" />
-                  ) : (
-                    <LikeOutlined className="icon" />
-                  )}
-                  Thích
-                </div>
-                <div className="stat-value" onClick={showReactionList}>
-                  {likeCount}
-                </div>
+          <>
+            <div className="fb-stats-summary">
+              <div className="fb-reactions-count" onClick={showReactionList}>
+                {likeCount > 0 && (
+                  <>
+                    <div className="fb-like-icon">
+                      <LikeFilled />
+                    </div>
+                    <span>{likeCount}</span>
+                  </>
+                )}
               </div>
-            </Tooltip>
-            <div className="stat-item" onClick={() => setShowComments(!showComments)}>
-              <div className="stat-label">
-                <MessageOutlined className="icon" /> Bình luận
+              <div className="fb-comments-shares-count">
+                {stats.comments > 0 && (
+                  <span onClick={() => setShowComments(!showComments)}>
+                    {stats.comments} bình luận
+                  </span>
+                )}
+                {stats.comments > 0 && stats.shares > 0 && <span className="fb-dot">•</span>}
+                {stats.shares > 0 && <span>{stats.shares} chia sẻ</span>}
               </div>
-              <div className="stat-value">{stats.comments}</div>
             </div>
-            <div className="stat-item">
-              <div className="stat-label">
-                <ShareAltOutlined className="icon" /> Chia sẻ
-              </div>
-              <div className="stat-value">{stats.shares}</div>
+
+            <div className="fb-divider"></div>
+
+            <div className="fb-action-buttons">
+              <button 
+                className={`fb-action-button ${liked ? 'fb-liked' : ''}`}
+                onClick={handleLikeClick}
+              >
+                {liked ? <LikeFilled /> : <LikeOutlined />}
+                <span>Thích</span>
+              </button>
+              
+              <button 
+                className="fb-action-button"
+                onClick={() => setShowComments(!showComments)}
+              >
+                <CommentOutlined />
+                <span>Bình luận</span>
+              </button>
+              
+              <button className="fb-action-button">
+                <ShareAltOutlined />
+                <span>Chia sẻ</span>
+              </button>
             </div>
-          </div>
+          </>
         )}
       </div>
 

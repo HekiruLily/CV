@@ -35,4 +35,367 @@
 .stats-row .stat-value {
     color: #666;
     font-size: 14px;
+}
+
+/* Thể thao style card */
+.news-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  overflow: hidden;
+  border-top: 4px solid #FF5722;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.news-content {
+  padding: 24px;
+}
+
+.activity-tag {
+  display: inline-flex;
+  align-items: center;
+  background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.activity-tag .anticon {
+  margin-right: 6px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.user-info-container {
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f0f2f5;
+  padding-bottom: 16px;
+}
+
+.avatar-author-row {
+  display: flex;
+  align-items: center;
+}
+
+.author-metadata {
+  margin-left: 12px;
+}
+
+.news-author {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: #263238;
+  letter-spacing: 0.3px;
+}
+
+.metadata-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12px;
+  color: #78909C;
+  margin-top: 6px;
+}
+
+.timestamp, .location {
+  display: flex;
+  align-items: center;
+  background-color: #f5f7fa;
+  padding: 4px 10px;
+  border-radius: 15px;
+}
+
+.icon {
+  margin-right: 6px;
+  color: #FF5722;
+}
+
+.news-text-container {
+  margin-bottom: 20px;
+}
+
+.news-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #37474F;
+  white-space: pre-line;
+}
+
+.see-more-button {
+  color: #FF5722;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: rgba(255, 87, 34, 0.08);
+  border-radius: 15px;
+  transition: background-color 0.2s ease;
+}
+
+.see-more-button:hover {
+  background-color: rgba(255, 87, 34, 0.15);
+  text-decoration: none;
+}
+
+/* Stats and actions with modern design */
+.fb-stats-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  color: #546E7A;
+  font-size: 14px;
+  border-top: 1px dashed #e4e6eb;
+  margin-top: 16px;
+}
+
+.fb-reactions-count {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #f5f7fa;
+  padding: 4px 10px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.fb-reactions-count:hover {
+  background-color: #e4e6eb;
+  transform: scale(1.05);
+}
+
+.fb-like-icon {
+  color: #FF5722;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.fb-comments-shares-count {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fb-comments-shares-count span {
+  cursor: pointer;
+  padding: 4px 10px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.fb-comments-shares-count span:hover {
+  background-color: #f5f7fa;
+  transform: scale(1.05);
+}
+
+.fb-dot {
+  margin: 0 5px;
+  color: #CFD8DC;
+}
+
+.fb-divider {
+  height: 2px;
+  background: linear-gradient(to right, #FF5722, #FF9800, transparent);
+  margin: 8px 0 16px;
+  border-radius: 2px;
+}
+
+/* Modern Action Buttons */
+.fb-action-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fb-action-button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 0;
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  color: #455A64;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Glass morphism effect */
+.fb-action-button {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.fb-action-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%);
+  transform: translateX(-100%);
+  transition: 0.6s;
+}
+
+.fb-action-button:hover::before {
+  transform: translateX(100%);
+}
+
+.fb-action-button .anticon {
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.fb-action-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+
+.fb-action-button:hover .anticon {
+  transform: scale(1.2);
+}
+
+.fb-action-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Like button */
+.fb-action-button:nth-child(1) {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.1) 0%, rgba(255, 152, 0, 0.1) 100%);
+  color: #FF5722;
+}
+
+.fb-action-button:nth-child(1):hover {
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%);
+}
+
+.fb-action-button.fb-liked {
+  background: linear-gradient(135deg, #FF5722 0%, #FF9800 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
+}
+
+.fb-action-button.fb-liked:hover {
+  background: linear-gradient(135deg, #F4511E 0%, #FB8C00 100%);
+  box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+}
+
+/* Comment button */
+.fb-action-button:nth-child(2) {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(3, 169, 244, 0.1) 100%);
+  color: #2196F3;
+}
+
+.fb-action-button:nth-child(2):hover {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.2) 0%, rgba(3, 169, 244, 0.2) 100%);
+}
+
+/* Share button */
+.fb-action-button:nth-child(3) {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(129, 199, 132, 0.1) 100%);
+  color: #4CAF50;
+}
+
+.fb-action-button:nth-child(3):hover {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.2) 0%, rgba(129, 199, 132, 0.2) 100%);
+}
+
+/* Neumorphism effect for buttons on active state */
+.fb-action-button:active {
+  box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.1), 
+              inset -3px -3px 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Modal styles */
+.reactions-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.reaction-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #f0f2f5;
+  transition: all 0.3s ease;
+}
+
+.reaction-item:hover {
+  background-color: #f5f7fa;
+  transform: translateX(5px);
+}
+
+.reaction-user-name {
+  margin-left: 12px;
+  font-weight: 600;
+  color: #455A64;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+  .news-content {
+    padding: 16px;
+  }
+  
+  .fb-action-button {
+    font-size: 12px;
+    padding: 10px 0;
+  }
+  
+  .fb-action-button span {
+    font-size: 10px;
+  }
+  
+  .fb-stats-summary {
+    font-size: 12px;
+  }
+  
+  .activity-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  
+  .fb-action-buttons {
+    gap: 8px;
+  }
 } 

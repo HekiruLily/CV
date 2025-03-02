@@ -4,7 +4,6 @@ import {
   PlusOutlined, 
   UsergroupAddOutlined, 
   TeamOutlined,
-  UserOutlined,
   FireOutlined,
 } from '@ant-design/icons';
 import clubService from '../../services/club.service';
@@ -23,7 +22,6 @@ const Sidebar = () => {
     showLoading, 
     hideLoading
   } = useGlobal();
-  const userData = useSelector(state => state.user.userData);
   const [clubs, setClubs] = useState([]);
   const [expandedClub, setExpandedClub] = useState(null);
   const [isJoinModalVisible, setIsJoinModalVisible] = useState(false);
@@ -68,10 +66,6 @@ const Sidebar = () => {
   const handleJoinSuccess = () => {
     // Refresh danh sách câu lạc bộ sau khi tham gia thành công
     fetchUserClubs();
-  };
-
-  const handleProfileClick = () => {
-    navigate('/profile');
   };
 
   const toggleClub = (clubId) => {

@@ -3,7 +3,7 @@ import './navbar.css';
 import Logo from '../../assets/img/Logo.png'; 
 import { useNavigate } from 'react-router-dom';
 import { Button, message, Avatar, Dropdown, Menu } from 'antd';
-import { UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
+import { UserOutlined, MenuOutlined, CloseOutlined, FireOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../../redux/slices/userSlice';
 import authService from '../../services/auth.service';
@@ -49,9 +49,15 @@ const Nav = ({ toggleSidebar, isMobile, sidebarVisible }) => {
       )}
       
       <div className="nav-left">
-        <div className="logo-container">
-          <img src={Logo} alt="RunnersPro Logo" className="logo-image" />
-          <span className="brand-name">RunnersPro</span>
+        <div className="logo-container" onClick={() => navigate('/')}>
+          <div className="logo-wrapper">
+            <img src={Logo} alt="VNMARATHON Logo" className="logo-image" />
+            <div className="logo-glow"></div>
+          </div>
+          <div className="brand-container">
+            <span className="brand-name">VN<span className="brand-highlight">MARATHON</span></span>
+            <span className="brand-tagline">Run For Your Life</span>
+          </div>
         </div>
       </div>
 

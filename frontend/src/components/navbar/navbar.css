@@ -14,13 +14,14 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 4rem;
+  padding: 0 10px;
   background: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
   height: 64px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .nav-left, .nav-center, .nav-right {
@@ -28,22 +29,108 @@ body {
   align-items: center;
 }
 
+/* Modern Logo and Brand Styling */
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  padding: 0 15px;
+  height: 64px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-container:hover .logo-image {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.logo-container:hover .brand-highlight {
+  background-size: 100% 100%;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(255, 87, 34, 0.2);
+  margin-right: 12px;
+  background: linear-gradient(135deg, #FF5722, #FF9800);
+  padding: 2px;
 }
 
 .logo-image {
-  height: 32px;
-  width: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  transition: transform 0.5s ease;
+}
+
+.logo-glow {
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle, rgba(255, 87, 34, 0.4) 0%, rgba(255, 87, 34, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.logo-container:hover .logo-glow {
+  opacity: 1;
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.brand-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .brand-name {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #2563EB;
+  font-size: 18px;
+  font-weight: 800;
+  color: #263238;
   letter-spacing: -0.5px;
+  line-height: 1;
+  position: relative;
+}
+
+.brand-highlight {
+  color: #FF5722;
+  background-image: linear-gradient(90deg, #FF5722, #FF9800);
+  background-size: 0% 100%;
+  background-repeat: no-repeat;
+  background-position: left;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-size 0.5s ease;
+  font-weight: 900;
+}
+
+.brand-tagline {
+  font-size: 10px;
+  color: #78909C;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  opacity: 0.8;
 }
 
 .nav-center {
@@ -67,13 +154,16 @@ body {
 .auth-buttons {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  height: 64px;
 }
 
 .login-button {
   color: #4B5563;
   font-weight: 500;
   font-size: 0.95rem;
+  height: 64px;
+  padding: 0 10px;
+  border-right: 1px solid #e8e8e8;
 }
 
 .login-button:hover {
@@ -82,26 +172,30 @@ body {
 }
 
 .join-button {
-  background: #2563EB;
+  background: #FF5722;
   border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1.25rem;
-  font-weight: 500;
+  border-radius: 20px;
+  padding: 0 15px;
+  font-weight: 600;
   font-size: 0.95rem;
-  height: auto;
-  transition: all 0.2s ease;
+  height: 36px;
+  margin-left: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(255, 87, 34, 0.2);
 }
 
 .join-button:hover {
-  background: #1D4ED8;
+  background: #F4511E;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 87, 34, 0.3);
 }
 
 .user-profile {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  padding: 0 10px;
+  height: 64px;
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -114,6 +208,7 @@ body {
   font-size: 0.95rem;
   color: #4B5563;
   font-weight: 500;
+  padding-left: 10px;
 }
 
 .user-avatar {
@@ -124,21 +219,27 @@ body {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .navbar {
-    padding: 0.8rem 2rem;
+    padding: 0;
+  }
+  
+  .brand-tagline {
+    display: none;
   }
 }
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0.8rem 1.5rem;
+    padding: 0;
   }
 
   .brand-name {
-    display: none;
+    font-size: 16px;
   }
-
-  .nav-center {
-    gap: 1rem;
+  
+  .logo-wrapper {
+    width: 32px;
+    height: 32px;
+    margin-right: 8px;
   }
 }
 
@@ -154,16 +255,18 @@ body {
   .login-button span {
     display: none;
   }
-
-  .join-button {
-    padding: 0.5rem 1rem;
+  
+  .brand-name {
+    font-size: 14px;
   }
 }
 
 .sidebar-toggle-btn {
-  margin-right: 10px;
+  height: 64px;
   font-size: 18px;
   display: none;
+  border-right: 1px solid #e8e8e8;
+  padding: 0 10px;
 }
 
 /* Media queries cho responsive */

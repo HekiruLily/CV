@@ -1,133 +1,437 @@
-.create-news-form {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 16px;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Facebook-style Create News Form */
+.fb-create-news-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #e4e6eb;
+}
+
+.fb-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.fb-form-header h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: #050505;
+}
+
+.close-form-btn {
+  color: #65676b;
+}
+
+.fb-user-input-area {
+  display: flex;
+  padding: 12px 16px;
+}
+
+.fb-user-avatar {
+  margin-right: 12px;
+}
+
+.fb-input-container {
+  flex: 1;
+}
+
+.fb-placeholder-input {
+  background-color: #f0f2f5;
+  border-radius: 20px;
+  color: #65676b;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px 16px;
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s;
+}
+
+.fb-placeholder-input:hover {
+  background-color: #e4e6eb;
+}
+
+.fb-post-options {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.fb-visibility-btn,
+.fb-activity-btn {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #050505;
+  background: transparent;
   position: relative;
+}
+
+.fb-visibility-btn:hover,
+.fb-activity-btn:hover {
+  background-color: #f0f2f5;
+}
+
+.fb-visibility-icon,
+.fb-activity-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.fb-separator {
+  margin: 0 8px;
+  color: #65676b;
+}
+
+.fb-visibility-select,
+.fb-activity-select {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.fb-content-input {
+  margin-bottom: 12px;
+}
+
+.fb-content-input .ant-input {
+  font-size: 15px;
+  color: #050505;
+  resize: none;
+  padding: 8px 0;
+}
+
+.fb-image-preview {
+  margin-bottom: 12px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fb-image-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.fb-image-wrapper img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background-color: #f0f2f5;
+  display: block;
+}
+
+.fb-remove-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.fb-remove-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+}
+
+.fb-form-tools {
+  padding: 8px 16px 16px;
+  border-top: 1px solid #e4e6eb;
+}
+
+.fb-tool-label {
+  font-size: 13px;
+  color: #65676b;
+  margin-bottom: 8px;
+}
+
+.fb-tool-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  gap: 4px;
+}
+
+.fb-tool-btn {
+  border-radius: 4px;
+  padding: 8px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fb-tool-btn .anticon {
+  font-size: 20px;
+}
+
+.fb-submit-button {
+  background-color: #1877f2;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: 600;
+  height: 36px;
+  transition: background-color 0.2s;
+}
+
+.fb-submit-button:hover,
+.fb-submit-button:focus {
+  background-color: #166fe5;
+}
+
+.fb-submit-button:disabled {
+  background-color: #e4e6eb;
+  color: #bcc0c4;
+}
+
+.emoji-picker-container {
+  position: absolute;
+  z-index: 1000;
+  bottom: 50px;
+  right: 20px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .fb-tool-buttons {
+    justify-content: space-between;
+  }
+  
+  .fb-tool-btn {
+    padding: 6px;
+  }
+  
+  .fb-tool-btn .anticon {
+    font-size: 18px;
+  }
+  
+  .fb-form-header h2 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .fb-user-input-area {
+    padding: 8px 12px;
+  }
+  
+  .fb-form-tools {
+    padding: 8px 12px 12px;
+  }
+  
+  .fb-tool-buttons {
+    margin-bottom: 8px;
+  }
+  
+  .fb-submit-button {
+    height: 32px;
+  }
+  
+  .fb-placeholder-input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .fb-content-input .ant-input {
+    font-size: 14px;
+  }
+  
+  .fb-image-wrapper img {
+    max-height: 200px;
+  }
+}
+
+/* Animation for expanded form */
+.fb-create-news-form form {
+  transition: all 0.3s ease;
+}
+
+.fb-create-news-form form.expanded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Old styles for reference - can be removed */
+.create-news-form {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .form-header {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 12px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #e4e6eb;
 }
 
 .form-header h2 {
-  margin: 0;
-  font-size: 1.2rem;
+  font-size: 16px;
   font-weight: 600;
-  color: #1a1a1a;
+  margin: 0;
+  color: #050505;
 }
 
-.visibility-select {
-  width: 150px;
+.post-options {
+  display: flex;
+  align-items: center;
+}
+
+.visibility-btn,
+.activity-btn {
+  display: flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #050505;
+  background: transparent;
+  position: relative;
+}
+
+.visibility-btn:hover,
+.activity-btn:hover {
+  background-color: #f0f2f5;
+}
+
+.visibility-icon,
+.activity-icon {
+  margin-right: 4px;
+  font-size: 14px;
+}
+
+.separator {
+  margin: 0 8px;
+  color: #65676b;
+}
+
+.visibility-select,
+.activity-select {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  cursor: pointer;
 }
 
 .content-input {
-  margin-top: 8px;
+  padding: 12px 16px;
 }
 
 .content-input .ant-input {
-  font-size: 1.1rem;
-  padding: 8px 0;
+  font-size: 15px;
+  color: #050505;
   resize: none;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
 }
 
-.content-input .ant-input:focus {
-  box-shadow: none;
+.custom-image-preview {
+  padding: 0 16px 12px;
 }
 
-.content-input .ant-input-textarea-show-count::after {
-  color: #8c8c8c;
-  font-size: 12px;
-  float: right;
-  margin-top: 5px;
+.image-wrapper {
+  position: relative;
+  width: 100%;
 }
 
-.image-preview {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: #f8f9fa;
+.image-wrapper img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background-color: #f0f2f5;
   border-radius: 8px;
+  display: block;
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .form-tools {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1rem;
-  border-top: 1px solid #e8e8e8;
+  padding: 8px 16px;
+  border-top: 1px solid #e4e6eb;
 }
 
 .tool-buttons {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .tool-buttons .ant-btn {
+  color: #65676b;
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  color: #666;
-  transition: all 0.3s ease;
 }
 
 .tool-buttons .ant-btn:hover {
-  background: #f0f2f5;
-  color: #1890ff;
-}
-
-.tool-buttons .anticon {
-  font-size: 1.2rem;
+  background-color: #f0f2f5;
 }
 
 .submit-button {
-  background: linear-gradient(135deg, #FF416C, #FF4B2B);
+  background-color: #1877f2;
   border: none;
-  padding: 0 1.5rem;
-  height: 36px;
-  border-radius: 18px;
+  border-radius: 6px;
+  color: white;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
-.submit-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(255, 65, 108, 0.3);
-  background: linear-gradient(135deg, #FF4B2B, #FF416C);
+.submit-button:hover,
+.submit-button:focus {
+  background-color: #166fe5;
 }
 
 .submit-button:disabled {
-  background: #e8e8e8;
-  color: #999;
-}
-
-.emoji-button .emoji-picker-container {
-  position: absolute;
-  bottom: 100%;
-  left: 0;
-  z-index: 1000;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-  padding: 0.5rem;
-}
-
-.close-emoji {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 1;
+  background-color: #e4e6eb;
+  color: #bcc0c4;
 }
 
 /* Ant Design overrides */
