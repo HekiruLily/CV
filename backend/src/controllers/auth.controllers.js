@@ -1,12 +1,10 @@
 const UserModel = require('../models/user.models');
-const bcrypt = require('bcrypt');
-const { validateEmail } = require('../utils/validation');
 const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res) => {
     try {
         const { mail, password } = req.body;
-
+        console.log(mail, password);
         if (!mail || !password) {
             return res.status(400).json({
                 success: false,
@@ -16,7 +14,7 @@ exports.login = async (req, res) => {
 
         // Sử dụng email để tìm user (không còn phone)
         const user = await UserModel.validateUserWithProfile(mail, password);
-
+        
         if (!user) {
             return res.status(401).json({
                 success: false,
@@ -26,7 +24,7 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign(
             { 
-                userId: user.user_id,
+                userId: user.admin_id,
                 email: user.email,
             },
             process.env.JWT_SECRET,
@@ -44,10 +42,9 @@ exports.login = async (req, res) => {
             success: true,
             message: 'Đăng nhập thành công',
             data: {
-                userId: user.user_id,
+                userId: user.admin_id,
                 email: user.email,
                 full_name: user.full_name,
-                avatar: user.avatar
             }
         });
 

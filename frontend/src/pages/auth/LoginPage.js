@@ -39,7 +39,7 @@ const LoginPage = ({ setIsAuthenticated }) => {
                     <div className="input-group">
                         <label>Email </label>
                         <input
-                            type="email"
+                            type="text"
                             name="email"
                             value={credentials.email}
                             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
