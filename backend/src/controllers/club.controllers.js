@@ -129,7 +129,6 @@ exports.deleteClub = async (req, res) => {
 exports.getCreateClubRequests = async (req, res) => {
     try {
         const { status } = req.query;
-        console.log(status);
         // Validate status parameter
         if (!status || !['Pending', 'Approved', 'Rejected'].includes(status)) {
             return res.status(400).json({
@@ -139,7 +138,6 @@ exports.getCreateClubRequests = async (req, res) => {
         }
 
         const requests = await ClubModel.getCreateClubRequests(status);
-        console.log(requests);
         const formattedRequests = requests.map(request => ({
             ...request,
             requested_at: format(request.requested_at, 'dd/mm/yyyy')
