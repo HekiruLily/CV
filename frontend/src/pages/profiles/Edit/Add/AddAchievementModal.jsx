@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { message } from 'antd';
+import { App } from 'antd';
 import runningRecordService from '../../../../services/runningRecord.service';
 import TournamentService from '../../../../services/tournament.service';
 import TournamentSelect from './components/TournamentSelect';
@@ -9,6 +9,7 @@ import ImageUpload from './components/ImageUpload';
 import './AddAchievementModal.css';
 
 const AddAchievementModal = ({ isOpen, onClose, onSuccess }) => {
+  const { message } = App.useApp();
   const [formData, setFormData] = useState({
     race_name: '',
     race_year: '',

@@ -4,10 +4,11 @@ import AchievementCard from './AchievementsCard';
 import Filters from './Filters';
 import './Achievements.css';
 import profileService from '../../../services/profile.service';
-import { message } from 'antd';
+import { App } from 'antd';
 import runningRecordService from '../../../services/runningRecord.service';
 
 const Achievements = () => {
+    const { message } = App.useApp();
     const [achievements, setAchievements] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(true);

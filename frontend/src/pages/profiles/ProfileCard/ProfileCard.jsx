@@ -9,7 +9,8 @@ import {
     ScheduleOutlined,
     UserOutlined,
 } from '@ant-design/icons';
-import { message, Upload } from 'antd';
+import { Upload } from 'antd';
+import { App } from 'antd';
 import EditProfileModal from '../Edit/Info/EditProfileModal';
 import ProfileService from '../../../services/profile.service';
 import Avatar from '../../../components/Avatar/Avatar';
@@ -19,6 +20,7 @@ import { updateUserProfile } from '../../../redux/slices/userSlice';
 import moment from 'moment';
 
 const ProfileCard = ({ basicInfo, clubs, onProfileUpdate, onInfoUpdate }) => {
+    const { message } = App.useApp();
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [uploading, setUploading] = useState(false);

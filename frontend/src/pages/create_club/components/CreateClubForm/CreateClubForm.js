@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Upload, Select, Row, Col, message } from 'antd';
+import { Button, Form, Input, Upload, Select, Row, Col } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import clubService from '../../../../services/club.service';
 import addressService from '../../../../config/address.config';
 import './CreateClub.css';
+import { App } from 'antd';
 
 
 const CreateClubForm = () => {
-  const [messageApi, messageContextHolder] = message.useMessage();
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [provinces, setProvinces] = useState([]);
@@ -27,7 +28,7 @@ const CreateClubForm = () => {
       const data = await addressService.getProvinces();
       setProvinces(data);
     } catch (error) {
-      messageApi.error(error.message);
+      message.error(error.message);
     } finally {
       setLoadingProvinces(false);
     }
@@ -40,7 +41,7 @@ const CreateClubForm = () => {
       const data = await addressService.getDistricts(provinceId);
       setDistricts(data);
     } catch (error) {
-      messageApi.error(error.message);
+      message.error(error.message);
     } finally {
       setLoadingDistricts(false);
     }
@@ -63,10 +64,10 @@ const CreateClubForm = () => {
       };
 
       await clubService.createClubRequest(clubData);
-      messageApi.success('Gửi yêu cầu tạo CLB thành công!');
+      message.success('Gửi yêu cầu tạo CLB thành công!');
       navigate('/clubs/pending');
     } catch (error) {
-      messageApi.error(error.message || 'Đã xảy ra lỗi khi gửi yêu cầu');
+      message.error(error.message || 'Đã xảy ra lỗi khi gửi yêu cầu');
     } finally {
       setLoading(false);
     }
@@ -83,7 +84,6 @@ const CreateClubForm = () => {
 
   return (
     <>
-      {messageContextHolder}
       <div className="create-club-form-container">
         <h2>Đăng ký Câu lạc bộ</h2>
         <p className="form-description">Điền thông tin để đăng ký câu lạc bộ mới</p>

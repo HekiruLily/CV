@@ -2,7 +2,8 @@ import React from 'react';
 import './navbar.css';  
 import Logo from '../../assets/img/Logo.png'; 
 import { useNavigate } from 'react-router-dom';
-import { Button, message, Avatar, Dropdown, Menu } from 'antd';
+import { Button, Avatar, Dropdown, Menu } from 'antd';
+import { App } from 'antd';
 import { UserOutlined, MenuOutlined, CloseOutlined, FireOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearUser } from '../../redux/slices/userSlice';
@@ -13,6 +14,7 @@ const Nav = ({ toggleSidebar, isMobile, sidebarVisible }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { userData: user } = useAuth();
+  const { message } = App.useApp();
 
   const handleLogout = async () => {
     try {
