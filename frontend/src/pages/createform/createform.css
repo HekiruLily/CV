@@ -1,0 +1,162 @@
+.create-race-form-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    
+  }
+  
+  .form-header {
+    margin-bottom: 20px;
+  }
+  
+  .title-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    /* margin-bottom: 50px; */
+    /* right: 0; */
+  }
+  
+  .close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s;
+  }
+ 
+  .form-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .divider {
+    border: none;
+    height: 1px;
+    background-color: #e8e8e8;
+    margin: 15px 0;
+  }
+  
+  .upload-container {
+    border: 1px dashed #d9d9d9;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+    background-color: #fafafa;
+    cursor: pointer;
+  }
+  
+  .upload-icon {
+    font-size: 24px;
+    color: #999;
+    margin-bottom: 8px;
+  }
+  
+  .upload-text {
+    color: #666;
+  }
+  
+  .image-preview {
+    position: relative;
+  }
+  
+  .image-preview img {
+    width: 100%;
+    border-radius: 4px;
+  }
+  
+  .image-preview button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+  
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  .tag {
+    background-color: #f0f0f0;
+    padding: 4px 10px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .remove-tag {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .submit-button {
+    background-color: #8e44ad;
+    border-color: #8e44ad;
+    height: 45px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+  
+  .submit-button:hover {
+    background-color: #7d3c98;
+    border-color: #7d3c98;
+  }
+  
+  .time-container {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .ant-select-selector {
+    border-radius: 4px !important;
+  }
+  
+  .ant-picker {
+    width: 100%;
+    border-radius: 4px !important;
+  }
+  
+  .location-container {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .location-container .ant-select {
+    width: 100%;
+  }
+  
+  @media screen and (max-width: 576px) {
+    .location-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .location-container .ant-form-item {
+      width: 100% !important;
+      margin-right: 0 !important;
+    }
+    
+    .time-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .time-container .ant-form-item {
+      width: 100% !important;
+      margin-right: 0 !important;
+    }
+    
+    .create-race-form-container {
+      padding: 15px;
+    }
+  }
