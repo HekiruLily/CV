@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const tournamentController = require("../controllers/tournament.controller");
+const clubController = require("../controllers/club.controllers");
 
+router.get('/club-id/:request-id', clubController.getClubIdFromRequest)
 router.get('/:clubCode/introduction', clubController.getClubInfo);
 router.post('/request/approve', clubController.approveClubRequest);
 router.delete('/:clubId', clubController.deleteClub);
