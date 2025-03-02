@@ -100,9 +100,6 @@
   align-items: center;
 }
 
-.author-metadata {
-  margin-left: 12px;
-}
 
 .news-author {
   font-size: 16px;
@@ -112,7 +109,7 @@
   letter-spacing: 0.3px;
 }
 
-.metadata-row {
+.author-metadata .metadata-row {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
