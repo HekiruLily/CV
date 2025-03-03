@@ -1,199 +1,172 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './events.css';
+import defaultTournamentImage from '../../assets/default-tournament-image.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkerAlt, faCalendarAlt, faUsers, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import ev01 from '../../assets/events/ev01.jpg';
-import ev02 from '../../assets/events/ev02.jpg';
-import ev03 from '../../assets/events/ev03.jpg';
+import { faMapMarkerAlt, faCalendarAlt, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import TournamentService from '../../services/tournamentService';
+import CreateTournament from '../CreateTournament/CreateTournament';
+import { useAuth } from '../../hooks/useAuth';
 
-function Events() {
-  return (
-    <div className="events-container">
-      <div className="header">
-        <h1 className="page-title">
-          Quản lý giải đấu
-        </h1>
-        <button className="btn-primary">
-          Tạo giải mới
+const Events = () => {
+  useAuth(true);
+
+  const [tournaments, setTournaments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showCreateForm, setShowCreateForm] = useState(false);
+
+  useEffect(() => {
+    fetchTournaments();
+  }, []);
+
+  const fetchTournaments = async () => {
+    try {
+      const response = await TournamentService.getAllTournaments();
+      if (response.success) {
+        setTournaments(response.data);
+      } else {
+        setError('Failed to fetch tournaments');
+      }
+    } catch (err) {
+      setError('Error fetching tournaments');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa giải đấu này?')) {
+      try {
+        const response = await TournamentService.deleteTournament(id);
+        if (response.success) {
+          fetchTournaments();
+        }
+      } catch (err) {
+        console.error('Error deleting tournament:', err);
+      }
+    }
+  };
+
+  const getStatusText = (status) => {
+    const statusMap = {
+      'Pending': 'Sắp diễn ra',
+      'Ongoing': 'Đang diễn ra',
+      'Completed': 'Đã kết thúc'
+    };
+    return statusMap[status] || 'Sắp diễn ra';
+  };
+
+  const getCategories = (tournament) => {
+    try {
+      if (tournament.tournament_types) {
+        const typeData = typeof tournament.tournament_types === 'string' 
+          ? JSON.parse(tournament.tournament_types) 
+          : tournament.tournament_types;
+        return typeData.categories || [];
+      }
+      return [];
+    } catch (err) {
+      console.error('Error parsing tournament types:', err);
+      return [];
+    }
+  };
+
+  const filteredTournaments = tournaments.filter(tournament =>
+    tournament.tournament_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    tournament.tournament_location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const renderTournamentCard = (tournament) => (
+    <div className="event-card" key={tournament.tournament_id}>
+      <img 
+        alt={tournament.tournament_name} 
+        className="card-image" 
+        height="400" 
+        src={tournament.tournament_image || defaultTournamentImage} 
+        width="600"
+      />
+      <div className="card-body">
+        <div className="card-header">
+          <h2 className="card-title">{tournament.tournament_name}</h2>
+          <span className="status-badge">
+            {getStatusText(tournament.tournament_status)}
+          </span>
+        </div>
+        <p className="event-id">Mã: {tournament.tournament_code}</p>
+        <div className="event-info">
+          <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
+          <span>{tournament.tournament_location}</span>
+        </div>
+        <div className="event-info">
+          <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
+          <span>
+            {new Date(tournament.tournament_start_date).toLocaleDateString('vi-VN')}
+          </span>
+        </div>
+        <div className="tag-container">
+          {getCategories(tournament).map((category, index) => (
+            <span className="event-tag" key={index}>{category}</span>
+          ))}
+        </div>
+      </div>
+      <div className="card-footer">
+        <button className="btn-icon">
+          <FontAwesomeIcon icon={faEdit} />
         </button>
-      </div>
-      <div>
-        <input className="search-input" placeholder="Tìm kiếm giải đấu..." type="text"/>
-      </div>
-      <div className="event-grid">
-        
-        <div className="event-card">
-          <img alt="Abstract geometric shapes in blue and cream colors" className="card-image" height="400" src={ev01} width="600"/>
-          <div className="card-body">
-            <div className="card-header">
-              <h2 className="card-title">
-                Hanoi International Marathon 2024
-              </h2>
-              <span className="status-badge">
-                Sắp diễn ra
-              </span>
-            </div>
-            <p className="event-id">
-              Mã: T001
-            </p>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
-              <span>
-                Hà Nội
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-              <span>
-                2024-05-15
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faUsers} className="icon" />
-              <span>
-                1500 người tham gia
-              </span>
-            </div>
-            <div className="tag-container">
-              <span className="event-tag">
-                5km
-              </span>
-              <span className="event-tag">
-                10km
-              </span>
-              <span className="event-tag">
-                21km
-              </span>
-              <span className="event-tag">
-                42km
-              </span>
-            </div>
-          </div>
-          <div className="card-footer">
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        </div>
-        
-        
-        <div className="event-card">
-          <img alt="" className="card-image" height="400" src={ev02} width="600"/>
-          <div className="card-body">
-            <div className="card-header">
-              <h2 className="card-title">
-                Da Nang Beach Run
-              </h2>
-              <span className="status-badge">
-                Sắp diễn ra
-              </span>
-            </div>
-            <p className="event-id">
-              Mã: T002
-            </p>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
-              <span>
-                Đà Nẵng
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-              <span>
-                2024-06-20
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faUsers} className="icon" />
-              <span>
-                800 người tham gia
-              </span>
-            </div>
-            <div className="tag-container">
-              <span className="event-tag">
-                5km
-              </span>
-              <span className="event-tag">
-                10km
-              </span>
-              <span className="event-tag">
-                21km
-              </span>
-            </div>
-          </div>
-          <div className="card-footer">
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        </div>
-        
-        
-        <div className="event-card">
-          <img className="card-image" height="400" src={ev03} width="600"/>
-          <div className="card-body">
-            <div className="card-header">
-              <h2 className="card-title">
-                Sapa Mountain Marathon
-              </h2>
-              <span className="status-badge">
-                Sắp diễn ra
-              </span>
-            </div>
-            <p className="event-id">
-              Mã: T003
-            </p>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="icon" />
-              <span>
-                Sapa, Lào Cai
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-              <span>
-                2024-07-10
-              </span>
-            </div>
-            <div className="event-info">
-              <FontAwesomeIcon icon={faUsers} className="icon" />
-              <span>
-                600 người tham gia
-              </span>
-            </div>
-            <div className="tag-container">
-              <span className="event-tag">
-                10km
-              </span>
-              <span className="event-tag">
-                21km
-              </span>
-              <span className="event-tag">
-                42km
-              </span>
-              <span className="event-tag">
-                70km
-              </span>
-            </div>
-          </div>
-          <div className="card-footer">
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-            <button className="btn-icon">
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
-        </div>
+        <button 
+          className="btn-icon"
+          onClick={() => handleDelete(tournament.tournament_id)}
+        >
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
       </div>
     </div>
   );
-}
+
+  if (loading) return <div>Đang tải...</div>;
+  if (error) return <div>Error: {error}</div>;
+
+  if (showCreateForm) {
+    return (
+      <CreateTournament 
+        onCancel={() => setShowCreateForm(false)}
+        onSuccess={() => {
+          fetchTournaments();
+          setShowCreateForm(false);
+        }}
+      />
+    );
+  }
+
+  return (
+    <div className="events-container">
+      <div className="header">
+        <h1 className="page-title">Quản lý giải đấu</h1>
+        <button 
+          className="btn-primary" 
+          onClick={() => setShowCreateForm(true)}
+        >
+          Tạo giải mới
+        </button>
+      </div>
+
+      <div>
+        <input 
+          className="search-input" 
+          placeholder="Tìm kiếm giải đấu..." 
+          type="text"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      <div className="event-grid">
+        {filteredTournaments.map(renderTournamentCard)}
+      </div>
+    </div>
+  );
+};
 
 export default Events;

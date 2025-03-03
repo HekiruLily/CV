@@ -5,6 +5,7 @@ class TournamentController {
     static async getAllTournaments(req, res) {
         try {
             const tournaments = await TournamentModel.getAll();
+            console.log(tournaments);
             return res.status(200).json({
                 success: true,
                 message: "Danh sách giải đấu",
@@ -48,15 +49,14 @@ class TournamentController {
     static async createTournament(req, res) {
         try {
             const tournamentData = req.body;
-
             // Kiểm tra dữ liệu đầu vào
-            if (!tournamentData.code || !tournamentData.name || !tournamentData.start_date || !tournamentData.end_date) {
+            if (!tournamentData.tournament_code || !tournamentData.tournament_name || !tournamentData.tournament_start_date || !tournamentData.tournament_end_date) {
                 return res.status(400).json({
                     success: false,
                     message: "Thiếu thông tin bắt buộc"
                 });
             }
-
+            console.log(tournamentData);
             const newTournamentId = await TournamentModel.create(tournamentData);
             return res.status(201).json({
                 success: true,

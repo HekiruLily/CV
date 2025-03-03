@@ -12,6 +12,7 @@ const authService = {
       }, {
         withCredentials: true
       });
+      console.log(response.data)
       return response.data;
     } catch (error) {
       console.error('Login service error:', {

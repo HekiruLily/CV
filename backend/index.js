@@ -4,6 +4,9 @@ const cors = require('cors');
 const authRoutes = require('./src/routes/auth.routes')
 const clubRoutes = require('./src/routes/club.routes');
 const tournamentRoute = require('./src/routes/tournament.routes');
+const cookieParser = require('cookie-parser');
+
+app.use(cookieParser());
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,

@@ -4,12 +4,13 @@ import { SearchOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
 import './club_page.css';
 import clubService from '../../services/clubService';
-
+import { useAuth } from '../../hooks/useAuth';
 
 const { TabPane } = Tabs;
 const { Search } = Input;
 
 const ClubList = () => {
+  useAuth(true);
   //Hàm lưu kết quả tìm kiếm
   const [searchTerm, setSearchTerm] = useState('');
 

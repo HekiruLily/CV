@@ -94,6 +94,7 @@ CREATE TABLE tournaments (
     tournament_registration_deadline DATE,
     tournament_rules TEXT,
     tournament_link TEXT,
+    tournament_image VARCHAR(255),
 );
 
 CREATE TABLE club_news (

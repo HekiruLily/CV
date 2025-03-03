@@ -62,20 +62,22 @@ class TournamentModel {
                     tournament_prize_pool,
                     tournament_registration_deadline,
                     tournament_rules,
-                    tournament_link
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                    tournament_link,
+                    tournament_image
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
-                    tournamentData.code,
-                    tournamentData.name,
-                    tournamentData.description,
-                    tournamentData.start_date,
-                    tournamentData.end_date,
-                    tournamentData.location,
-                    tournamentData.status || "Pending",
-                    tournamentData.prize_pool,
-                    tournamentData.registration_deadline,
-                    tournamentData.rules,
-                    tournamentData.link
+                    tournamentData.tournament_code,
+                    tournamentData.tournament_name,
+                    tournamentData.tournament_description,
+                    tournamentData.tournament_start_date,
+                    tournamentData.tournament_end_date,
+                    tournamentData.tournament_location,
+                    tournamentData.tournament_status || "Pending",
+                    tournamentData.tournament_prize_pool,
+                    tournamentData.tournament_registration_deadline,
+                    tournamentData.tournament_rules,
+                    tournamentData.tournament_link,
+                    tournamentData.tournament_image
                 ]
             );
 
