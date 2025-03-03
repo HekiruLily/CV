@@ -7,11 +7,7 @@ import NewsFeed from './the_new/NewsFeed';
 import { useAuth } from '../../hooks/useAuth';
 
 const ClubPage = () => {
-    const { isAuthenticated } = useAuth();
-
-    if (!isAuthenticated) {
-        return <Navigate to="/login" />;
-    }
+    useAuth(true);
 
     return (
         <MainLayout>
