@@ -1,4 +1,4 @@
-const db = require("../config/database")
+const db = require("../configs/database")
 
 class TournamentModel {
     //  Lấy danh sách giải đấu (bỏ qua giải đấu đã hoàn thành)

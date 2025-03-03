@@ -23,12 +23,12 @@ const ClubList = () => {
   const [rejectModalVisible, setRejectModalVisible] = useState(false);
   const [rejectReason, setRejectReason] = useState('');
   const [selectedRequestId, setSelectedRequestId] = useState(null);
-  
+
   const navigate = useNavigate(); // Hook điều hướng trang
 
   const handleLogout = () => {
-      localStorage.removeItem("token"); // Xóa token đăng nhập
-      navigate("/login"); // Chuyển hướng về trang đăng nhập
+    localStorage.removeItem("token"); // Xóa token đăng nhập
+    navigate("/login"); // Chuyển hướng về trang đăng nhập
   };
   // Hàm lấy danh sách theo trạng thái
   const fetchClubRequests = async (status) => {
@@ -128,6 +128,69 @@ const ClubList = () => {
     }
   };
 
+  // Xóa CLUB và Request CLUB
+  const handleDeleteClubAndRequest = async (requestId) => {
+    try {
+      Modal.confirm({
+        title: "Xác nhận xóa CLB & yêu cầu",
+        content: "Bạn có chắc chắn muốn xóa CLB và yêu cầu liên quan không?",
+        okText: "Xóa",
+        okType: "danger",
+        cancelText: "Hủy",
+        async onOk() {
+          try {
+            // Xóa CLB trước
+            await clubService.deleteClub(requestId);
+            message.success("Xóa CLB thành công");
+
+            // Sau đó xóa request
+            await clubService.deleteClubRequest(requestId);
+            message.success("Xóa yêu cầu thành công");
+
+            // Cập nhật lại danh sách đã duyệt
+            fetchClubRequests("Approved");
+          } catch (error) {
+            console.error("Lỗi khi xóa:", error);
+            message.error(error.message || "Có lỗi xảy ra khi xóa CLB hoặc yêu cầu");
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Lỗi khi xóa CLB & yêu cầu:", error);
+      message.error(error.message || "Có lỗi xảy ra khi xóa CLB & yêu cầu");
+    }
+  };
+
+
+  //Xử lí xóa request
+  const handleRequest = async (requestId) => {
+    console.log("Deleting Request ID:", requestId); // Debug ID
+
+    if (!requestId) {
+      message.error("Không tìm thấy ID yêu cầu!");
+      return;
+    }
+    try {
+      Modal.confirm({
+        title: "Xác nhận xóa yêu cầu",
+        content: "Bạn có chắc chắn muốn xóa yêu cầu này không?",
+        okText: "Xóa",
+        okType: "danger",
+        cancelText: "Hủy",
+        async onOk() {
+          const responseRequest = await clubService.deleteClubRequest(requestId);
+          console.log("API Response:", responseRequest); // Debug API response
+          message.success("Xóa yêu cầu thành công");
+
+          // Cập nhật lại danh sách yêu cầu đã từ chối
+          fetchClubRequests("Rejected");
+        }
+      });
+    } catch (error) {
+      console.error("Lỗi khi xóa:", error); // Debug lỗi
+      message.error(error.message || "Có lỗi xảy ra khi xóa yêu cầu");
+    }
+  };
 
 
   /**
@@ -141,12 +204,11 @@ const ClubList = () => {
           <Card className="club-card">
             {tabType === 'approved' ? (
               <div className="card-actions">
-                <EditOutlined key="edit" />
-                <DeleteOutlined key="delete" />
+                <DeleteOutlined key="delete" onClick={() => handleDeleteClubAndRequest(club.request_id)} />
               </div>
             ) : tabType !== 'pending' && (
               <div className="card-actions">
-                <DeleteOutlined key="delete" />
+                <DeleteOutlined key="delete" onClick={() => handleRequest(club.request_id)} />
               </div>
             )}
 
@@ -211,59 +273,59 @@ const ClubList = () => {
 
   return (
     <>
-        <div className="club-list-container">
-            <Tabs defaultActiveKey="1" className="custom-tabs">
-                <TabPane tab="Chờ duyệt" key="1">
-                    <div className="content-container">
-                        <Search
-                            placeholder="Tìm kiếm yêu cầu..."
-                            prefix={<SearchOutlined />}
-                            className="search-bar"
-                            onSearch={handleSearch}
-                            onChange={(e) => handleSearch(e.target.value)}
-                        />
-                        {renderClubCards(pendingClubs, "pending")}
-                    </div>
-                </TabPane>
+      <div className="club-list-container">
+        <Tabs defaultActiveKey="1" className="custom-tabs">
+          <TabPane tab="Chờ duyệt" key="1">
+            <div className="content-container">
+              <Search
+                placeholder="Tìm kiếm yêu cầu..."
+                prefix={<SearchOutlined />}
+                className="search-bar"
+                onSearch={handleSearch}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+              {renderClubCards(pendingClubs, "pending")}
+            </div>
+          </TabPane>
 
-                <TabPane tab="Đã duyệt" key="2">
-                    <div className="content-container">
-                        {renderClubCards(approvedClubs, "approved")}
-                    </div>
-                </TabPane>
+          <TabPane tab="Đã duyệt" key="2">
+            <div className="content-container">
+              {renderClubCards(approvedClubs, "approved")}
+            </div>
+          </TabPane>
 
-                <TabPane tab="Đã từ chối" key="3">
-                    <div className="content-container">
-                        {renderClubCards(rejectedClubs, "rejected")}
-                    </div>
-                </TabPane>
-            </Tabs>
-        </div>
+          <TabPane tab="Đã từ chối" key="3">
+            <div className="content-container">
+              {renderClubCards(rejectedClubs, "rejected")}
+            </div>
+          </TabPane>
+        </Tabs>
+      </div>
 
-        <button onClick={handleLogout} className="logout-btn">
-            Đăng Xuất
-        </button>
+      <button onClick={handleLogout} className="logout-btn">
+        Đăng Xuất
+      </button>
 
-        <Modal
-            title="Từ chối yêu cầu tạo CLB"
-            visible={rejectModalVisible}
-            onOk={handleReject}
-            onCancel={() => {
-                setRejectModalVisible(false);
-                setRejectReason("");
-            }}
-            okText="Xác nhận"
-            cancelText="Hủy"
-        >
-            <Input.TextArea
-                rows={4}
-                value={rejectReason}
-                onChange={(e) => setRejectReason(e.target.value)}
-                placeholder="Nhập lý do từ chối..."
-            />
-        </Modal>
+      <Modal
+        title="Từ chối yêu cầu tạo CLB"
+        visible={rejectModalVisible}
+        onOk={handleReject}
+        onCancel={() => {
+          setRejectModalVisible(false);
+          setRejectReason("");
+        }}
+        okText="Xác nhận"
+        cancelText="Hủy"
+      >
+        <Input.TextArea
+          rows={4}
+          value={rejectReason}
+          onChange={(e) => setRejectReason(e.target.value)}
+          placeholder="Nhập lý do từ chối..."
+        />
+      </Modal>
     </>
-);
+  );
 
 };
 
