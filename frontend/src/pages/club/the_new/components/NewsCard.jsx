@@ -93,12 +93,22 @@ const NewsCard = ({
     return text;
   };
 
+  const getActivityTag = (status) => {
+    const statusMap = {
+      'Run': 'Chạy bộ',
+      'Event': 'Sự kiện',
+      'News': 'Tin tức',
+      'Notice': 'Thông báo'
+    };
+    return statusMap[status] || 'Tin tứcs';
+  };
+
   return (
     <div className="news-card">
       <div className="news-content">
         {activity && (
           <div className="activity-tag">
-            <FireOutlined /> {activity}
+            <FireOutlined /> {getActivityTag(activity)}
           </div>
         )}
         
