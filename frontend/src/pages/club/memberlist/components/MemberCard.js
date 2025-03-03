@@ -1,5 +1,5 @@
 import React from 'react';
-import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, MoreOutlined, UserOutlined, IdcardOutlined } from '@ant-design/icons';
+import { DeleteOutlined, CheckOutlined, CloseOutlined, MoreOutlined, UserOutlined, IdcardOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import Avatar from '../../../../components/Avatar/Avatar';
 import './MemberCard.css';

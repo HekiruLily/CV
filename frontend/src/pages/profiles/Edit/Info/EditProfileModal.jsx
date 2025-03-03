@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
-import { Form, Input, DatePicker, Select, message, Modal, Button } from 'antd';
+import { Form, Input, DatePicker, Select, Modal, Button } from 'antd';
 import moment from 'moment';
-import ProfileService from '../../../../services/profile.service';
+import ProfileService from '../../../../services/profile.service';  
 import './EditProfileModal.css';
 import { useDispatch } from 'react-redux';
 import { updateUserProfile } from '../../../../redux/slices/userSlice';
+import { App } from 'antd';
 
 const { Option } = Select;
 
 const EditProfileModal = ({ visible, onClose, initialData, onSave }) => {
+    const { message } = App.useApp();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();

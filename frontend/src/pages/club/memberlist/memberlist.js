@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { message, Modal, Input, Select } from 'antd';
+import { Modal, Input, Select } from 'antd';
 import { useParams } from 'react-router-dom';
 import MemberStatusList from './components/MemberStatusList';
 import clubService from '../../../services/club.service';
 import { useGlobal } from '../../../contexts/GlobalContext';
+import { App } from 'antd';
 import './memberlist.css';
 
 const { Option } = Select;
 
 const MemberList = () => {
+    const { message } = App.useApp();
     const { clubCode } = useParams();
     const { showLoading, hideLoading } = useGlobal();
     const [activeTab, setActiveTab] = useState('Approved');
