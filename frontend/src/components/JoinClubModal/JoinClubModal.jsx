@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, Button, message, Spin, Result, Tag, Divider } from 'antd';
+import { Modal, Form, Input, Button, Spin, Result, Tag, Divider } from 'antd';
+import { App } from 'antd';
 import { 
   CheckCircleOutlined, 
   TeamOutlined, 
@@ -12,6 +13,7 @@ import Avatar from '../Avatar/Avatar';
 import './JoinClubModal.css';
 
 const JoinClubModal = ({ isOpen, onClose, onSuccess }) => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState('form'); // form, preview, success

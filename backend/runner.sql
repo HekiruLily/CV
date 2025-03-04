@@ -92,7 +92,9 @@ CREATE TABLE tournaments (
     tournament_status ENUM('Pending', 'Ongoing', 'Completed') DEFAULT 'Pending',
     tournament_prize_pool DECIMAL(10,2),
     tournament_registration_deadline DATE,
-    tournament_rules TEXT
+    tournament_rules TEXT,
+    tournament_link TEXT,
+    tournament_image VARCHAR(255),
 );
 
 CREATE TABLE club_news (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Input, Button, List, message, Tooltip } from 'antd';
+import { Input, Button, List, Tooltip } from 'antd';
+import { App } from 'antd';
 import { SendOutlined, LikeOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import ClubNewsService from '../../../../services/clubNews.service';
 import { useSelector } from 'react-redux';
@@ -8,6 +9,7 @@ import './Comments.css';
 
 const Comments = ({ clubCode, newsId }) => {
     const userData = useSelector(state => state.user.userData);
+    const { message } = App.useApp();
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [submitting, setSubmitting] = useState(false);

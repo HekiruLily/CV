@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Form, Input, Select, Button, message, Tooltip } from 'antd';
+import { Form, Input, Select, Button, Tooltip } from 'antd';
+import { App } from 'antd';
 import { 
   CameraOutlined, 
   VideoCameraOutlined,
@@ -20,6 +21,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const CreateNewsForm = ({ clubCode, onSuccess }) => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);

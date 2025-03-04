@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Spin, message, Pagination } from 'antd';
+import { Spin, Pagination } from 'antd';
+import { App } from 'antd';
 import NewsCard from './components/NewsCard';
 import CreateNewsForm from './components/CreateNewsForm';
 import ClubNewsService from '../../../services/clubNews.service';
 import './NewsFeed.css';
 
 const NewsFeed = () => {
+  const { message } = App.useApp();
   const { clubCode } = useParams();
   const [loading, setLoading] = useState(true);
   const [news, setNews] = useState([]);

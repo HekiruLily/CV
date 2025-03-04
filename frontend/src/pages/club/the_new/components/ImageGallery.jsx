@@ -7,7 +7,7 @@ const ImageGallery = ({ images }) => {
         <img
           key={index}
           src={process.env.REACT_APP_API_URL + image}
-          alt={`Gallery image ${index + 1}`}
+          alt={`Ảnh ${index + 1}`}
           className="gallery-image"
         />
       ))}

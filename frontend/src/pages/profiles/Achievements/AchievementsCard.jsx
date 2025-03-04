@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import './Achievements.css';
 import AchievementModal from '../Edit/Add/AchievementModal';
+import { App } from 'antd';
 
 const AchievementCard = ({ achievement, onDelete, onUpdate }) => {
   const [showImage, setShowImage] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-      
+  const { message } = App.useApp();
+
   const {
     title,
     type,

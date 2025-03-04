@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { message } from 'antd';
+import { App } from 'antd';
 import ProfileCard from './ProfileCard/ProfileCard';
 import StatsGrid from './StatsGrid/StatsGrid';
 import Achievements from './Achievements/Achievements';
@@ -12,6 +12,7 @@ import { useAuth } from '../../hooks/useAuth';
 const Profile = () => {
     const { showLoading, hideLoading } = useGlobal();
     const [profileData, setProfileData] = useState(null);
+    const { message } = App.useApp();
 
     // Yêu cầu đăng nhập để truy cập trang profile
     useAuth(true);

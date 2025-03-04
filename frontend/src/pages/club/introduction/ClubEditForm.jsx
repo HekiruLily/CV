@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Form, Input, Button, Row, Col, Modal, message } from 'antd';
+import { Form, Input, Button, Row, Col, Modal } from 'antd';
+import { App } from 'antd';
 import { 
     FacebookOutlined, 
     InstagramOutlined, 
@@ -10,6 +11,7 @@ import clubService from '../../../services/club.service';
 const { TextArea } = Input;
 
 const ClubEditForm = ({ clubInfo, visible, onCancel, onSuccess }) => {
+    const { message } = App.useApp();
     const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
 

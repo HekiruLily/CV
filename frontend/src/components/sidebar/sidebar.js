@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Button, message, Divider, Tooltip } from 'antd';
+import { Layout, Button, Divider, Tooltip } from 'antd';
+import { App } from 'antd';
 import { 
   PlusOutlined, 
   UsergroupAddOutlined, 
@@ -18,6 +19,7 @@ import ClubList from './ClubList';
 const { Sider } = Layout;
 
 const Sidebar = () => {
+  const { message } = App.useApp();
   const { 
     showLoading, 
     hideLoading

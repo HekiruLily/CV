@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { message, Card, Row, Col } from 'antd';
+import { Card, Row, Col } from 'antd';
+import { App } from 'antd';
 import { 
     TeamOutlined,
     CalendarOutlined,
@@ -15,6 +16,7 @@ import clubService from '../../../services/club.service';
 import ClubEditForm from './ClubEditForm';
 
 const Introduction = () => {
+    const { message } = App.useApp();
     const { clubCode } = useParams();
     const navigate = useNavigate();
     const [clubInfo, setClubInfo] = useState(null);

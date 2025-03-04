@@ -1,6 +1,7 @@
 // RegistrationForm.jsx
 import React, { useState } from 'react';
-import { Form, Input, Button, Card, Typography, Divider, message } from 'antd';
+import { Form, Input, Button, Card, Typography, Divider } from 'antd';
+import { App } from 'antd';
 import { GoogleOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import authService from '../../services/auth.service';
@@ -9,6 +10,7 @@ import './RegistrationForm.css';
 const { Title } = Typography;
 
 const RegistrationForm = () => {
+  const { message } = App.useApp();
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();

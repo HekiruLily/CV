@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { message, Tooltip, Modal } from 'antd';
+import { Modal } from 'antd';
+import { App } from 'antd';
 import Avatar from './Avatar';
 import ViewCount from './ViewCount';
 import ImageGallery from './ImageGallery';
@@ -11,7 +12,6 @@ import {
   FireOutlined,
   LikeOutlined,
   LikeFilled,
-  MessageOutlined,
   ShareAltOutlined,
   CommentOutlined
 } from '@ant-design/icons';
@@ -30,6 +30,7 @@ const NewsCard = ({
   activity,
   stats 
 }) => {
+  const { message } = App.useApp();
   const { clubCode } = useParams();
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(stats?.likes || 0);
@@ -92,12 +93,22 @@ const NewsCard = ({
     return text;
   };
 
+  const getActivityTag = (status) => {
+    const statusMap = {
+      'Run': 'Chạy bộ',
+      'Event': 'Sự kiện',
+      'News': 'Tin tức',
+      'Notice': 'Thông báo'
+    };
+    return statusMap[status] || 'Tin tứcs';
+  };
+
   return (
     <div className="news-card">
       <div className="news-content">
         {activity && (
           <div className="activity-tag">
-            <FireOutlined /> {activity}
+            <FireOutlined /> {getActivityTag(activity)}
           </div>
         )}
         
