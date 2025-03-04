@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faCalendarAlt, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import TournamentService from '../../services/tournamentService';
 import CreateTournament from '../CreateTournament/CreateTournament';
+import UpdateTournament from '../UpdateTournament/UpdateTournament';
 import { useAuth } from '../../hooks/useAuth';
 
 const Events = () => {
@@ -15,6 +16,8 @@ const Events = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [selectedTournament, setSelectedTournament] = useState(null);
 
   useEffect(() => {
     fetchTournaments();
@@ -26,10 +29,10 @@ const Events = () => {
       if (response.success) {
         setTournaments(response.data);
       } else {
-        setError('Failed to fetch tournaments');
+        setError('Lỗi khi tải danh sách giải đấu');
       }
     } catch (err) {
-      setError('Error fetching tournaments');
+      setError('Lỗi kết nối đến máy chủ');
       console.error(err);
     } finally {
       setLoading(false);
@@ -44,9 +47,14 @@ const Events = () => {
           fetchTournaments();
         }
       } catch (err) {
-        console.error('Error deleting tournament:', err);
+        console.error('Lỗi khi xóa giải đấu:', err);
       }
     }
+  };
+
+  const handleEdit = (tournament) => {
+    setSelectedTournament(tournament);
+    setShowUpdateForm(true);
   };
 
   const getStatusText = (status) => {
@@ -61,14 +69,14 @@ const Events = () => {
   const getCategories = (tournament) => {
     try {
       if (tournament.tournament_types) {
-        const typeData = typeof tournament.tournament_types === 'string' 
-          ? JSON.parse(tournament.tournament_types) 
+        const typeData = typeof tournament.tournament_types === 'string'
+          ? JSON.parse(tournament.tournament_types)
           : tournament.tournament_types;
         return typeData.categories || [];
       }
       return [];
     } catch (err) {
-      console.error('Error parsing tournament types:', err);
+      console.error('Lỗi khi đọc danh mục giải đấu:', err);
       return [];
     }
   };
@@ -80,11 +88,11 @@ const Events = () => {
 
   const renderTournamentCard = (tournament) => (
     <div className="event-card" key={tournament.tournament_id}>
-      <img 
-        alt={tournament.tournament_name} 
-        className="card-image" 
-        height="400" 
-        src={tournament.tournament_image || defaultTournamentImage} 
+      <img
+        alt={tournament.tournament_name}
+        className="card-image"
+        height="400"
+        src={tournament.tournament_image || defaultTournamentImage}
         width="600"
       />
       <div className="card-body">
@@ -112,10 +120,13 @@ const Events = () => {
         </div>
       </div>
       <div className="card-footer">
-        <button className="btn-icon">
+        <button
+          className="btn-icon"
+          onClick={() => handleEdit(tournament)}
+        >
           <FontAwesomeIcon icon={faEdit} />
         </button>
-        <button 
+        <button
           className="btn-icon"
           onClick={() => handleDelete(tournament.tournament_id)}
         >
@@ -130,7 +141,7 @@ const Events = () => {
 
   if (showCreateForm) {
     return (
-      <CreateTournament 
+      <CreateTournament
         onCancel={() => setShowCreateForm(false)}
         onSuccess={() => {
           fetchTournaments();
@@ -140,12 +151,25 @@ const Events = () => {
     );
   }
 
+  if (showUpdateForm && selectedTournament) {
+    return (
+      <UpdateTournament
+        tournament={selectedTournament}
+        onCancel={() => setShowUpdateForm(false)}
+        onSuccess={() => {
+          fetchTournaments();
+          setShowUpdateForm(false);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="events-container">
       <div className="header">
         <h1 className="page-title">Quản lý giải đấu</h1>
-        <button 
-          className="btn-primary" 
+        <button
+          className="btn-primary"
           onClick={() => setShowCreateForm(true)}
         >
           Tạo giải mới
@@ -153,9 +177,9 @@ const Events = () => {
       </div>
 
       <div>
-        <input 
-          className="search-input" 
-          placeholder="Tìm kiếm giải đấu..." 
+        <input
+          className="search-input"
+          placeholder="Tìm kiếm giải đấu..."
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -163,7 +187,11 @@ const Events = () => {
       </div>
 
       <div className="event-grid">
-        {filteredTournaments.map(renderTournamentCard)}
+        {filteredTournaments.length > 0 ? (
+          filteredTournaments.map(renderTournamentCard)
+        ) : (
+          <p>Không tìm thấy giải đấu nào.</p>
+        )}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 const CreateTournament = ({ onCancel, onSuccess }) => {
-  
+
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
@@ -16,7 +16,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
   const onFinish = async (values) => {
     try {
       setLoading(true);
-      
+
       // Prepare tournament data
       const tournamentData = {
         tournament_code: values.tournament_code,
@@ -39,7 +39,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
 
       // Call API to create tournament
       const response = await TournamentService.createTournament(tournamentData);
-      
+
       if (response.success) {
         message.success('Tạo giải đấu thành công!');
         if (onSuccess) onSuccess();
@@ -65,9 +65,9 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
   return (
     <div className="create-tournament-container">
       <div className="create-tournament-header">
-        <Button 
-          type="text" 
-          icon={<ArrowLeftOutlined />} 
+        <Button
+          type="text"
+          icon={<ArrowLeftOutlined />}
           onClick={onCancel}
           className="back-button"
         >
@@ -88,7 +88,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
         >
           <div className="form-section">
             <h2>Thông tin cơ bản</h2>
-            
+
             <Form.Item
               name="tournament_code"
               label="Mã giải đấu"
@@ -123,7 +123,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
 
           <div className="form-section">
             <h2>Thời gian</h2>
-            
+
             <div className="date-row">
               <Form.Item
                 name="tournament_start_date"
@@ -153,7 +153,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
 
           <div className="form-section">
             <h2>Thông tin thi đấu</h2>
-            
+
             <Form.Item
               name="format"
               label="Hình thức thi đấu"
@@ -195,7 +195,7 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
 
           <div className="form-section">
             <h2>Thông tin bổ sung</h2>
-            
+
             <Form.Item
               name="tournament_rules"
               label="Điều lệ giải"
@@ -230,9 +230,9 @@ const CreateTournament = ({ onCancel, onSuccess }) => {
           </div>
 
           <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
+            <Button
+              type="primary"
+              htmlType="submit"
               loading={loading}
               className="submit-button"
             >
