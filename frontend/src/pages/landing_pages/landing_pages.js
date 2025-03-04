@@ -14,7 +14,7 @@ const LandingPage = () => {
       <JoinClub />
       <Ranking />
       <UpcomingEvents />
-      <Footer />s
+      <Footer />
     </div>
   );
 };
