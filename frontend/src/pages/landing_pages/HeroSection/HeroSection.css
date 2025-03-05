@@ -120,3 +120,38 @@
     font-size: 1rem;
   }
 }
+
+.tournament-section {
+  margin-top: 50px;
+  padding: 20px;
+  text-align: center;
+}
+
+.tournament-section h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.tournament-card {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tournament-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.tournament-card h3 {
+  margin: 10px 0;
+  font-size: 18px;
+}
+
+.tournament-card p {
+  margin: 5px 0;
+  color: #666;
+}
