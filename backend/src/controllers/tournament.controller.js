@@ -1,4 +1,5 @@
 const TournamentModel = require("../models/tournament.model");
+const { getUploadPath } = require("../middlewares/upload"); // Import getUploadPath
 
 class TournamentController {
     //  Lấy danh sách tất cả giải đấu (trừ giải đấu đã hoàn thành)
@@ -49,28 +50,36 @@ class TournamentController {
     static async createTournament(req, res) {
         try {
             const tournamentData = req.body;
-            // Kiểm tra dữ liệu đầu vào
-            if (!tournamentData.tournament_code || !tournamentData.tournament_name || !tournamentData.tournament_start_date || !tournamentData.tournament_end_date) {
+            console.log(req.file)
+            //Danh sách các trường bắt buộc
+            const requiredFields = ["tournament_code", "tournament_name", "tournament_start_date", "tournament_end_date"];
+            const missingFields = requiredFields.filter(field => !tournamentData[field]);
+
+            if (missingFields.length > 0) {
                 return res.status(400).json({
                     success: false,
-                    message: "Thiếu thông tin bắt buộc"
+                    message: `Thiếu thông tin bắt buộc: ${missingFields.join(", ")}`,
                 });
             }
-            console.log(tournamentData);
+
+            // Nếu có file, lưu đường dẫn vào database
+            tournamentData.tournament_image = req.file ? getUploadPath(req.file.filename, "tournament_image") : null;
+
             const newTournamentId = await TournamentModel.create(tournamentData);
             return res.status(201).json({
                 success: true,
                 message: "Tạo giải đấu thành công",
-                data: { tournament_id: newTournamentId }
+                data: { tournament_id: newTournamentId },
             });
         } catch (error) {
             console.error("Error in createTournament:", error);
             return res.status(500).json({
                 success: false,
-                message: "Lỗi máy chủ nội bộ"
+                message: "Lỗi máy chủ nội bộ",
             });
         }
     }
+
 
     //  Cập nhật thông tin giải đấu
     static async updateTournament(req, res) {
