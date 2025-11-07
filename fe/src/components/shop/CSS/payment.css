@@ -1,0 +1,93 @@
+body {
+  background-color: white;
+  color: black;
+}
+
+.payment-box {
+  display: flex;
+  align-items: center;
+}
+
+.payment-box img {
+  margin-right: 10px;
+}
+
+.payment-box span {
+  vertical-align: middle;
+}
+
+.order-information-box {
+  margin: 0 auto;
+}
+
+.order-information-box .order-information {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-information-box .order-information input,
+.order-information-box .order-information select {
+  width: 200px;
+}
+
+.payment-method-box {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.payment-method-box p,
+.payment-method-box h4 {
+  text-align: center;
+}
+
+.payment-method-pick {
+  margin-left: 70px;
+  margin-bottom: 10px;
+}
+
+.payment-method-pick .abc {
+  display: flex;
+  align-items: center;
+}
+
+.payment-method-pick label {
+  display: flex;
+  align-self: center;
+}
+
+.payment-method-box span {
+  vertical-align: middle;
+}
+
+.payment-method-box img {
+  margin-left: 10px;
+}
+
+.action-box {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-box button {
+  font-size: 16px;
+  text-align: center;
+  padding: 8px 16px;
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.action-box button:hover {
+  background-color: blue;
+}

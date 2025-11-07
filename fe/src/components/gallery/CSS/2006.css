@@ -1,0 +1,107 @@
+.background2006 {
+    position: relative; 
+    background-color: #000000;
+    width: 100%;
+    height: 1500px;
+}
+
+.background2006 .img2006 {
+    width: 100%;
+    display: block; 
+}
+
+.background2006 .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 998px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 255) 100%); 
+}
+
+.background2006 .overlay .content {
+    position: relative; 
+    z-index: 10; 
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    height: 1100px;
+    text-align: center;
+}
+.background2006 .overlay .content .title {
+    font-size: 50px;
+    margin-top: 100px;
+}
+
+.background2006 .overlay .content .info {
+    font-size: 20px;
+    margin: 70px auto 30px auto; 
+    width: 62%;
+}
+
+.background2006 .overlay .content .content1 {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 20px 0; 
+}
+
+.background2006 .overlay .content .content1 iframe {
+    border: none;
+}
+.background2006 .overlay .content .content1 .info2 {
+    width: 50%;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.background2006 .overlay .content .content2 img {
+    max-width: 100%; 
+    height: 250px; 
+    border-radius: 5px;
+    width: auto; 
+}
+
+.background2006 .overlay .content .content2 iframe {
+    border: none; 
+}
+
+.background2006 .overlay .content .content2 {
+    display: wrap; 
+    align-items: center; 
+    justify-content: center; 
+    margin: 40px; 
+    gap: 20px; 
+    border-radius: 10px; 
+}
+
+.background2006 .overlay .content  .button {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px; 
+}
+
+.background2006 .overlay .content .button button {
+    background-color: #007bff; 
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    border-radius: 5px; 
+    margin: 0 10px; 
+    transition: background-color 0.3s, transform 0.3s; 
+}
+
+.background2006 .overlay .content .button button:hover {
+    background-color: #0056b3; 
+    transform: scale(1.05); 
+}
+
+.background2006 {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .slide-out {
+    transform: translateX(-100%); 
+  }
