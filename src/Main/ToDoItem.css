@@ -1,0 +1,70 @@
+.ToDoItem {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+
+
+}
+
+.ToDoItem:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.ToDoItem input[type="checkbox"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+}
+
+.ToDoItem .title {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    color: #333;
+}
+
+.ToDoItem .date {
+    font-size: 14px;
+    color: #777;
+    margin: 5px 0 0;
+}
+
+.ToDoItem .action {
+    margin-left: auto;
+}
+
+.ToDoItem .action button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ToDoItem .action .edit-btn {
+    background-color: #e5ff00;
+    color: #000;
+}
+
+.ToDoItem .action .delete-btn {
+    background-color: #ff4444;
+    color: white;
+}
+
+.ToDoItem .action button:hover {
+    opacity: 0.8;
+}
+
+.ToDoItem.done {
+    opacity: 0.6;
+    text-decoration: line-through;
+    background-color: #00ff2a;
+}
+
+.ToDoItem.done .title {
+    color: #888;
+}
