@@ -1,0 +1,19 @@
+.header {
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+.task-summary {
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.task-summary p {
+    margin: 5px 0;
+}
